@@ -37,6 +37,7 @@
 - Front : HTML/CSS, JavaScript, Tymeleaf, Bootstrap
 - Tooling/ DevOps : Intellij IDEA, GitHub, Docker, Postman ..
 - Environment : MacOS, Window10, AWS, Jenkins
+- Etc : Figma,Notion, Slack ..
 
 > <h3>Branch strategy</h3>
 - Git-Flow 전략 기반
