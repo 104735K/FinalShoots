@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th= "http://www.thymeleaf.org">
+<th:block th:fragment="footer">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .div-footer { margin-top: 500px}
+
+        .div-0 {width: 100%; height : 400px; display: flex;}
+
+        .div-1 {width: 60%; display: flex; color: #6d6d6d; padding-left: 20%; padding-top: 3%}
+
+        .div-1-1 {font-size: 13px}
+        .div-1-1-h6 {font-weight: bold}
+
+        .div-1-2, .div-1-3, .div-1-4 {margin-left: 100px; font-size: 13px}
+
+        .div-2 {width: 40%; color: #6d6d6d; margin-top: 70px; font-size: 13px}
+
+        .span-1 {font-size: 13px}
+        .f-a {text-decoration: none; color: #6d6d6d}
+        .f-a:hover {text-decoration: underline; color: #6d6d6d}
+
+    </style>
+</head>
+<body>
+    <div class="div-footer">
+        <div class="div-0">
+            <div class="div-1">
+                <div class="div-1-1">
+                    <h6 class="div-1-1-h6"> 매치 </h6>
+                    <span> 모든 매치 </span><br>
+                    <span> 혼성 매치 </span><br>
+                    <span> 남자 매치 </span><br>
+                    <span> 여자 매치 </span><br><br>
+                    <h6 class="div-1-1-h6"> 난이도 </h6>
+                    <span> 초급 </span><br>
+                    <span> 중급 </span><br>
+                    <span> 고급 </span><br>
+                    <span> 난이도 무관 </span>
+                </div>
+                <div class="div-1-2">
+                    <h6 class="div-1-1-h6"> 서비스 지역 </h6>
+                    <span> 서울 </span><br>
+                    <span> 경기 </span><br>
+                    <span> 인천 </span><br>
+                    <span> 강원 </span><br>
+                    <span> 대전/세종 </span><br>
+                    <span> . </span><br>
+                    <span> . </span><br>
+                    <span> . </span><br>
+                </div>
+                <div class="div-1-3">
+                    <h6 class="div-1-1-h6"> 슛츠 </h6>
+                    <span> 슛츠 소개 </span><br>
+                    <span> 공지사항  </span><br>
+                    <span> 자주 묻는 질문 </span><br>
+                    <span> 구장 제휴 </span><br>
+                    <span> 채용 </span><br>
+                </div>
+                <div class="div-1-4">
+                    <h6 class="div-1-1-h6"> 소셜 미디어 </h6>
+                    <span> 인스타그램 </span><br>
+                    <span> 유튜브  </span><br>
+                </div>
+            </div>
+            <div class="div-2">
+                <h6> 만남은 짧고, 이야기는 긴 Shoots! </h6>
+                <span class="span-1">
+                    <a class="f-a" href="#">이용 약관 | </a> <a class="f-a" href="#" target="_blank"><strong>개인정보 처리방침</strong> | </a> <a class="f-a" href="https://www.ftc.go.kr/bizCommPop.do?wrkr_no=6508100575">사업자 정보 확인</a>
+                </span><br><br>
+                <span>Shoots | 서울특별시 종로구 율곡로10길 105 디아망 4층 | 대표 메일 shoots@shoots.com <br>| 마케팅 제안 shootsmarketing@shoots.com | 언론, 연구 shootsteam@shoots.com <br>| 02-123-4567</span>
+                <span>주식회사 슛츠컴퍼니 | 사업자번호 123-45-67890 <br> | 대표 강성현 | 통신판매업 신고 2025-서울종로-1111</span><br>
+                <span class="copyright">Copyright <b>PLAB</b> All rights reserved.</span>
+            </div>
+        </div>
+    </div>
+</body>
+</th:block>
+</html>

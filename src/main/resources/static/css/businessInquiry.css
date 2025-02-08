@@ -1,0 +1,49 @@
+.table {font-size: 15px; margin-top: 70px; }
+
+.table-a {text-decoration: none; color: dimgray}
+.table-a:hover {text-decoration: underline; color: #65a30d; font-weight: bold}
+
+.btnD {text-align: left; margin-top: 30px}
+button {font-size: 15px}
+
+.custom-btn {
+    width: 90px;
+    height: 35px;
+    border: 2px solid #65a30d;
+    border-radius: 20px;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+}
+
+.btn-15 {
+    background: #65a30d;
+    color: white;
+    z-index: 1;
+    border-radius: 20px;
+}
+.btn-15:after {
+    position: absolute;
+    content: "";
+    width: 0;
+    height: 100%;
+    top: 0;
+    right: 0;
+    z-index: -1;
+    background: white;
+    transition: all 0.3s ease;
+    border-radius: 20px;
+}
+.btn-15:hover {
+    color: #65a30d;
+}
+.btn-15:hover:after {
+    left: 0;
+    width: 100%;
+}
+
+.btn-15:active {
+    top: 2px;
+}

@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <th:block th:replace="~{fragments/header :: header}" />
+    <meta charset="UTF-8">
+    <title>Shoots</title>
+    <link th:href="@{/css/home.css}" rel="stylesheet">
+    <script th:src="@{/js/home.js}"></script>
+
+    <script th:if="${message != null}" th:inline="javascript">
+        alert(/*[[${message}]]*/);
+    </script>
+</head>
+<body>
+<div id="carouselWrapper">
+<div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img th:src="@{/img/main1.jpg}" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+                <div style="text-align: left">
+                    <h3>만남은 짧고 이야기는 긴</h3>
+                    <h2>SHOOTS!</h2>
+                    <span style="font-size: 18px">지금 <b>회원가입</b>하고 매치에 참여하세요!</span>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img th:src="@{/img/main4.jpg}" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+                <div style="text-align: left">
+                    <h3>언제 어디서나</h3>
+                    <h3>원하는 시간과 장소 선택하기 ⏰</h3>
+                    <span style="font-size: 18px">간편한 예약으로 언제든지 <b>매치신청</b>을 할 수 있어요!</span>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img th:src="@{/img/main3.jpg}" class="d-block w-100" alt="...">
+            <div class="carousel-caption3 d-none d-md-block">
+                <div style="text-align: left; background: rgba(55, 59, 62, 0.2); width: 600px; border-radius: 20px; padding: 20px;">
+                    <h3>국내 유일! </h3>
+                    <h3>축구를 사랑하는 모든 이들을 위한 커뮤니티⚽</h3>
+                    <span style="font-size: 18px"> 누구든지 자유롭게 소통하고, 함께할 팀원을 찾고, 중고 거래까지 한곳에서!</span><br>
+                    <span style="font-size: 18px"> 지금 바로 <b>참여</b>하세요! 🚀</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+</div>
+
+<div class="card mb-3 card2" style="width: 59%; height: 280px; margin: 0 auto">
+    <div class="card-body">
+        <div style="display: flex; gap: 20px">
+            <div style="margin-bottom: 10px">
+                <h5 class="card-title">오늘의 날씨 <span style="font-size: 13px">(<span th:text="${first}"></span> <span th:text="${second}"></span> <span th:text="${third}"></span>)</span> </h5>
+                <p th:text="|${today.substring(0, 4)}년 ${today.substring(4, 6)}월 ${today.substring(6, 8)}일|"></p>
+            </div>
+            <div style="font-size: 12px">
+                <form th:action="@{/main}" method="get">
+                    <select name="first" id="first" required>
+                        <option value="" disabled selected> 시/도 </option>
+                    </select>
+                    <select name="second" id="second" required>
+                        <option value="" disabled selected> 시/군/구 </option>
+                    </select>
+                    <select name="third" id="third" required>
+                        <option value="" disabled selected> 읍/면/동 </option>
+                    </select>
+                    <button type="submit" class="custom-btn-top"> 조회 </button>
+                </form>
+            </div>
+        </div>
+        <div style="display: flex">
+            <div style="border-right: 1px solid darkgrey; width: 14.8%; font-size: 12px">
+                <div style="text-align: center;">
+                    <span th:if="${currentTime <= 17}">
+                        <img th:src="@{/img/sun.png}" style="width: 50px; height: auto">
+                    </span>
+                    <span th:if="${currentTime > 17}">
+                        <img th:src="@{/img/moon.png}" style="width: 50px; height: auto">
+                    </span>
+                </div>
+                <div style="text-align: center">
+                    온도 : <span th:text="${weather.temperature}"></span>°C <br>
+                    강수량 : <span th:text="${weather.precipitation}"></span> mm
+                    (
+                        <span th:if="${weather.precipitationType == '0'}">-</span>
+                        <span th:if="${weather.precipitationType == '1'}"></span>
+                        <span th:if="${weather.precipitationType == '2'}"></span>
+                        <span th:if="${weather.precipitationType == '3' or weather.precipitationType == '7'}"></span>
+                        <span th:if="${weather.precipitationType == '5' or weather.precipitationType == '6'}"></span>
+                    ) <br>
+                    풍향 : <span th:text="${weather.windDirection}"></span> ° &nbsp;
+                    풍속 : <span th:text="${weather.windSpeed}"></span> m/s
+                </div>
+                <br>
+                <div style="text-align: center">
+                    <p id="realTimeClock"></p>
+                </div>
+            </div>
+            <div style="width: 14.2%" th:each="forecast : ${firstSixWeatherData}">
+                <div style="font-size: 12px; text-align: center; margin-top: 22px">
+                    <span th:if="${forecast.sky == '1' && forecast.precipitationType == '0' && forecast.windSpeedAsNumber < 4}">
+                        <img th:src="@{/img/sky1.png}" style="width: 35px; height: auto">
+                    </span>
+                    <span th:if="${forecast.sky == '3' && forecast.precipitationType == '0'  && forecast.windSpeedAsNumber < 4}">
+                        <img th:src="@{/img/sky3.png}" style="width: auto; height: 28px; margin-top: 7px">
+                    </span>
+                    <span th:if="${forecast.sky == '4' && forecast.precipitationType == '0'  && forecast.windSpeedAsNumber < 4}">
+                        <img th:src="@{/img/sky4.png}" style="width: 35px; height: auto">
+                    </span>
+                    <span th:if="${forecast.precipitationType == '1' && forecast.windSpeedAsNumber < 4}">
+                        <img th:src="@{/img/precipitationType1.png}" style="width: 35px; height: auto">
+                    </span>
+                    <span th:if="${forecast.precipitationType == '2' && forecast.windSpeedAsNumber < 4}">
+                        <img th:src="@{/img/precipitationType2.png}" style="width: 35px; height: auto">
+                    </span>
+                    <span th:if="${(forecast.precipitationType == '3' or forecast.precipitationType == '7') && forecast.windSpeedAsNumber < 4}">
+                        <img th:src="@{/img/precipitationType3.png}" style="width: 35px; height: auto">
+                    </span>
+                    <span th:if="${(forecast.precipitationType == '5' or forecast.precipitationType == '6') && forecast.windSpeedAsNumber < 4}">
+                        <img th:src="@{/img/precipitationType5.png}" style="width: 35px; height: auto">
+                    </span>
+                    <span th:if="${(forecast.sky == '1' or forecast.sky == '3' or forecast.sky == '4') && forecast.precipitationType == '0' && forecast.windSpeedAsNumber > 3}">
+                        <img th:src="@{/img/windSpeed.png}" style="width: 35px; height: auto">
+                    </span>
+                    </div>
+                <div class="hr-with-dot">
+                    <span>•</span>
+                </div>
+                <div style="font-size: 10px; text-align: center">
+                    <div style="text-align: center">
+                        <span><span th:text="${forecast.time.substring(0,2)}"></span>시</span>
+                    </div>
+                    <br>
+                    <span>온도 : <span th:text="${forecast.temperature}"></span>°C</span> &nbsp;
+                    <span>습도 : <span th:text="${forecast.humidity}"></span>%</span><br>
+                    <span>강수량 :
+                        <span th:if="${forecast.precipitation == '강수없음'}">0mm</span> &nbsp;
+                        <span th:if="${forecast.precipitation != '강수없음'}">mm</span>
+                    </span>
+                    <span>풍속: <span th:text="${forecast.windSpeed}"></span>m/s</span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card mb-3 card2" style="width: 59%; height: 315px; margin: 0 auto">
+    <div class="card-body">
+        <div>
+            <h5 class="card-title">마감 임박 매치</h5>
+            <div style="margin-top: 20px">
+            <th:block th:if="${matchList != null}">
+                <table class="table">
+                    <tbody>
+                        <th:block th:each="match : ${matchList}">
+                            <tr>
+                                <td><div th:text="${match.formattedDate}"></div></td>
+                                <td><div th:text="${match.match_time}"></div></td>
+                                <td th:if="${match.isMatchPast() == false}">
+                                    <a class="table-a" th:href="@{'match/detail?match_idx=' + ${match.match_idx}}"><span th:text="${match.business_name}"></span></a>
+                                </td>
+                                <td th:if="${match.isMatchPast() == true}">
+                                    <a class="table-a2" th:href="@{'match/detail?match_idx=' + ${match.match_idx}}"><span th:text="${match.business_name}"></span></a> <span style="font-size: 13px; color: #da0130">[마감]</span>
+                                </td>
+                                <td>
+                                    <div th:switch="${match.player_gender}">
+                                        <span th:case="'f'">여성</span>
+                                        <span th:case="'m'">남성</span>
+                                        <span th:case="a">남녀무관</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div th:switch="${match.match_level}">
+                                        <span th:case="'고급'" style="color: #da0130">고급</span>
+                                        <span th:case="'중급'" style="color: #fdba01">중급</span>
+                                        <span th:case="'초급'" style="color: #65a30d">초급</span>
+                                        <span th:case="'전체'" style="color: dimgray">난이도 무관</span>
+                                    </div>
+                                </td>
+                                <td th:if="${match.playerCount > 0 && match.playerCount < match.player_max}">
+                                    <b th:text="${match.playerCount}" style="color: #115ffc"></b> / <span th:text="${match.player_max}"></span>인
+                                </td>
+                                <td th:if="${match.playerCount == 0}">
+                                    <span th:text="${match.player_max}"></span>인
+                                </td>
+                                <td th:if="${match.playerCount == match.player_max}">
+                                    <b th:text="${match.playerCount}" style="color: #da0130"></b> / <span th:text="${match.player_max}"></span>인
+                                </td>
+
+                                <td th:if="${match.playerCount < match.player_max && match.isMatchPast() == false}"><a th:href="@{'match/detail?match_idx=' + ${match.match_idx}}">
+                                    <button type="button" class="custom-btnS btn-5 btn-apply">신청가능</button></a>
+                                </td>
+                                <td th:if="${match.playerCount > match.player_min && match.playerCount < match.player_max}"><a th:href="@{'match/detail?match_idx=' + ${match.match_idx}}">
+                                    <button type="button" class="custom-btnS btn-5 btn-limited">마감임박</button></a>
+                                </td>
+                                <td th:if="${match.playerCount == match.player_max && match.isMatchPast() == false}"><a th:href="@{'match/detail?match_idx=' + ${match.match_idx}}">
+                                    <button type="button" class="custom-btnS btn-5 btn-closed">마감</button></a>
+                                </td>
+                                <td th:if="${match.playerCount >= match.player_min && match.isMatchPast() == true}"><a th:href="@{'match/detail?match_idx=' + ${match.match_idx}}">
+                                    <button type="button" class="custom-btnS btn-5 btn-confirm">매치확정</button></a>
+                                </td>
+                                <td th:if="${match.playerCount != match.player_max && match.isMatchPast() == true}"><a th:href="@{'match/detail?match_idx=' + ${match.match_idx}}">
+                                    <button type="button" class="custom-btnS btn-5 btn-closed2">마감</button></a>
+                                </td>
+                            </tr>
+                        </th:block>
+                    </tbody>
+                </table>
+            </th:block>
+                <div style="text-align: center; margin-top: 15px">
+                    <img th:src="@{/img/dots.png}" style="width: 15px!important;">
+                </div>
+                <div class="btnD">
+                    <button class="custom-btn btn-15" id="matchList">더 구경하기</button>
+                </div>
+            </div>
+            <th:block th:if="${matchList == null}">
+                <div style="text-align: center; margin: 100px 0 100px 0"><p> 매치글이 존재하지 않습니다 </p></div>
+            </th:block>
+        </div>
+    </div>
+</div>
+
+<div class = "card-wrapper">
+    <div class="card mb-3 card2" style="width: 15%; height: 250px">
+        <div class="row g-0">
+            <img th:src="@{/img/card1.jpg}" style="width: 100%; height: 250px; border-radius: 10px; position: relative; overflow: hidden;">
+            <div class="card-body cardBody1">
+                <div style="margin-top: 60px">
+                    <h5 class="card-title">내 주변 구장 찾기</h5>
+                    <p class="card-text">주변 가까운 구장을 찾아보세요 <br> 원하는 구장을 빠르게 찾을 수 있습니다</p>
+                    <p class="card-text card-link"><a th:href="@{/location}" class="cardA">내 위치 확인하러 가기</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card mb-3 card2" style="width: 15%; height: 250px">
+        <div class="row g-0">
+            <img th:src="@{/img/card4.jpg}" style="width: 100%; height: 250px; border-radius: 10px; position: relative; overflow: hidden;">
+            <div class="card-body cardBody1">
+                <div style="margin-top: 60px">
+                    <h5 class="card-title">슛매치</h5>
+                    <p class="card-text"> 원하는 시간과 장소를 선택하세요 <br> 간편한 예약으로 언제든지 편리하게 이용할 수 있습니다</p>
+                    <p class="card-text card-link"><a th:href="@{/match/list}" class="cardA">매칭하러 가기</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card mb-3 card2" style="width: 15%; height: 250px">
+        <div class="row g-0">
+            <img th:src="@{/img/card3.jpg}" style="width: 100%; height: 250px; border-radius: 10px; position: relative; overflow: hidden;">
+            <div class="card-body cardBody1">
+                <div style="margin-top: 60px">
+                    <h5 class="card-title">커뮤니티</h5>
+                    <p class="card-text">국내유일 초대형 복합 커뮤니티 <br> 자유롭게 소통하세요! <br>
+                        슛츠는 안전한 중고거래를 지향하며 보장합니다</p>
+                    <p class="card-text card-link"><a th:href="@{/post/list}" class="cardA">자유게시판</a>&nbsp;/&nbsp;<a th:href="@{/post/list?category=B}" class="cardA">중고게시판</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+<th:block th:replace="~{fragments/footer :: footer}" />
+</html>

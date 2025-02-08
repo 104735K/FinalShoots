@@ -1,0 +1,106 @@
+/* 공통 스타일 */
+
+.container { width: 60%;     margin-top: 50px;}
+label { font-weight: bold; }
+#upfile { display: none; }
+
+body {
+    background-color: #f9f9f9;
+    font-family: 'Arial', sans-serif;
+}
+
+table{font-size : 15px;}
+
+/* 내용 공통 부분*/
+.titleI, .contentI {width: 80%; margin-bottom: 10px;}
+
+/* 제목 스타일 */
+.titlep {
+    margin-top: 10px;
+    margin-bottom: 0;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #333;
+}
+
+/* 입력 필드 스타일 */
+.form-control {
+    border-radius: 20px;
+    border: 2px solid #65A30D;
+    padding: 10px;
+    font-size: 0.9rem;
+    color: #333;
+}
+
+/* 파일 첨부 및 삭제 */
+.file-group {
+    margin-top: 20px;
+}
+
+.filep {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.filep span {
+    margin-right: 10px;
+}
+
+.fileU {
+    width: 20px;
+    cursor: pointer;
+}
+
+.remove {
+    width: 20px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+/* 하위 btn */
+.btnD {justify-content: left; margin-top: 50px; display: flex; gap : 10px;}
+
+.custom-btn {
+    width: 100px;
+    height: 35px;
+    border: 2px solid #65a30d;
+    border-radius: 20px;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+}
+
+.btn-15 {
+    background: #65a30d;
+    color: white;
+    z-index: 1;
+    border-radius: 20px;
+}
+.btn-15:after {
+    position: absolute;
+    content: "";
+    width: 0;
+    height: 100%;
+    top: 0;
+    right: 0;
+    z-index: -1;
+    background: white;
+    transition: all 0.3s ease;
+    border-radius: 20px;
+}
+.btn-15:hover {
+    color: #65a30d;
+}
+.btn-15:hover:after {
+    left: 0;
+    width: 100%;
+}
+.btn-15:active {
+    top: 2px;
+}
+
+.btn-delete {background: #da0130; border: 2px solid #da0130; transition: all 0.3s ease;}
+.btn-delete:hover {color: #da0130}

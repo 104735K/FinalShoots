@@ -1,0 +1,154 @@
+.container{
+	font-size: 15px;
+}
+
+.info th {
+	text-align: left;
+	width: 40%;
+}
+
+
+
+.info {
+	width: 60%; /* 원하는 비율로 너비 설정 */
+	margin: 0 auto; /* 테이블을 가로로 중앙 정렬 */
+	table-layout: fixed; /* 테이블 셀의 너비를 고정 */
+}
+
+.match{
+	width: 110px;
+	height: 35px;
+	padding: 0;
+	border: none;
+	color: white;
+	font-size: 15px;
+	border-radius: 20px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: background-color 0.3s ease, color 0.3s ease;
+	background-color: #65A30D;
+}
+
+.match:hover{
+	background-color: white;
+	color: #65A30D;
+	border: 1.5px solid #65A30D;
+}
+
+.matchEnd{
+	width: 110px;
+	height: 35px;
+	padding: 0;
+	border: none;
+	color: white;
+	font-size: 15px;
+	border-radius: 20px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: background-color 0.3s ease, color 0.3s ease;
+	background-color: dimgray;
+}
+
+.matchEnd:hover{
+	background-color: white;
+	color: dimgray;
+	border: 1.5px solid dimgray;
+}
+
+.matchEndC{
+	width: 110px;
+	height: 35px;
+	padding: 0;
+	border: none;
+	color: white;
+	font-size: 15px;
+	border-radius: 20px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: background-color 0.3s ease, color 0.3s ease;
+	background-color: dimgray;
+}
+
+.matchEndC:hover{
+	background-color: white;
+	color: dimgray;
+	border: 1.5px solid dimgray;
+}
+
+.matchEndC:after{
+	background-color: white;
+	color: dimgray;
+	border: 1.5px solid dimgray;
+}
+
+.update{
+	width: 110px;
+	height: 35px;
+	padding: 0;
+	border: none;
+	color: white;
+	font-size: 15px;
+	border-radius: 20px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: background-color 0.3s ease, color 0.3s ease;
+	background-color: #65A30D;
+}
+
+.update:hover{
+	background-color: white;
+	color: #65A30D;
+	border: 1.5px solid #65A30D;
+}
+
+#deleteUser{
+	width: 110px;
+	height: 35px;
+	padding: 0;
+	border: none;
+
+		font-size: 15px;
+	border-radius: 20px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: background-color 0.3s ease, color 0.3s ease;
+	background-color: #DA0130;
+}
+
+#deleteUser:hover{
+	background-color: white;
+	color: #DA0130;
+	border: 1.5px solid #DA0130;
+}
+
+
+.button-container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-top: 20px;
+}
+
+.button-container a, .button-container form {
+	margin-left: 10px;
+}
+
+a{
+	text-decoration: none;
+	color: black;
+}
+
+a:hover{
+	color: #65A30D;
+}
+

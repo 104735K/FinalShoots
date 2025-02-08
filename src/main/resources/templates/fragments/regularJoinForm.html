@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="regularJoinForm">
+
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+        <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+        <script th:src="@{/js/joinValidation.js}"></script>
+
+    </head>
+    <body>
+    <button type="button" class="RegularJoinBtn">개인</button>
+    <button type="button" class="BusinessJoinBtn">기업</button>
+
+    <form name="regularJoinProcess" method="post" th:action="@{/regularJoinProcess}">
+        <h1>개인회원 가입 페이지</h1>
+        <hr>
+        <b>아이디</b>
+        <input type="text" placeholder="아이디를 입력해 주세요." name="user_id" maxLength="30" required>
+        <span id="id-message"></span>
+        <br>
+
+        <b>비밀번호</b>
+        <input type="password" placeholder="비밀번호를 입력해 주세요." name="password" maxLength="60" required>
+        <br>
+
+        <b>이름</b>
+        <input type="text" placeholder="이름을 입력해 주세요." maxLength="20" name="name" required>
+        <br>
+
+        <b>주민등록번호</b>
+        <input type="text" placeholder="주민등록번호를 입력해 주세요." maxLength="6" name="jumin" required>
+            <span>-</span>
+        <div class="col d-flex align-items-center" style="padding: auto 0px;">
+            <input type="text" id="gender" name="gender" maxlength="1" style="width: 40px;"> ******
+        </div>
+        <br>
+
+
+        <b>전화번호</b>
+        <input type="text" placeholder="전화번호를 입력해 주세요." maxLength="13" name="tel" required>
+        <br>
+
+
+        <b>이메일 주소</b>
+        <input type="text" name="email" id ="regular_email" placeholder="Email을 입력해 주세요." maxLength="30" required>
+        <span id="email-message"></span>
+
+        <div class="clearfix">
+            <button type="submit" class="submitbtn">회원가입</button>
+            <button type="reset" class="cancelbtn">다시작성</button>
+        </div>
+
+
+    </form>
+
+
+    </body>
+</th:block>
+</html>

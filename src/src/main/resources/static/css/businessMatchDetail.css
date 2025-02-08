@@ -1,0 +1,212 @@
+nav.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 구장 화면 */
+.carousel-inner {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    margin-top: 30px!important;
+}
+
+.carousel-inner .carousel-item {
+    height: 500px;
+    overflow: hidden;
+}
+
+.carousel-inner .carousel-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.div0 {display: flex; gap: 20px; margin: 30px 0 0 0}
+.div1 {width: 65%; min-height: 500px; background: #f2f7f5; border-radius: 10px; padding : 20px; box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);}
+.div2 {width: 35%; max-height: 300px; background: #fcfcfc; border-radius: 10px; padding : 15px; box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);}
+
+.div-player {text-align: center; margin: 20px 0 0 0}
+
+.div-detail {padding : 20px; font-size: 15px}
+.matchTable {width: 40%;}
+.matchTable th:nth-child(1) {width:5%}
+.matchTable th:nth-child(2) {width:95%}
+
+.infoTable {width: 80%!important; font-size: 15px}
+
+.place {font-size: 30px; font-weight: bold; margin: 10px 0 0 0}
+.address {font-size: 15px; color : dimgray; margin: 5px 0 0 0}
+.price {font-size: 20px; margin: 10px 0 0 10px}
+.span-time {font-size: 12px; color: gray}
+
+a {text-decoration: none}
+
+/* 신청, 환불 공통 btn */
+.btn-div {width: 100%; height: 100px; text-align: center}
+.btn-status {font-size: 13px; margin-top : 15px}
+
+.button {
+    display: block;
+    min-width: 100px;
+    max-width: 250px;
+    height: 40px;
+    line-height: 38px;
+    border: none;
+    background: none;
+    color: inherit;
+    vertical-align: middle;
+    position: relative;
+    z-index: 1;
+    -webkit-backface-visibility: hidden;
+    -moz-osx-font-smoothing: grayscale;
+    margin: 0 auto;
+    margin-top: 18px
+}
+.button:focus {
+    outline: none;
+}
+.button > span {
+    vertical-align: middle;
+}
+
+.button--size-s {
+    font-size: 15px;
+}
+
+@-webkit-keyframes anim-moema-1 {
+    60% {
+        -webkit-transform: scale3d(0.8, 0.8, 1);
+        transform: scale3d(0.8, 0.8, 1);
+    }
+    85% {
+        -webkit-transform: scale3d(1.1, 1.1, 1);
+        transform: scale3d(1.1, 1.1, 1);
+    }
+    100% {
+        -webkit-transform: scale3d(1, 1, 1);
+        transform: scale3d(1, 1, 1);
+    }
+}
+@keyframes anim-moema-1 {
+    60% {
+        -webkit-transform: scale3d(0.8, 0.8, 1);
+        transform: scale3d(0.8, 0.8, 1);
+    }
+    85% {
+        -webkit-transform: scale3d(1.1, 1.1, 1);
+        transform: scale3d(1.1, 1.1, 1);
+    }
+    100% {
+        -webkit-transform: scale3d(1, 1, 1);
+        transform: scale3d(1, 1, 1);
+    }
+}
+@-webkit-keyframes anim-moema-2 {
+    to {
+        opacity: 0;
+        -webkit-transform: scale3d(1, 1, 1);
+        transform: scale3d(1, 1, 1);
+    }
+}
+@keyframes anim-moema-2 {
+    to {
+        opacity: 0;
+        -webkit-transform: scale3d(1, 1, 1);
+        transform: scale3d(1, 1, 1);
+    }
+}
+
+
+/* 신청하기 btn */
+.button--payment {
+    border-radius: 50px;
+    background: #115ffc;
+    color: #fff;
+    -webkit-transition: background-color 0.3s, color 0.3s;
+    transition: background-color 0.3s, color 0.3s;
+}
+.button--payment.button--inverted {
+    background: #ECEFF1;
+    color: #37474f;
+}
+.button--payment::before {
+    content: '';
+    position: absolute;
+    top: -13px;
+    left: -13px;
+    bottom: -13px;
+    right: -13px;
+    background: inherit;
+    border-radius: 50px;
+    z-index: -1;
+    opacity: 0.4;
+    -webkit-transform: scale3d(0.8, 0.5, 1);
+    transform: scale3d(0.8, 0.5, 1);
+}
+.button--payment:hover {
+    -webkit-transition: background-color 0.1s 0.3s, color 0.1s 0.3s;
+    transition: background-color 0.1s 0.3s, color 0.1s 0.3s;
+    color: #ECEFF1;
+    background-color: #0147d5;
+    -webkit-animation: anim-moema-1 0.3s forwards;
+    animation: anim-moema-1 0.3s forwards;
+}
+.button--payment.button--inverted:hover {
+    color: #206afc;
+    background-color: #ECEFF1;
+}
+.button--payment:hover::before {
+    -webkit-animation: anim-moema-2 0.3s 0.3s forwards;
+    animation: anim-moema-2 0.3s 0.3s forwards;
+}
+
+/* 하위 btn */
+.div-btn {justify-content: center; margin-top: 50px; display: flex; gap : 10px;}
+
+.custom-btn {
+    width: 110px;
+    height: 35px;
+    border: 2px solid #65a30d;
+    border-radius: 20px;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+}
+
+.btn-15 {
+    background: #65a30d;
+    color: white;
+    z-index: 1;
+    border-radius: 20px;
+}
+.btn-15:after {
+    position: absolute;
+    content: "";
+    width: 0;
+    height: 100%;
+    top: 0;
+    right: 0;
+    z-index: -1;
+    background: white;
+    transition: all 0.3s ease;
+    border-radius: 20px;
+}
+.btn-15:hover {
+    color: #65a30d;
+}
+.btn-15:hover:after {
+    left: 0;
+    width: 100%;
+}
+.btn-15:active {
+    top: 2px;
+}

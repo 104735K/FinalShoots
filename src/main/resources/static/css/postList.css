@@ -1,0 +1,62 @@
+
+
+
+/*글 작성 버튼*/
+.bD {width : 80%; text-align : right}
+.btnw {font-size :  12px; border-radius : 20px; border : none; width : 80px; height : 25px; color : white ; background : #65A30D; transition: background 0.3s, color 0.3s; padding : 0px; margin-right : 5%; margin-bottom : 5%}
+.btnw:hover {font-size :  12px; border-radius : 20px; border : 1px solid #65A30D; width : 80px; height : 25px; color : #65A30D ; background : white; padding : 0px}
+
+
+/*활성화 되지 않은 게시판이름, 글제목*/
+a {
+    color: black;
+    text-decoration: none;
+    background-color: transparent;
+}
+
+
+.nav-link#tabA:not(.active), .nav-link#tabB:not(.active){
+    color: #65A30D;
+}
+
+
+.table {margin-bottom : 30px!important; font-size : 15px}
+
+
+th {
+	text-align: center;
+}
+
+th:nth-child(1) {width :10%}
+td:nth-child(1) {width :10%; text-align : center}
+
+th:nth-child(2) {width :40%; text-align : left}
+td:nth-child(2) {width :40%; text-align : left}
+
+th:nth-child(3) {width :15%}
+td:nth-child(3) {width :15%; text-align : center}
+
+th:nth-child(4) {width :25%; text-align : left}
+td:nth-child(4) {width :25%; text-align : left}
+
+th:nth-child(5) {width :10%}
+td:nth-child(5) {width :10%; text-align : center}
+
+
+.jtdI {width : 20% !important; text-align : center !important}
+.jtdt {width : 25% !important; text-align : left !important}
+.jtdw {width : 10% !important; text-align : left !important}
+.jtdr {width : 25% !important; text-align : left !important}
+.jtdc {width : 10% !important; text-align : left !important}
+
+
+/*스크롤 시 에도 header 고정 → CSS에 작성*/
+nav.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}

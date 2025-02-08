@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <script th:src="@{/js/businessInquiryForm.js}"></script>
+    <link th:href="@{/css/businessInquiryForm.css}" rel="stylesheet">
+    <title>1:1 문의글 쓰기</title>
+</head>
+<body>
+<div class="container">
+    <form th:action="@{inquiryAdd}" method="post" enctype="multipart/form-data" name="inquiryForm">
+        <h3>1:1 문의하기</h3>
+        <hr>
+        <div class="form-group">
+            <input name="inquiry_ref_idx" id="inquiry_ref_idx" th:value="${session.idx}"
+                   type="hidden" class="form-control" readOnly>
+
+            <div>
+                <input name="inquiry_type" id="inquiry_type" th:value="${session.usertype}" type="hidden">
+            </div>
+
+
+            <div class="form-group">
+                <p class="titlep">문의 제목</p>
+                <input name="title" id="title" maxlength="100"
+                       type="text" class="titleI" placeholder="제목을 입력해 주세요">
+            </div>
+
+            <div class="form-group">
+                <p class="titlep">문의 내용</p>
+                <textarea name="content" id="content" rows="10" placeholder="내용을 입력해 주세요"
+                          class="contentI"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>
+					<span class="filep">파일첨부<span>
+					<img th:src="@{/img/attach.png}" alt="파일첨부" class="fileU" style="width: 30px">
+					<input type="file" id="upfile" name="uploadfile" style="display: none;">
+                </label>
+                <span id="filevalue"></span>
+                <img th:src="@{/img/remove.png}" alt="파일삭제" class="remove">
+            </div>
+
+            <div class="btnD">
+                <button type="submit" class="custom-btn btn-15 registerBtn btnW">문의 접수</button>
+                <button type="button" class="custom-btn  btn-15 btn-delete cancelBtn btnC">취소</button>
+            </div>
+    </form>
+</div>
+</body>
+</html>

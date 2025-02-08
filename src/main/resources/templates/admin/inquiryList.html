@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+    <link th:href="@{/css/adminDashboard.css}" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/adminList.css}" type = "text/css">
+    <link rel="stylesheet" th:href="@{/css/pagination.css}" type = "text/css">
+    <script th:src="@{/js/jquery-3.7.1.js}"></script>
+    <script th:inline="javascript">
+        $(function(){
+            $("tr > td:nth-child(6) > a").click(function(event){
+                const answer = confirm("정말 삭제하시겠습니까?");
+                console.log(answer);
+                if(!answer){
+                    event.preventDefault();
+                }
+            })
+        })
+    </script>
+    <style>
+        tr > th:nth-child(6), tr > td:nth-child(6){
+            text-align: center;
+        }
+        .delete{
+            text-decoration: none;
+            color: white;
+            font-size: 15px;
+            border-radius: 20px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            width: 60px;
+            height: 25px;
+            padding: 0;
+            border: none;
+            background-color: #DA0130;
+            text-align: center;
+        }
+
+        .delete:hover {
+            background-color: white;
+            color: #DA0130;
+            border: 1.5px solid #DA0130;
+        }
+    </style>
+</head>
+<body class="sb-nav-fixed">
+<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+
+    <!-- Navbar Brand-->
+    <a class="navbar-brand ps-3" th:href="@{/main}">Shoots</a>
+
+    <!-- Sidebar Toggle-->
+    <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+
+    <!-- Navbar-->
+    <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4" style="margin-left: 83%! important;">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" th:href="@{../logout}">Logout</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+
+<!-- 사이드바 -->
+<div id="layoutSidenav">
+    <div id="layoutSidenav_nav">
+        <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+            <div class="sb-sidenav-menu">
+                <div class="nav">
+                    <div class="sb-sidenav-menu-heading">Core</div>
+                    <a class="nav-link" th:href="@{/testAdmin}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        Dashboard
+                    </a>
+
+                    <div class="sb-sidenav-menu-heading">Interface</div>
+
+                    <a class="nav-link" id="Users" th:href="@{userList}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                        Users
+                    </a>
+
+
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                        <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                        Business
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+
+                    <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" id="BusinessStatus" th:href="@{businessList}">Business Status</a>
+                            <a class="nav-link" id="BusinessApprove" th:href="@{businessApprovedList}">Business Approved</a>
+                        </nav>
+                    </div>
+
+
+                    <a class="nav-link" id="Post" th:href="@{postList}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                        Post
+                    </a>
+
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
+                        <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                        Customers
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+
+                    <div class="collapse show" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                            <a class="nav-link" id="Faq" th:href="@{faqList}">FAQ</a>
+                            <a class="nav-link" id="Notice" th:href="@{noticeList}">공지사항 </a>
+                            <a class="nav-link" id="Inquiry" th:href="@{inquiryList}">문의사항</a>
+                        </nav>
+                    </div>
+                    <hr>
+                    <a class="nav-link" id="Report" th:href="@{reportList}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                        Report
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <div id="layoutSidenav_content">
+        <div class="container">
+            <div th:if="${listcount > 0}">
+                <table class="table">
+                    <caption style="caption-side: top; font-size: 20px; margin-left: 5px; margin-top: 65px;">문의글 관리</caption>
+                    <thead>
+                    <tr>
+                    </tr>
+                    <tr>
+                        <th>문의자</th>
+                        <th>분류</th>
+                        <th>제목</th>
+                        <th>답변상태</th>
+                        <th>작성일</th>
+                        <th>삭제</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr th:each="i : ${inquirylist}">
+                        <td th:if="${i.inquiry_type == 'A'}" th:text="${i.user_id}"></td>
+                        <td th:if="${i.inquiry_type == 'B'}" th:text="${i.business_id}"></td>
+                        <td th:if="${i.inquiry_type == 'A'}">개인 회원 문의</td>
+                        <td th:if="${i.inquiry_type == 'B'}">기업 회원 문의</td>
+                        <td><a th:href="@{/inquiry/detail(inquiry_idx=${i.inquiry_idx})}" class="link">[[${i.title}]]</a></td>
+                        <td><span th:if="${i.hasReply}" class="comS"> [답변완료]</span>
+                            <span th:if="${!i.hasReply}" class="comP"> [대기중]</span></td>
+                        <td th:text="${i.register_date.substring(0, 10)}"></td>
+                        <td><a th:href="@{inquiryDelete(inquiry_idx=${i.inquiry_idx})}" type="button" class="delete">삭제</a></td>
+                    </tr>
+                    </tbody>
+
+                </table>
+                <th:block
+                        th:replace="~{fragments/paging :: paging('inquiryList','')}"/>
+            </div>
+
+            <h1 th:if="${listcount == 0}">문의 사항이 없습니다.</h1>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+<script th:src="@{/js/adminDashboard.js}"></script>
+
+</body>
+<th:block th:replace="~{fragments/footer :: footer}" />
+</html>

@@ -1,0 +1,339 @@
+h1{
+    text-align:center;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+.input-group{
+    width: 30%;
+    text-align: center;
+    margin-right: 50px;
+    margin-top : 30px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.fileAttach{
+    margin-bottom: 20px;
+}
+
+.write-btn-container {
+    text-align: right;
+    margin-top: 20px;
+    margin-right: 50px;
+
+}
+
+.notfound{
+    margin-top: 50px;
+    text-align: center;
+}
+
+.pending{
+    color:orange;
+}
+#refuse{
+    text-decoration: none;
+    color: #1d4ed8;
+}
+#approve{
+    text-decoration: none;
+    color: #be123c;
+}
+
+.comS{
+    color: #1d4ed8;
+}
+.comP{
+    color: #be123c;
+}
+.write{
+    color: white;
+    font-size: 15px;
+    border-radius: 20px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    width: 80px;
+    height: 25px;
+    padding: 0;
+    border: none;
+    background-color: #65A30D;
+}
+
+.write:hover{
+    background-color: white;
+    color: #65A30D;
+    border: 1.5px solid #65A30D;
+}
+
+.update1{
+    text-decoration: none;
+    color: white;
+    font-size: 15px;
+    border-radius: 20px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    width: 60px;
+    height: 25px;
+    padding: 0;
+    border: none;
+    background-color: #1d4ed8;
+    text-align: center;
+}
+
+.update1:hover{
+    background-color: white;
+    color: #1d4ed8;
+    border: 1.5px solid #1d4ed8;
+}
+
+
+
+.update{
+    text-decoration: none;
+    color: white;
+    font-size: 15px;
+    border-radius: 20px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    width: 60px;
+    height: 25px;
+    padding: 0;
+    border: none;
+    background-color: #FDBA01;
+    text-align: center;
+}
+
+.update:hover{
+    background-color: white;
+    color: #FDBA01;
+    border: 1.5px solid #FDBA01;
+}
+
+.delete{
+    text-decoration: none;
+    color: white;
+    font-size: 15px;
+    border-radius: 20px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    width: 60px;
+    height: 25px;
+    padding: 0;
+    border: none;
+    background-color: #DA0130;
+    text-align: center;
+}
+
+.delete:hover{
+    background-color: white;
+    color: #DA0130;
+    border: 1.5px solid #DA0130;
+}
+
+.list{
+    text-decoration: none;
+    color: white;
+    font-size: 15px;
+    border-radius: 20px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    width: 60px;
+    height: 25px;
+    padding: 0;
+    border: none;
+    background-color: #65A30D;
+    text-align: center;
+}
+
+.list:hover{
+    background-color: white;
+    color: #65A30D;
+    border: 1.5px solid #65A30D;
+}
+
+.down{
+    border: none;
+    background-color: white;
+}
+
+.submit{
+    text-decoration: none;
+    color: white;
+    font-size: 15px;
+    border-radius: 20px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    width: 80px;
+    height: 25px;
+    padding: 0;
+    border: none;
+    background-color: #115FFC;
+    text-align: center;
+    margin-top: 10px;
+
+}
+
+.submit:hover{
+    background-color: white;
+    color: #115FFC;
+    border: 1.5px solid #115FFC;
+}
+
+.cancel{
+    text-decoration: none;
+    color: white;
+    font-size: 15px;
+    border-radius: 20px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    width: 80px;
+    height: 25px;
+    padding: 0;
+    border: none;
+    background-color: #DA0130;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.cancel:hover{
+    background-color: white;
+    color: #DA0130;
+    border: 1.5px solid #DA0130;
+}
+
+.link{
+    text-decoration: none;
+    color: black;
+}
+.link:hover{
+    color: #65A30D;
+}
+
+.search-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.form-control .search-bar{
+    width: auto;
+    max-width: 100px;
+}
+.form-control{
+    width: 40%;
+}
+
+
+
+.search{
+    text-decoration: none;
+    color: white;
+    font-size: 14px;
+    border-radius: 20px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    width: 95px;
+    height: 35px;
+    padding: 0;
+    border: none;
+    background-color: #FDBA01;
+    text-align: center;
+    display: inline-block;
+}
+
+.search:hover{
+    background-color: white;
+    color: #FDBA01;
+    border: 1.5px solid #FDBA01;
+}
+
+.common{
+    text-decoration: none;
+    color: white;
+    font-size: 15px;
+    border-radius: 20px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    width: 60px;
+    height: 25px;
+    padding: 0;
+    border: none;
+    background-color: #65A30D;
+    text-align: center;
+}
+
+.common:hover{
+    background-color: white;
+    color: #65A30D;
+    border: 1.5px solid #65A30D;
+}
+
+.admin{
+    text-decoration: none;
+    color: white;
+    font-size: 15px;
+    border-radius: 20px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    width: 60px;
+    height: 25px;
+    padding: 0;
+    border: none;
+    background-color: #FDBA01;
+    text-align: center;
+}
+
+.admin:hover{
+    background-color: white;
+    color: #FDBA01;
+    border: 1.5px solid #FDBA01;
+}
+
+.block{
+    text-decoration: none;
+    color: white;
+    font-size: 15px;
+    border-radius: 20px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    width: 60px;
+    height: 25px;
+    padding: 0;
+    border: none;
+    background-color: #DA0130;
+    text-align: center;
+}
+
+.block:hover{
+    background-color: white;
+    color: #DA0130;
+    border: 1.5px solid #DA0130;
+}
+
+.blocked{
+    text-decoration: none;
+    color: white;
+    font-size: 15px;
+    border-radius: 20px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    width: 60px;
+    height: 25px;
+    padding: 0;
+    border: none;
+    background-color: dimgray;
+    text-align: center;
+}
+
+.reportContent {
+    text-decoration: none;
+    color:black;
+}
+
+.report-link {
+    text-decoration: none;
+    color:black;
+}
+
+.reportContent:hover{
+    text-decoration: none;
+    color:#65A30D;
+}
+
+.report-link:hover{
+    text-decoration: none;
+    color:#65A30D;
+}
+

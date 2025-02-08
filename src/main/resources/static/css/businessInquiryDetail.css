@@ -1,0 +1,61 @@
+nav.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.container {margin-top: 100px}
+
+/* 하위 btn */
+.btnD {justify-content: left; margin-top: 50px; display: flex; gap : 10px;}
+
+.custom-btn {
+    width: 110px;
+    height: 35px;
+    border: 2px solid #65a30d;
+    border-radius: 20px;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+}
+
+.btn-15 {
+    background: #65a30d;
+    color: white;
+    z-index: 1;
+    border-radius: 20px;
+}
+.btn-15:after {
+    position: absolute;
+    content: "";
+    width: 0;
+    height: 100%;
+    top: 0;
+    right: 0;
+    z-index: -1;
+    background: white;
+    transition: all 0.3s ease;
+    border-radius: 20px;
+}
+.btn-15:hover {
+    color: #65a30d;
+}
+.btn-15:hover:after {
+    left: 0;
+    width: 100%;
+}
+.btn-15:active {
+    top: 2px;
+}
+
+.btn-update {background: #fdba01; border: 2px solid #fdba01; transition: all 0.3s ease;}
+.btn-update:hover {color: #fdba01}
+
+.btn-delete {background: #da0130; border: 2px solid #da0130; transition: all 0.3s ease;}
+.btn-delete:hover {color: #da0130}

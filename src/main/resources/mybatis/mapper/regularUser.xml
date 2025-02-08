@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.Shoots.mybatis.mapper.RegularUserMapper">
+
+    <select id="selectById" resultType="regularuser">
+        select * from regular_user where user_id = #{id}
+    </select>
+
+    <select id="selectWithId" resultType="regularuser">
+        select * from regular_user where user_id = #{id}
+    </select>
+
+    <select id="findByKakaoUserId" resultType="regularuser">
+        select * from regular_user where user_id = CONCAT('k_', #{id})
+    </select>
+
+    <select id="findByGoogleUserId" resultType="regularuser">
+        select * from regular_user where user_id = CONCAT('g_', #{id})
+    </select>
+
+    <select id="findByNaverAuId" resultType="regularuser">
+        select * from regular_user where user_id = CONCAT('n_', #{id})
+    </select>
+
+
+    <insert id="insert">
+        insert into regular_user (user_id, password, name, jumin, gender, tel, email)
+        values (#{user_id}, #{password}, #{name},
+                #{jumin}, #{gender}, #{tel}, #{email}
+                )
+    </insert>
+
+    <insert id="insert2">
+        insert into regular_user (user_id, password, name, email)
+        values (#{user_id}, #{password}, #{name}, #{email}
+               )
+    </insert>
+
+    <insert id="insert3">
+        insert into regular_user (user_id, password, name, email
+        <if test="tel != null">, tel</if>
+        <if test="jumin != null">, jumin</if>
+        <if test="gender != null">, gender</if>
+        )
+        values (#{user_id}, #{password}, #{name}, #{email}
+        <if test="tel != null">, #{tel}</if>
+        <if test="jumin != null">, #{jumin}</if>
+        <if test="gender != null">, #{gender}</if>
+        )
+    </insert>
+
+
+    <select id="selectByEmail" resultType="regularuser">
+        select * from regular_user where email = #{email}
+    </select>
+
+    <select id="findIdWithEmail" resultType="regularuser">
+        select * from regular_user
+        WHERE email = #{email}
+        AND (user_id NOT LIKE 'g_%' AND email NOT LIKE 'k_%' AND email NOT LIKE 'n_%')
+    </select>
+
+    <select id="selectWithIdAndEmail" resultType="regularuser">
+        select * from regular_user where user_id = #{user_id} and email = #{email}
+    </select>
+
+    <update id="updateRegularUserPassword">
+        update regular_user
+        set password = #{password}
+        where user_id = #{user_id}
+    </update>
+  
+    <select id="getUserListForBusiness" resultType="java.util.Map">
+        select r.*, COUNT(p.buyer_idx) AS cnt
+        from regular_user r
+        join payment p on r.idx = p.buyer_idx
+        <where>
+            p.seller_idx = #{business_idx}
+            <if test="gender != null">
+                AND (r.gender = #{gender} OR r.gender = #{gender} + 2)
+            </if>
+        </where>
+        group by r.idx
+
+        <if test="age == null and vip == null">
+            order by r.name asc
+        </if>
+        <if test="vip != null and vip == 'true'">
+            order by cnt desc
+        </if>
+        <if test="age != null and age == 'desc'">
+            order by TIMESTAMPDIFF(YEAR, STR_TO_DATE(CONCAT(CASE WHEN SUBSTRING(r.jumin, 1, 1) = '0' THEN '20' ELSE '19' END, r.jumin), '%Y%m%d'), CURDATE()) desc
+
+        </if>
+        <if test="age != null and age == 'asc'">
+            order by TIMESTAMPDIFF(YEAR, STR_TO_DATE(CONCAT(CASE WHEN SUBSTRING(r.jumin, 1, 1) = '0' THEN '20' ELSE '19' END, r.jumin), '%Y%m%d'), CURDATE()) asc
+        </if>
+    </select>
+
+    <sql id="search">
+        <if test="search_word != null">
+            where user_id like #{search_word} or name like #{search_word}
+        </if>
+    </sql>
+
+    <select id="listCount">
+        select count(*) from regular_user
+        <include refid="search" />
+    </select>
+
+    <select id="getUserList">
+        select * from regular_user
+        <include refid="search" />
+            order by idx
+            LIMIT #{offset}, #{pageSize}
+    </select>
+
+    <update id="setCommonUser">
+        update regular_user set role = 'common' where idx = #{id}
+    </update>
+
+    <update id="setAdminUser">
+        update regular_user set role='admin' where idx = #{id}
+    </update>
+
+    <select id="getEmail">
+        select email from regular_user where idx=#{id}
+    </select>
+
+    <select id="regularUserList">
+        select * from regular_user where user_id=#{id}
+    </select>
+
+    <update id="updateRegularUser">
+        update regular_user set name=#{name}, jumin=#{jumin}, gender=#{gender}, email=#{email}, tel=#{tel}
+        where idx=#{idx}
+    </update>
+
+    <select id="getUserCount">
+        select DATE(register_date) as register_date, count(*) as userCount
+        from regular_user
+        group by DATE(register_date)
+        order by register_date;
+    </select>
+
+    <select id="allUsers">
+        select count(idx) from regular_user;
+    </select>
+
+    <select id="getPlayerGenderCount" resultType="java.util.Map">
+        SELECT
+            SUM(CASE WHEN r.gender = 1 THEN 1 ELSE 0 END) AS gender_1_count,
+            SUM(CASE WHEN r.gender = 2 THEN 1 ELSE 0 END) AS gender_2_count,
+            SUM(CASE WHEN r.gender = 3 THEN 1 ELSE 0 END) AS gender_3_count,
+            SUM(CASE WHEN r.gender = 4 THEN 1 ELSE 0 END) AS gender_4_count
+        FROM regular_user r
+        JOIN payment p ON r.idx = p.buyer_idx
+        WHERE p.seller_idx = #{business_idx}
+        AND p.payment_status = 'paid'
+    </select>
+
+    <delete id="deleteRegularUser">
+        delete from regular_user
+        where idx = #{idx}
+    </delete>
+
+</mapper>
