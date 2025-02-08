@@ -7,16 +7,16 @@
 
 
 ## 💻 PROJECT INTRODUCTION
-- 목적 : 일회성 매치시스템과 커뮤니티를 함께 구현하여 취미 축구인들의 네트워크 구축
-
+- 목적 
+  - 일회성 매치시스템과 커뮤니티를 함께 구현하여 취미 축구인들의 네트워크 구축
   - 기존 풋살장 예약 페이지의 복잡한 UI, 예약 페이지와 커뮤니티 분리로 인한 소통의 불편함을 해소하기 위해 웹 사이트를 간결하고 직관적으로 변경
-
   - 사용자에게 편의성을 제공함과 동시에 하나의 웹 사이트에 매치기능과 커뮤니티를 함께 구현해 취미 축구인들의 네트워크를 구축
- 
-- 원하는 장소, 날짜, 시간에 맞는 매치를 조회 및 신청
-- 매치 확정 시 팀원들과의 팀 채팅방 개설로 매치 전 팀원 간의 다양한 소통 가능
-- 현재 위치 기반 가까운 제휴 풋살장 검색 가능
-- 자유게시판을 통해 자유로운 소통 및 중고게시판으로 쉽고 간편한 중고거래
+    
+- 기능
+  - 원하는 장소, 날짜, 시간에 맞는 매치를 조회 및 신청
+  - 매치 확정 시 팀원들과의 팀 채팅방 개설로 매치 전 팀원 간의 다양한 소통 가능
+  - 현재 위치 기반 가까운 제휴 풋살장 검색 가능
+  - 자유게시판을 통해 자유로운 소통 및 중고게시판으로 쉽고 간편한 중고거래
 
 ## 🗓️ DEVELOPMENT PERIOD
 2024.12.30 - 2025.02
@@ -31,7 +31,7 @@
 |최주경|관리자, 사용자 마이페이지, 공지사항, FAQ|
 
 ## ⚙️ DEVELOPMENT ENVIRONMENT
-- Programming Language : JAVA 17
+- Programming Language : Java 17
 - Framework : Spring Boot
 - Database : MySQL, Redis / MySQL Workbench, DBeaver 
 - Front : HTML/CSS, JavaScript, Tymeleaf, Bootstrap
@@ -39,11 +39,11 @@
 - Environment : MacOS, Window10, AWS, Jenkins
 
 > <h3>Branch strategy</h3>
-- Git Flow 전략 기반
+- Git-Flow 전략 기반
 - main, develop, feature 브랜치 운용
-  - Main : 배포 가능한 상태만을 관리
+  - main : 배포 가능한 상태만을 관리
   - dev : 통합 브랜치 역할, 개발 단계에서 master 역할
-  - Feature : 기능 단위로 팀원간의 독립적인 개발환경을 보장하기 위해 사용
+  - feature : 기능 단위로 팀원간의 독립적인 개발환경을 보장하기 위해 사용
 
 
 ## 💡 FEATURE
