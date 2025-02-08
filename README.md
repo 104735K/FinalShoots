@@ -3,7 +3,7 @@
 ![Image](https://github.com/user-attachments/assets/c7f91ea5-b554-456c-bf26-fd2f800040e0)
 
 
-🔗 배포 URL : https://www.goshoots.site
+🔗 배포 URL : [https://www.goshoots.site](https://goshoots.site/Shoots/main)
 
 
 ## 💻 PROJECT INTRODUCTION
