@@ -98,7 +98,19 @@
   - Key 형식 : business:{businessIdx}:address
   - pipeline을 사용하여 여러 개의 키를 한번에 조회하여 성능 최적화
   - Redis에 데이터가 없는 경우 MyBatis를 사용해 MySQL DB에서 조회 후 Redis에 저장
-   
+    
+- 캐시 전략
+  - Lazy Loading (지연 로딩) + Write-Through 방식 혼합 사용
+    1. Lazy Loading
+        - 필요한 데이터만 DB에서 가져와 Redis에 저장하여 불필요한 로딩 방지
+        - 최초 요청 시에는 DB 조회가 발생하나 이후 요청부터는 Redis에서 빠른 조회 가능
+    2. Write-Through
+        - 주소 데이터는 자주 변경 되지 않는 데이터로 최신 데이터를 유지하는 방식이 효율적이라 생각
+        - 데이터를 저장할 때 DB뿐만 아니라 Redis에도 즉시 반영하여 캐시 일관성 유지
+        - 캐시가 항상 최신 상태를 유지하므로 캐시와 DB의 불일치 가능성이 적음
+    3. Manual Cache Invalidation (수동 캐시 무효화) : 데이터 동기화를 위함
+        - Redis에 같은 키가 존재하면 먼저 삭제 후 새로운 데이터를 삽입
+        - 데이터의 갱신 보장
 ### 💳 결제
 - 설계의 주안점
   1. DB 설계
