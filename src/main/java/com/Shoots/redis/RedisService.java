@@ -52,7 +52,7 @@ public class RedisService {
             return null;
         });
 
-        // Redis에 없는 값들을 저장하기 위한 별도 리스트 생성
+        // Redis에 데이터 저장을 위한 별도 리스트 생성
         List<String> missingKeys = new ArrayList<>();
         List<String> missingValues = new ArrayList<>();
 
