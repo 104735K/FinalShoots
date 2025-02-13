@@ -37,23 +37,23 @@
 		<h1>게시판 - 수정</h1>
 
 		<div class="form-group">
-			<label for="writer">작성자</label>
+			<label for="writer" style="margin-left: 5px">작성자</label>
 			<input type="text" class="form-control" name="writer" id="writer" th:value="${postdata.writer}" readonly/>
 		</div>
-
+		<br>
 		<div class="form-group">
-			<label for="title">제목</label>
+			<label for="title" style="margin-left: 5px">제목</label>
 			<textarea name="title" id="title" rows="1" class="form-control" maxlength="100" required th:text="${postdata.title}"></textarea>
 		</div>
-
+		<br>
 		<div class="form-group">
-			<label for="content">내용</label>
+			<label for="content" style="margin-left: 5px">내용</label>
 			<textarea name="content" id="content" class="form-control" rows="10" required th:text="${postdata.content}"></textarea>
 		</div>
-
+		<br>
 		<!-- 중고게시판일 경우 가격 입력란 보이기 -->
 		<div class="form-group" th:if="${postdata.category == 'B'}">
-			<label for="priceInput">가격</label>
+			<label for="priceInput" style="margin-left: 5px">가격</label>
 			<input name="price" id="priceInput" type="number" class="form-control" th:value="${postdata.price}" placeholder="가격을 입력해주세요"
 				   min="0"
 				   max="10000000"
@@ -68,7 +68,7 @@
 
 		<!-- 원문글인 경우에만 파일 첨부 수정 가능 -->
 		<div class="form-group">
-			<label>파일첨부
+			<label style="margin-left: 5px">파일첨부
 				<img th:src="@{/img/attach.png}" alt="파일첨부"/>
 				<input type="file" id="upfile" name="uploadfile"/>
 			</label>
@@ -77,7 +77,7 @@
 			<img th:src="@{/img/remove.png}" alt="파일삭제" width="10px" class="remove"/>
 		</div>
 
-		<div class="form-group">
+		<div class="form-group" style="margin-top: 20px">
 			<button type="submit" class="btn btnr">수정</button>
 			<button type="reset" class="btn btnc" onclick="history.go(-1)">취소</button>
 		</div>

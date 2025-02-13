@@ -35,7 +35,7 @@
             <div class="carousel-caption d-none d-md-block">
                 <div style="text-align: left">
                     <h3>언제 어디서나</h3>
-                    <h3>원하는 시간과 장소 선택하기 ⏰</h3>
+                    <h3>원하는 시간과 장소 선택하기</h3>
                     <span style="font-size: 18px">간편한 예약으로 언제든지 <b>매치신청</b>을 할 수 있어요!</span>
                 </div>
             </div>
@@ -45,9 +45,9 @@
             <div class="carousel-caption3 d-none d-md-block">
                 <div style="text-align: left; background: rgba(55, 59, 62, 0.2); width: 600px; border-radius: 20px; padding: 20px;">
                     <h3>국내 유일! </h3>
-                    <h3>축구를 사랑하는 모든 이들을 위한 커뮤니티⚽</h3>
+                    <h3>축구를 사랑하는 모든 이들을 위한 커뮤니티</h3>
                     <span style="font-size: 18px"> 누구든지 자유롭게 소통하고, 함께할 팀원을 찾고, 중고 거래까지 한곳에서!</span><br>
-                    <span style="font-size: 18px"> 지금 바로 <b>참여</b>하세요! 🚀</span>
+                    <span style="font-size: 18px"> 지금 바로 <b>참여</b>하세요!</span>
                 </div>
             </div>
         </div>
@@ -205,10 +205,10 @@
                                     <b th:text="${match.playerCount}" style="color: #da0130"></b> / <span th:text="${match.player_max}"></span>인
                                 </td>
 
-                                <td th:if="${match.playerCount < match.player_max && match.isMatchPast() == false}"><a th:href="@{'match/detail?match_idx=' + ${match.match_idx}}">
+                                <td th:if="${match.playerCount < match.player_min && match.isMatchPast() == false}"><a th:href="@{'match/detail?match_idx=' + ${match.match_idx}}">
                                     <button type="button" class="custom-btnS btn-5 btn-apply">신청가능</button></a>
                                 </td>
-                                <td th:if="${match.playerCount > match.player_min && match.playerCount < match.player_max}"><a th:href="@{'match/detail?match_idx=' + ${match.match_idx}}">
+                                <td th:if="${match.playerCount >= match.player_min && match.playerCount < match.player_max && match.isMatchPast() == false}"><a th:href="@{'match/detail?match_idx=' + ${match.match_idx}}">
                                     <button type="button" class="custom-btnS btn-5 btn-limited">마감임박</button></a>
                                 </td>
                                 <td th:if="${match.playerCount == match.player_max && match.isMatchPast() == false}"><a th:href="@{'match/detail?match_idx=' + ${match.match_idx}}">
