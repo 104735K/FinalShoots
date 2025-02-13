@@ -27,24 +27,24 @@
 			<input type="radio" name="category" id="A" th:value="A" th:checked="${category == 'A' or category == null}" required><span>자유게시판</span>
 			<input type="radio" name="category" id="B" th:value="B" th:checked="${category == 'B'}" required><span>중고게시판</span>
 		</div>
-
+		<br>
 		<!-- 작성자 -->
 		<input name="writer" id="writer" th:value="${session.idx}" type="hidden" class="form-control" readOnly>
 
 		<div class="form-group">
-			<label for="title">제목</label>
+			<label for="title" style="margin-left: 5px">제목</label>
 			<input name="title" id="title" type="text" maxlength="100" class="form-control" placeholder="제목을 입력해주세요" required>
 		</div>
-
+		<br>
 		<div class="form-group">
-			<label for="content">내용</label>
+			<label for="content" style="margin-left: 5px">내용</label>
 			<textarea name="content" id="content" rows="20" class="form-control" placeholder="내용을 입력하세요." required></textarea>
 		</div>
-
+		<br>
 		<!-- 가격 입력 (중고게시판일 경우에만 보이게 설정) -->
 		<div class="form-group fade active show" id="price">
 
-			<label for="priceInput">가격</label>
+			<label for="priceInput" style="margin-left: 5px">가격</label>
 			<input
 					name="price"
 					id="priceInput"
@@ -62,7 +62,7 @@
 		</div>
 		<br>
 		<div class="form-group">
-			<label>파일첨부
+			<label style="margin-left: 5px">파일첨부
 				<img th:src="@{/img/attach.png}" alt="파일첨부">
 <!--			<input type="file" id="upfile" name="post_file">-->
 				<input type="file" id="upfile" name="uploadfile">

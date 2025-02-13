@@ -58,10 +58,10 @@
 	<table class="table">
 		<tr>
 			<td colspan="2">
-				<span class="title" th:text="${postdata.title}" >
-				</span>
+				<span class="title" th:text="${postdata.title}">
+				</span> &nbsp;
 				<th:block th:if="${postdata.user_id != session.id}">
-					<img src='../img/report.png' id="titleReport" style="width:30px; height:30px; cursor: pointer">
+					<img th:src='@{/img/reportBtn.png}' id="titleReport" style="width:17px; height:17px; cursor: pointer; margin-bottom: 5px">
 				</th:block>
 				<br>
 <!--				<th:block th:if="${postdata.user_file}">-->
