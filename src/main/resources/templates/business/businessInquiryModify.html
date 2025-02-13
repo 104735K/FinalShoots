@@ -28,7 +28,7 @@
                 <input name="inquiry_type" id="inquiry_type" th:value="${session.usertype}" type="hidden">
             </div>
 
-            <div class="form-group">
+            <div class="form-group input-field">
                 <p class="titlep">문의 제목</p>
                 <input name="title" id="title" maxlength="100"
                        type="text" class="titleI" th:value="${inquiryData.title}" placeholder="제목을 입력해 주세요">
@@ -38,7 +38,7 @@
             <div class="form-group">
                 <p class="titlep">문의 내용</p>
                 <textarea name="content" id="content" rows="10" class="contentI"
-                          th:text="${inquiryData.content}" placeholder="내용을 입력해 주세요"></textarea>
+                          th:text="${inquiryData.content}" style="width: 100%; border-radius: 5px; padding: 10px" placeholder="내용을 입력해 주세요"></textarea>
             </div>
 
             <div class="form-group">

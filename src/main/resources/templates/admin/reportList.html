@@ -17,7 +17,7 @@
   <script th:inline="javascript">
     $(function(){
       $(".block").click(function(event){
-        const answer = confirm("차단되었습니다.")
+        const answer = confirm("차단 하시겠습니까?")
         if(!answer){
           event.preventDefault();
         }
@@ -125,14 +125,14 @@
           <tbody>
           <tr th:block th:each="r, interStat : ${list}">
             <td th:text="${r.reporter}"></td>
-            <td th:if="${r.category == 'POST'}"><a th:href="@{/post/detail(num=${r.PostIdx})}" th:text="${r.reportedUser}" class="reportContent" ></a></td>
-            <td th:if="${r.category == 'COMMENT'}" th:text="${r.reportedUser}" class="reportContent"></td>
+            <td th:if="${r.category == 'POST'}"><a th:href="@{/post/detail(num=${r.post_idx})}" th:text="${r.reported_content}" class="reportContent" ></a></td>
+            <td th:if="${r.category == 'COMMENT'}" th:text="${r.reported_content}" class="reportContent"></td>
             <td th:text="${r.category}"></td>
             <td><a href = "#" class="report-link" th:data-detail="${r.detail}" th:text="${r.content}"></a></td>
-            <td th:text="${#strings.substring(r.registryDate, 0, 10)}"></td>
+            <td th:text="${#strings.substring(r.registry_date, 0, 10)}"></td>
             <td th:if="${r.category == 'POST'}">
               <span th:if="${r.p_status == 'unblock'}">
-                <a type="button" th:href="@{postBlock(id=${r.PostIdx})}" id ="pblock" class="btn btn-primary block"><b>차단</b></a>
+                <a type="button" th:href="@{postBlock(id=${r.post_idx})}" id ="pblock" class="btn btn-primary block"><b>차단</b></a>
               </span>
               <span th:if="${r.p_status == 'block'}">
                 <b type="button" class="btn btn-danger blocked">차단됨</b>
@@ -140,7 +140,7 @@
             </td>
             <td th:if="${r.category == 'COMMENT'}">
               <span th:if="${r.c_status == 'unblock'}">
-                <a type="button" th:href="@{commentBlock(id=${r.CommentIdx})}" id ="cblock" class="btn btn-primary block"><b>차단</b></a>
+                <a type="button" th:href="@{commentBlock(id=${r.comment_idx})}" id ="cblock" class="btn btn-primary block"><b>차단</b></a>
               </span>
               <span th:if="${r.c_status == 'block'}">
                 <b type="button" class="btn btn-danger blocked">차단됨</b>

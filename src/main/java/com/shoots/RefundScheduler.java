@@ -80,7 +80,7 @@ public class RefundScheduler {
         System.out.println("=============================================================");
         log.info("자동 환불 진행 : 결제 ID {}", payment.getPayment_idx());
 
-        String refundApiUrl = "http://localhost:1000/Shoots/refund/refundProcess";
+        String refundApiUrl = "https://www.goshoots.site/Shoots/refund/refundProcess";
         // String refundApiUrl = "http://3.36.152.102:1111/refund/refundProcess";
 
         try {
@@ -98,7 +98,7 @@ public class RefundScheduler {
         String phoneNumber = (String) user.get("tel");
         log.info("phoneNumber =  {}", phoneNumber);
 
-        String smsApiUrl = "http://localhost:1000/Shoots/test/send-many";
+        String smsApiUrl = "https://www.goshoots.site/Shoots/test/send-many";
 
         user.put("messageType", messageType);
 

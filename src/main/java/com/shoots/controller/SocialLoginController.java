@@ -312,6 +312,7 @@ public class SocialLoginController {
             session.setAttribute("idx", regularUser.getIdx());
             session.setAttribute("id", regularUser.getUser_id());
             session.setAttribute("role", regularUser.getRole());
+            session.setAttribute("gender", regularUser.getGender());
             session.setAttribute("usertype", "A");
 
             //이 부분 if / else문으로 분기 나눠서 regularUser.getJumin getGender 써가지고 쟤네가 null 이면

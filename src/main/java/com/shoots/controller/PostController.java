@@ -1,6 +1,5 @@
 package com.shoots.controller;
 
-import com.Shoots.domain.MailVO;
 import com.Shoots.domain.PaginationResult;
 import com.Shoots.domain.Post;
 import com.Shoots.service.PostCommentService;
@@ -31,7 +30,7 @@ import java.util.Map;
 public class PostController {
 
     @Value("${my.savefolder}")
-    private String saveFolder;
+    private String SAVE_FOLDER;
 
     private static final Logger logger = LoggerFactory.getLogger(PostController.class);
 
@@ -142,7 +141,7 @@ public class PostController {
         MultipartFile uploadfile = post.getUploadfile();
 
         if (uploadfile != null && !uploadfile.isEmpty()) {
-            String fileDBName = postService.saveUploadFile(uploadfile, saveFolder);
+            String fileDBName = postService.saveUploadFile(uploadfile, SAVE_FOLDER);
             post.setPost_file(fileDBName); //바뀐 파일명으로 저장
             post.setPost_original(uploadfile.getOriginalFilename()); // 원래 파일명 저장
         }
@@ -269,7 +268,7 @@ public class PostController {
         MultipartFile uploadfile = postdata.getUploadfile();
 
         // 업로드 폴더 경로 설정
-        String saveFolder = "C:/upload";  // 실제 경로로 변경
+        String saveFolder = SAVE_FOLDER;  // 실제 경로로 변경
         //String saveFolder = request.getSession().getServletContext().getRealPath("resources/upload");
 
         //System.out.println("Received status: " + postdata.getStatus()); // 디버깅용 로그
@@ -378,7 +377,7 @@ public class PostController {
         //String sDownloadPath = context.getRealPath(savePath);
 
         //수정
-        String sFilePath = saveFolder + filename;
+        String sFilePath = SAVE_FOLDER + filename;
 
         File file = new File(sFilePath);
 

@@ -136,7 +136,7 @@ public class LoginController {
         //구글 로그아웃 처리를 위한 코드. 구글 로그인 회원은 로그아웃 시 홈페이지 로그아웃 -> 구글 계정 로그아웃 처리로 진행.
         if (session.getAttribute("id") != null && session.getAttribute("id").toString().startsWith("g_")) {
             session.invalidate();
-            resp.sendRedirect("https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=http://localhost:1000/Shoots/main");
+            resp.sendRedirect("https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=https://www.goshoots.site/Shoots/main");
             return null;
         }
 

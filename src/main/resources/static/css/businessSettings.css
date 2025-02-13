@@ -12,7 +12,7 @@ button {font-size: 15px}
 
 /* 기업 정보 수정 btn */
 .custom-btn-update {
-    width: 110px;
+    width: 120px;
     height: 35px;
     border: 2px solid #fdba01;
     border-radius: 20px;

@@ -36,13 +36,13 @@ nav.navbar {
 
 /*수정/삭제/목록 버튼 디자인 */
 
-.modifyBtn {font-size :  12px; border-radius : 20px; border : none; width : 80px; height : 25px; color : white ; background : #FDBA01; margin-left : 10px; transition: background 0.3s, color 0.3s; }
-.deleteBtn {font-size :  12px; border-radius : 20px; border : none; width : 80px; height : 25px; color : white ; background : #DA0130; margin-left : 10px; transition: background 0.3s, color 0.3s; }
-.listBtn {font-size :  12px; border-radius : 20px; border : none; width : 80px; height : 25px; color : white ; background : #65A30D; margin-left : 10px; transition: background 0.3s, color 0.3s;}
+.modifyBtn {font-size :  15px; border-radius : 20px; border : none; width : 110px; height : 35px; color : white ; background : #FDBA01; margin-left : 10px; transition: background 0.3s, color 0.3s; }
+.deleteBtn {font-size :  15px; border-radius : 20px; border : none; width : 110px; height : 35px; color : white ; background : #DA0130; margin-left : 10px; transition: background 0.3s, color 0.3s; }
+.listBtn {font-size :  15px; border-radius : 20px; border : none; width : 110px; height : 35px; color : white ; background : #65A30D; margin-left : 10px; transition: background 0.3s, color 0.3s;}
 
-.modifyBtn:hover {font-size :  12px; border-radius : 20px; border : 1px solid orange; width : 80px; height : 25px; color : #FDBA01 ; background : white; margin-left : 10px }
-.deleteBtn:hover {font-size :  12px; border-radius : 20px; border : 1px solid #DA0130; width : 80px; height : 25px; color : #DA0130 ; background : white; margin-left : 10px }
-.listBtn:hover {font-size :  12px; border-radius : 20px; border : 1px solid #059669; width : 80px; height : 25px; color : #65A30D ; background : white; margin-left : 10px}
+.modifyBtn:hover {font-size :  15px; border-radius : 20px; border : 1px solid orange; width : 110px; height : 35px; color : #FDBA01 ; background : white; margin-left : 10px }
+.deleteBtn:hover {font-size :  15px; border-radius : 20px; border : 1px solid #DA0130; width : 110px; height : 35px; color : #DA0130 ; background : white; margin-left : 10px }
+.listBtn:hover {font-size :  15px; border-radius : 20px; border : 1px solid #059669; width : 110px; height : 35px; color : #65A30D ; background : white; margin-left : 10px}
 
 
 
@@ -350,3 +350,6 @@ a:hover {
 
 .commentReportButton {border : none}
 .text-comment {font-size : 13px; font-weight : normal !important}
+
+.btn-report {width: 100px; height: 35px; color: white; border-radius: 20px; background: #da0130; border: 1px solid #da0130; transition: all 0.3s ease}
+.btn-report:hover {border: 1px solid #da0130; background: white; color: #da0130}

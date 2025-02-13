@@ -27,19 +27,24 @@
 
 <!--  usernmae 입력 start -->
     <div id="username-page">
-        <div class="username-page-container">
-            <h1 class="title">hi [[${session.id}]]!</h1>
-            <form id="usernameForm" name="usernameForm">
-                <div class="form-group">
-                    <input type="text" id="name" placeholder="Nickname" autocomplete="off" class="form-control" />
-                </div>
-                <div class="form-group">
-                    <button type="submit" class="accent username-submit">Connect</button>
-                </div>
-            </form>
-        </div>
+<!--        <div class="username-page-container">-->
+<!--            <h1 class="title">hi [[${session.id}]]!</h1>-->
+<!--            <form id="usernameForm" name="usernameForm">-->
+<!--                <div class="form-group">-->
+<!--                    <input type="text" id="name" placeholder="Nickname" autocomplete="off" class="form-control" />-->
+<!--                </div>-->
+<!--                <div class="form-group">-->
+<!--                    <button type="submit" class="accent username-submit">Connect</button>-->
+<!--                </div>-->
+<!--            </form>-->
+<!--        </div>-->
+        <h1 id="state_before_connect">잘못된 접근입니다...</h1>
         <input type="hidden" id="session_id" th:value="${session.id}">
         <input type="hidden" id="chatRoomNumber" th:value="${chatRoomNumber}">
+        <input type="hidden" id="match_idx" th:value="${match.match_idx}">
+        <input type="hidden" id="is_match_concluded"
+            th:value="${(match.playerCount >= match.player_min && match.isMatchPast()) ? 'true' : 'false'}"
+        >
     </div>
 
 <!--  usernmae 입력 end -->

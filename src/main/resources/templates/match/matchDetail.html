@@ -185,7 +185,7 @@
                     </button>
                     <button th:if="${session.role == 'business' or isBlock or session.role == 'admin'}" onclick="roleBlock()" class="button button--no button--text-upper button--size-s">신청불가
                     </button>
-                    <button th:if="${(session.role == 'common' or session.idx == null) && match.isMatchPast() == false && playerCount != match.player_max && !isBlock &&
+                    <button th:if="${(session.role == 'common' or session.idx == null) && match.isMatchPast() == false && playerCount < match.player_min && !isBlock &&
                                 !((match.player_gender == 'f' && (session.gender == 2 or session.gender == 4))
                                 or (match.player_gender == 'm' && (session.gender == 1 or session.gender == 3))
                                 or (match.player_gender == 'a'))}"

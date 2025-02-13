@@ -9,14 +9,14 @@ import lombok.ToString;
 @Setter
 @ToString
 public class Report {
-    private int reportIdx;
+    private int report_idx;
     private String reporter;
-    private String reportedUser;
+    private String reported_content;
     private String category;
     private String content;
     private String detail;
     @JsonProperty
-    private int PostIdx;
+    private int post_idx;
     @JsonProperty
-    private int CommentIdx;
+    private int comment_idx;
 }
