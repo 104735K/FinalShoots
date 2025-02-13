@@ -10,7 +10,7 @@ h1 {
     background-color: #fff;
     border-color: #65A30D;
     border-radius : 20px; 
-    width : 80px; 
+    width : 110px;
 	height : 35px;
 }
 
@@ -18,12 +18,15 @@ h1 {
 .btnr{
 	color: #fff;
     background-color: #65A30D;
-    border-color: #65A30D;
-    border-radius : 20px; 
-	border : 1px solid #408080;
-	width : 80px; 
+    border-radius : 20px;
+	border : 1px solid #65A30D;
+	width : 110px;
 	height : 35px;
+    font-size :  15px;
 }
+.btnc:hover {font-size :  15px; border-radius : 20px; border : 1px solid #65A30D; width : 110px; height : 35px; color : white ; background : #65A30D;}
+.btnr:hover {font-size :  15px; border-radius : 20px; border : 1px solid #65A30D; width : 110px; height : 35px; color : #65A30D ; background : white;}
+
 
 
 

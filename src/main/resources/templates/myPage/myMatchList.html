@@ -32,7 +32,7 @@
                         <td th:text="${m.match_date}"></td>
                         <td th:text="${m.match_time.substring(0,5)}"></td>
                         <td th:text="${m.business_name}"></td>
-                        <td th:text="${m.address}"></td>
+                        <td><a th:href="'https://map.naver.com/p/search/' +${m.address} + '?c=15.00,0,0,0,dh'" target="_blank" th:text="${m.address}"></a></td>
                         <td th:text="${#strings.substringBefore(m.payment_amount, '.') + '원 '}"></td>
                         <td th:text="${m.payment_date}"></td>
                         <!-- 매칭 끝 버튼 추가 -->
@@ -42,7 +42,8 @@
                             <a type="button" class="btn btn-primary matchEnd" th:href="@{/match/detail(match_idx=${m.match_idx})}">종료된 경기</a>
                         </td>
                         <td th:if="${#dates.format(m.match_date, 'yyyy-MM-dd') > #dates.format(#dates.createNow(), 'yyyy-MM-dd')
-                                    and m.match_time.substring(0, 5) > #dates.format(#dates.createNow(), 'HH:mm')}">
+            or ( #dates.format(m.match_date, 'yyyy-MM-dd') == #dates.format(#dates.createNow(), 'yyyy-MM-dd')
+                and m.match_time.substring(0, 5) > #dates.format(#dates.createNow(), 'HH:mm'))}">
                             <a type="button" class="btn btn-primary match" th:href="@{/match/detail(match_idx=${m.match_idx})}">매칭 보기</a>
                         </td>
 

@@ -37,7 +37,7 @@ public class RedisService {
 
     public void saveAddressData(int businessIdx, String address) {
         String key = "business:" + businessIdx + ":address";
-        redisTemplate.opsForValue().set(key, address, 1, TimeUnit.DAYS);
+        redisTemplate.opsForValue().set(key, address, 14, TimeUnit.DAYS);
     }
 
     public Map<Integer, String> getAddressData(List<Integer> businessIdxList) {
@@ -47,33 +47,27 @@ public class RedisService {
                 .collect(Collectors.toList());
 
         // Redis Pipeline 사용
-        List<Object> results = redisTemplate.executePipelined((RedisCallback<Object>) connection -> {
-            keys.forEach(key -> connection.keyCommands().exists(key.getBytes()));
-            return null;
-        });
+        List<Object> values = redisTemplate.opsForValue().multiGet(keys);
 
         for (int i = 0; i < keys.size(); i++) {
-            if (Boolean.TRUE.equals(results.get(i))) {
-                String address = (String) redisTemplate.opsForValue().get(keys.get(i));
-                if (address == null) {
-                    address = businessUserMapper.getAddressByBusinessIdx(businessIdxList.get(i));
+            String address = (values != null && values.get(i) != null) ? (String) values.get(i) : null;
 
-                    if (address != null) {
-                        redisTemplate.opsForValue().set(keys.get(i), address, 1, TimeUnit.DAYS);
-                    }
+            if (address == null) { // Redis에 없으면 DB에서 조회 후 캐싱
+                address = businessUserMapper.getAddressByBusinessIdx(businessIdxList.get(i));
+                if (address != null) {
+                    redisTemplate.opsForValue().set(keys.get(i), address, 14, TimeUnit.DAYS);
                 }
-                addressMap.put(businessIdxList.get(i), address);
             }
+            addressMap.put(businessIdxList.get(i), address);
         }
         return addressMap;
     }
 
 
     public void importLocationsToRedis() throws IOException {
-        ClassPathResource classPathResource = new ClassPathResource("location.xlsx");
         ZipSecureFile.setMinInflateRatio(0.001);
 
-        InputStream inputStream = classPathResource.getInputStream();
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("location.xlsx");
         Workbook workbook = new XSSFWorkbook(inputStream);
         Sheet sheet = workbook.getSheetAt(0);
 
@@ -135,8 +129,8 @@ public class RedisService {
         String nxStr = (String) stringRedisTemplate.opsForHash().get(key, "x");
         String nyStr = (String) stringRedisTemplate.opsForHash().get(key, "y");
 
-        Integer nx = Integer.parseInt(nxStr);
-        Integer ny = Integer.parseInt(nyStr);
+        Integer nx = (nxStr != null) ? Integer.parseInt(nxStr) : 61;
+        Integer ny = (nyStr != null) ? Integer.parseInt(nyStr) : 125;
 
         System.out.println("nx : " + nx);
         System.out.println("ny : " + ny);
@@ -149,10 +143,9 @@ public class RedisService {
     }
 
     public Map<String, Map<String, List<String>>> getLocationOptions() throws IOException {
-        ClassPathResource classPathResource = new ClassPathResource("location.xlsx");
         ZipSecureFile.setMinInflateRatio(0.001);
 
-        InputStream inputStream = classPathResource.getInputStream();
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("location.xlsx");
         Workbook workbook = new XSSFWorkbook(inputStream);
         Sheet sheet = workbook.getSheetAt(0);
 

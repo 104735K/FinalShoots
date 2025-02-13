@@ -3,8 +3,8 @@
 
 /*글 작성 버튼*/
 .bD {width : 80%; text-align : right}
-.btnw {font-size :  12px; border-radius : 20px; border : none; width : 80px; height : 25px; color : white ; background : #65A30D; transition: background 0.3s, color 0.3s; padding : 0px; margin-right : 5%; margin-bottom : 5%}
-.btnw:hover {font-size :  12px; border-radius : 20px; border : 1px solid #65A30D; width : 80px; height : 25px; color : #65A30D ; background : white; padding : 0px}
+.btnw {font-size :  15px; border-radius : 20px; border : none; width : 110px; height : 35px; color : white ; background : #65A30D; transition: background 0.3s, color 0.3s; padding : 0px; margin-right : 5%; margin-bottom : 5%}
+.btnw:hover {font-size :  15px; border-radius : 20px; border : 1px solid #65A30D; width : 110px; height : 35px; color : #65A30D ; background : white; padding : 0px}
 
 
 /*활성화 되지 않은 게시판이름, 글제목*/

@@ -477,6 +477,7 @@ button {font-size: 15px}
     color: white;
     z-index: 1;
     border-radius: 20px;
+    font-size: 15px;
 }
 .btn-15:after {
     position: absolute;

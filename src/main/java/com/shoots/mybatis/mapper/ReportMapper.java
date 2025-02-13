@@ -10,7 +10,7 @@ import java.util.Map;
 public interface ReportMapper {
     public int insertReport(Report report);
     public List<Report> selectReportedUsers(String reporter);
-    public Report selectCheckReportDuplicate(String reporter,int PostIdx, int CommentIdx,String category);
+    public Report selectCheckReportDuplicate(String reporter,int post_idx, int comment_idx,String category);
     public int selectReportedCount(String reported,String category);
     public List<Map<String, Object>> getReportList(Map<String, Object> map); //report list 가져오기
     public int getReportCount(); //총 신고 개수
