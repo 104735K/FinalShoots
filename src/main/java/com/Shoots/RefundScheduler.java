@@ -6,7 +6,9 @@ import com.Shoots.service.MatchService;
 import com.Shoots.service.PaymentService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
+
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -17,6 +19,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
@@ -26,54 +29,72 @@ public class RefundScheduler {
     private final MatchService matchService;
     private final PaymentService paymentService;
     private final RestTemplate restTemplate;
+    private final RedissonClient redissonClient;
 
     @Scheduled(cron = "0 0/30 9-23 * * ?")
-    private void refundMatches(){
+    private void refundMatches() {
 
-        log.info("=== 자동 환불 체크 시작 ===");
+        RLock lock = redissonClient.getLock("refund_scheduler_lock");
 
-        LocalDateTime now = LocalDateTime.now();
-        LocalDateTime nowPlusHours = now.plusHours(2);
+        try {
+            if (lock.tryLock(5, 600, TimeUnit.SECONDS)) {
 
-        LocalDate matchDate = nowPlusHours.toLocalDate();
-        LocalTime matchTime = nowPlusHours.toLocalTime().withSecond(0).withNano(0);
+                log.info("=== 자동 환불 체크 시작 ===");
 
-        System.out.println("Match Date: " + matchDate);
-        System.out.println("Match Time: " + matchTime);
+                LocalDateTime now = LocalDateTime.now();
+                LocalDateTime nowPlusHours = now.plusHours(2);
 
-        List<Match> matchList = matchService.getMatchListByMatchTime(matchDate, matchTime);
+                LocalDate matchDate = nowPlusHours.toLocalDate();
+                LocalTime matchTime = nowPlusHours.toLocalTime().withSecond(0).withNano(0);
 
-        System.out.println("Match List: " + matchList.toString());
+                System.out.println("Match Date: " + matchDate);
+                System.out.println("Match Time: " + matchTime);
 
-        for (Match match : matchList) {
-            int playerCount = paymentService.getPlayerCount(match.getMatch_idx());
-            int playerMin = match.getPlayer_min();
+                List<Match> matchList = matchService.getMatchListByMatchTime(matchDate, matchTime);
 
-            log.info("매치 IDX : {}, 현재 신청 인원 : {}, 최소 필요 인원 : {}", match.getMatch_idx(), playerCount, playerMin);
+                System.out.println("Match List: " + matchList.toString());
+
+                for (Match match : matchList) {
+                    int playerCount = paymentService.getPlayerCount(match.getMatch_idx());
+                    int playerMin = match.getPlayer_min();
+
+                    log.info("매치 IDX : {}, 현재 신청 인원 : {}, 최소 필요 인원 : {}", match.getMatch_idx(), playerCount, playerMin);
 
 
-            if (playerCount < playerMin) {
-                List<Payment> paymentList = paymentService.getPaymentListByMatchIdx(match.getMatch_idx());
-                List<Map<String, Object>> userList = paymentService.getUserPaymentListByMatchIdx(match.getMatch_idx());
+                    if (playerCount < playerMin) {
+                        List<Payment> paymentList = paymentService.getPaymentListByMatchIdx(match.getMatch_idx());
+                        List<Map<String, Object>> userList = paymentService.getUserPaymentListByMatchIdx(match.getMatch_idx());
 
-                for (Payment payment : paymentList) {
-                    processRefund(payment);
+                        for (Payment payment : paymentList) {
+                            processRefund(payment);
+                        }
+                        for (Map<String, Object> user : userList) {
+                            sendRefundNotification(user, "cancel");
+                        }
+                    }
+
+                    if (playerCount >= playerMin) {
+                        List<Map<String, Object>> userList = paymentService.getUserPaymentListByMatchIdx(match.getMatch_idx());
+
+                        for (Map<String, Object> user : userList) {
+                            sendRefundNotification(user, "confirm");
+                        }
+                    }
                 }
-                for (Map<String, Object> user : userList) {
-                    sendRefundNotification(user, "cancel");
-                }
+
+                log.info("=== 자동 환불 체크 종료 ===");
+
+            } else {
+                log.info("다른 서버에서 이미 환불 작업을 수행 중입니다.");
             }
-
-            if (playerCount >= playerMin) {
-                List<Map<String, Object>> userList = paymentService.getUserPaymentListByMatchIdx(match.getMatch_idx());
-
-                for (Map<String, Object> user : userList) {
-                    sendRefundNotification(user, "confirm");
-                }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        } finally {
+            if (lock.isHeldByCurrentThread()) {
+                lock.unlock();
+                log.info("락 해제 완료");
             }
         }
-
-        log.info("=== 자동 환불 체크 종료 ===");
     }
 
     private void processRefund(Payment payment) {
@@ -112,5 +133,4 @@ public class RefundScheduler {
             log.error("SMS 전송 실패 : 오류 = {}", e.getMessage());
         }
     }
-
 }

@@ -54,6 +54,9 @@ dependencies {
     // Redis
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
+    // Redis Lock
+    implementation 'org.redisson:redisson-spring-boot-starter:3.23.2'
+
     // Apache POI
     implementation 'org.apache.poi:poi-ooxml:5.2.3'
 
