@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.Shoots.mybatis.mapper.NoticeMapper">
+
+    <sql id="search_">
+        <if test="search_word != null">
+            where title
+            like #{search_word}
+        </if>
+    </sql>
+
+    <select id="getSearchListCount">
+        select count(*)
+        from notice
+        <include refid="search_" />
+    </select>
+
+    <select id="getNoticeList">
+        SELECT *
+        FROM notice n
+        JOIN regular_user u ON n.writer = u.idx
+        <include refid="search_" />
+        ORDER BY n.notice_idx desc
+        LIMIT #{offset}, #{pageSize}
+
+    </select>
+
+    <select id="getDetail">
+        select *
+        from notice n join regular_user u on n.writer = u.idx
+        where notice_idx=#{id}
+    </select>
+
+    <update id="setReadCountUpdate">
+        update notice set readcount = readcount + 1
+        where notice_idx = #{id}
+    </update>
+
+    <insert id="insertNotice">
+        insert into notice(writer, title, content, notice_file, notice_original, register_date)
+        values (#{writer}, #{title}, #{content}, #{notice_file}, #{notice_original}, current_timestamp)
+    </insert>
+
+    <delete id="deleteNotice">
+        delete from notice where notice_idx=#{id}
+    </delete>
+
+    <update id="updateNotice">
+        update notice set
+                          title=#{title},
+                          content=#{content},
+                          notice_file=#{notice_file},
+                          notice_original=#{notice_original}
+        where notice_idx=#{notice_idx}
+    </update>
+
+
+
+
+</mapper>

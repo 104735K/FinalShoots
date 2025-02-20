@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입 페이지</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script th:src="@{/js/joinValidation.js}"></script>
+
+    <style>
+        /* 전역 스타일 */
+        body {
+            font-family: Arial, sans-serif;
+            background: rgba(0, 0, 0, 0.1);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .signup-container {
+            background-color: white;
+            padding: 50px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+            min-height: 908px;
+            text-align: center;
+            border-radius: 8px;
+        }
+
+        .signup-container h2 {
+            color: #B0B0B0;
+            margin-bottom: 20px;
+        }
+
+        .input-field {
+            margin-bottom: 20px;
+            width: 100%;
+            text-align: left;
+        }
+
+        .input-field input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid rgba(85, 107, 47, 0.5);
+            border-radius: 5px;
+            margin-top: 5px;
+        }
+
+        .input-field input:focus {
+            outline: none;
+            border: 2px solid rgba(85, 107, 47, 0.5);
+        }
+
+        .signup-btn , .post-btn {
+            width: 110px;
+            height: 35px;
+            padding: 0;
+            border: none;
+            color: white;
+            font-size: 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .signup-btn {
+            background-color: #0147d5;
+        }
+
+        .signup-btn:hover {
+            background-color: white;
+            color: #0147d5;
+            border: 1.5px solid #0147d5;
+        }
+
+        .post-btn {
+            background-color: #FDBA01;
+        }
+
+        .post-btn:hover {
+            background-color: white;
+            color: #FDBA01;
+            border: 1.5px solid #FDBA01;
+        }
+
+        .nav-tabs .nav-link {
+            color: #B0B0B0; /* 탭 텍스트 색 */
+        }
+
+        .nav-tabs .nav-link.active {
+            color: #65a30d; /* 활성화된 탭 텍스트 색 */
+            background-color: transparent; /* 탭 배경색은 변경되지 않음 */
+        }
+
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 50px;
+        }
+
+        .forgot-password {
+            margin-top: 30px;
+            font-size: 14px;
+            color: white;
+        }
+
+        .forgot-password a {
+            color: dimgray;
+            text-decoration: none;
+        }
+
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+
+        div.input-field {margin-top: 30px}
+
+        .scroll {max-height: 750px; overflow-y: auto;}
+    </style>
+</head>
+<body>
+<div class="signup-container">
+    <!-- 탭 메뉴 -->
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="RegularJoinBtn" data-bs-toggle="tab" data-bs-target="#individual-tab-pane" type="button" role="tab" aria-controls="individual-tab-pane" aria-selected="true">개인 회원가입</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="BusinessJoinBtn" data-bs-toggle="tab" data-bs-target="#business-tab-pane" type="button" role="tab" aria-controls="business-tab-pane" aria-selected="false">기업 회원가입</button>
+        </li>
+    </ul>
+
+    <!-- 탭 내용 -->
+    <div class="tab-content" id="myTabContent">
+        <!-- 개인 회원가입 -->
+        <div class="tab-pane fade show active" id="individual-tab-pane" role="tabpanel" aria-labelledby="individual-tab" tabindex="0">
+            <form th:action="@{/regularJoinProcess}" name="regularJoinProcess" method="POST">
+                <div class="input-field">
+                    <label for="user_id" style="color: #B0B0B0;">아이디</label>
+                    <input type="text" id="user_id" name="user_id" placeholder="아이디를 입력하세요" required>
+                    <span id="id-message"></span>
+                </div>
+                <div class="input-field">
+                    <label for="userPassword" style="color: #B0B0B0;">비밀번호</label>
+                    <input type="password" id="userPassword" class="password" name="password" placeholder="비밀번호를 입력하세요" maxLength="60" required>
+                </div>
+                <div class="input-field">
+                    <label for="name" style="color: #B0B0B0;">이름</label>
+                    <input type="text" id="name" name="name" placeholder="이름을 입력하세요" maxLength="20" required>
+                </div>
+                <div class="input-field">
+                    <label for="name" style="color: #B0B0B0;">주민등록번호</label><br>
+                    <input type="text" id="jumin" name="jumin" placeholder="주민등록번호를 입력하세요" maxLength="6" style="width: 50%" required> &nbsp; - &nbsp;
+                    <input type="text" id="gender" name="gender"  maxLength="1" style="width: 10%"  required> &nbsp; *  *  *  *  *  *
+                </div>
+                <div class="input-field">
+                    <label for="regular_email" style="color: #B0B0B0;">이메일</label>
+                    <input type="email" id="regular_email" name="email" placeholder="이메일을 입력하세요" required>
+                    <span id="email-message"></span>
+                </div>
+                <div class="input-field">
+                    <label for="tel" style="color: #B0B0B0;">전화번호</label>
+                    <input type="text" id="tel" name="tel" placeholder="전화번호를 입력하세요" maxLength="11" required>
+                </div>
+                <div class="button-container">
+                    <button type="submit" class="signup-btn">회원가입</button>
+                </div>
+                <div class="forgot-password">
+                    <a th:href="@{/main}">홈으로 되돌아가기</a> &nbsp; <span style="color: dimgray">|</span> &nbsp;
+                    <a th:href="@{/findRegularId}">아이디 / 비밀번호 찾기</a>
+                </div>
+            </form>
+        </div>
+
+        <!-- 기업 회원가입 -->
+        <div class="tab-pane fade" id="business-tab-pane" role="tabpanel" aria-labelledby="business-tab" tabindex="0">
+            <div class="scroll">
+            <form th:action="@{/businessJoinProcess}" name="businessJoinProcess" method="POST">
+                <div class="input-field">
+                    <label for="business_id" style="color: #B0B0B0;">기업 아이디</label>
+                    <input type="text" id="business_id" name="business_id" placeholder="기업 아이디를 입력하세요" maxLength="30" required>
+                    <span id="businessId-message"></span>
+                </div>
+                <div class="input-field">
+                    <label for="password" style="color: #B0B0B0;">비밀번호</label>
+                    <input type="password" id="password" name="password" placeholder="비밀번호를 입력하세요" maxLength="60"  required>
+                </div>
+                <div class="input-field">
+                    <label for="business_name" style="color: #B0B0B0;">기업명</label>
+                    <input type="text" id="business_name" name="business_name" placeholder="기업명을 입력하세요" maxLength="20" required>
+                </div>
+                <div class="input-field">
+                    <label for="business_number" style="color: #B0B0B0;">사업자번호</label>
+                    <input type="text" id="business_number" name="business_number" placeholder="사업자번호를 입력하세요" maxLength="10"  required>
+                </div>
+                <div class="input-field">
+                    <label for="businessTel" style="color: #B0B0B0;">대표전화번호</label>
+                    <input type="text" id="businessTel" name="tel" placeholder="기업 대표 전화번호를 입력하세요" maxLength="13" required>
+                </div>
+                <div class="input-field">
+                    <label for="business_email" style="color: #B0B0B0;">이메일</label>
+                    <input type="email" id="business_email" name="email" placeholder="기업 이메일을 입력하세요" required>
+                    <span id="businessEmail-message"></span>
+                </div>
+                <div class="input-field" style="display: grid; grid-template-columns: auto 1fr; gap: 10px;">
+                    <label for="post" style="color: #B0B0B0; align-self: center;">우편번호</label>
+                    <input type="button"class="post-btn"  value="우편번호 검색" id="postcode" style="justify-self: end; width: 110px; height: 35px; line-height: 17px; align-self: center; font-size: 14px; border-radius: 20px; border : 1px solid #FDBA01; margin-bottom: 3px">
+                    <input type="text" id="post" name="post" placeholder="우편번호를 입력하세요" maxlength="6" required style="grid-column: span 2; margin-top: -10px;">
+                </div>
+                <div class="input-field">
+                    <label for="address" style="color: #B0B0B0;">상세주소</label>
+                    <input type="text" id="address" name="address" placeholder="기업의 상세주소를 입력하세요" maxLength="100" required>
+                </div>
+                <div class="button-container">
+                    <button type="submit" class="signup-btn">회원가입</button>
+                </div>
+                <div class="forgot-password">
+                    <a th:href="@{/main}">홈으로 되돌아가기</a> &nbsp; <span style="color: dimgray">|</span> &nbsp;
+                    <a th:href="@{/findBusinessId}">아이디 / 비밀번호 찾기</a>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>회원가입 페이지</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script>
+        $(function(){
+
+            function bindFormSubmit() { // 개인,기업 로그인 버튼 누를때마다 폼이 바뀔때 이벤트도 같이 제거/생성 하는 바인딩
+
+
+                // 기존 RegularJoinProcess 폼 처리
+                $('form[name="regularJoinProcess"]').off('submit').on('submit', function (e) {
+                    e.preventDefault(); // 기본 폼 제출 동작 막기
+
+                    $.ajax({  //로그인 버튼으로 폼이 바뀔때 이벤트도 바뀌므로 제출 누를때 joinProcess도 ajax로 가져옴
+                        url: $(this).attr('action'), // form의 action 속성에서 URL 가져오기
+                        method: 'POST',
+                        data: $(this).serialize(), // form 데이터를 직렬화하여 전송
+                        success: function (response) {
+                            alert("회원가입에 성공하셨습니다!");
+                            // 성공 후 리디렉션 등 추가 처리
+                            window.location.href = 'login';
+                        },
+                        error: function () {
+                            alert("회원가입에 실패했습니다.");
+                        }
+                    });
+                }); // 새로 로드된 regularJoinProcess 폼 처리하는 메서드 끝
+
+
+                // 새로 로드된 BusinessJoinProcess 폼 처리
+                $('form[name="businessJoinProcess"]').off('submit').on('submit', function (e) {
+                    e.preventDefault(); // 기본 폼 제출 동작 막기
+
+                    $.ajax({  //로그인 버튼으로 폼이 바뀔때 이벤트도 바뀌므로 제출 누를때 joinProcess도 ajax로 가져옴
+                        url: $(this).attr('action'), // form의 action 속성에서 URL 가져오기
+                        method: 'POST',
+                        data: $(this).serialize(), // form 데이터를 직렬화하여 전송
+                        success: function (response) {
+                            alert("기업 회원가입에 성공하셨습니다!");
+                            // 성공 후 리디렉션 등 추가 처리
+                            window.location.href = 'login';
+                        },
+                        error: function () {
+                            alert("기업 회원가입에 실패했습니다.");
+                        }
+                    });
+                }); // 새로 로드된 businissJoinProcess 폼 처리하는 메서드 끝
+
+            }
+
+
+
+
+            $(document).on('click', '.BusinessJoinBtn', function () {  //회원가입 페이지에서 기업 버튼 누르면 기업회원가입 페이지로 변경
+                $.ajax({
+                    url: 'businessJoinForm',
+                    method: 'get',
+                    success: function(response) {
+                        $("#replaceJoinContent").html(response);
+                        bindFormSubmit();
+                        bindPostcode();
+                    },
+                    error: function() {
+                        alert("기업회원가입 페이지 불러오는 ajax 오류임 - 스크립트");
+                    }
+                });
+            }); //회원가입 - 기업가입 버튼 변경 끝
+
+
+            $(document).on('click', '.RegularJoinBtn', function () { //회원가입 페이지에서 개인 버튼 누르면 기업회원가입 페이지로 변경
+                $.ajax({
+                    url: 'regularJoinForm',
+                    method: 'get',
+                    success: function(response) {
+                        $("#replaceJoinContent").html(response);
+                        bindFormSubmit();
+                    },
+                    error: function() {
+                        alert("개인회원가입 페이지 불러오는 ajax 오류임 - 스크립트");
+                    }
+                });
+            }); //회원가입 - 개인가입 버튼 변경 끝
+
+
+            function bindPostcode() { //개인/기업 회원가입 왔다갔다하면 postCode 함수 사라지니까 다시 묶는 용도
+                $("#postcode").off("click").on("click", function() {
+                    Postcode();
+                });
+            }
+
+            $("#postcode").click(function(){ //우편번호 버튼 누르면 다음맵 띄우는 함수
+                Postcode();
+            })
+
+            function Postcode() { //우편번호,주소 삽입하는 함수
+                new daum.Postcode({
+                    oncomplete: function(data) {
+                        console.log(data.zonecode)
+                        // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                        // 도로명 주소의 노출 규칙에 따라 주소를 조합한다.
+                        // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                        var fullRoadAddr = data.roadAddress; // 도로명 주소 변수
+                        var extraRoadAddr = ''; // 도로명 조합형 주소 변수
+
+                        // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                        // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                        if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                            extraRoadAddr += data.bname;
+                        }
+                        // 건물명이 있고, 공동주택일 경우 추가한다.
+                        if(data.buildingName !== '' && data.apartment === 'Y'){
+                            extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                        }
+                        // 도로명, 지번 조합형 주소가 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                        if(extraRoadAddr !== ''){
+                            extraRoadAddr = ' (' + extraRoadAddr + ')';
+                        }
+                        // 도로명, 지번 주소의 유무에 따라 해당 조합형 주소를 추가한다.
+                        if(fullRoadAddr !== ''){
+                            fullRoadAddr += extraRoadAddr;
+                        }
+
+
+                        // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                        $('#post').val(data.zonecode);
+                        $('#address').val(fullRoadAddr);
+
+                    }
+                }).open();
+            }//function Postcode()
+
+
+        });
+    </script>
+
+</head>
+<body>
+
+<div id="replaceJoinContent">
+<th:block th:replace="~{fragments/regularJoinForm}"/>
+</div>
+
+</body>
+</html>

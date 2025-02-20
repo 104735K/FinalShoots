@@ -1,0 +1,56 @@
+
+/* 검색 btn */
+.btn-top {text-align: left; margin-top: 70px; font-size: 14px}
+.custom-btn-top {
+    width: 95px;
+    height: 35px;
+    border: 2px solid #da0130;
+    border-radius: 20px;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+    font-size: 14px
+}
+
+.btn-15-top {
+    background: #da0130;
+    color: white;
+    z-index: 1;
+    border-radius: 20px;
+}
+.btn-15-top:after {
+    position: absolute;
+    content: "";
+    width: 0;
+    height: 100%;
+    top: 0;
+    right: 0;
+    z-index: -1;
+    background: white;
+    transition: all 0.3s ease;
+    border-radius: 20px;
+}
+.btn-15-top:hover {
+    color: #da0130;
+}
+.btn-15-top:hover:after {
+    left: 0;
+    width: 100%;
+}
+
+.btn-15-top:active {
+    top: 2px;
+}
+
+
+.table {margin : 30px 0 0 0;}
+td{font-size: 15px}
+
+.btn-unblock {width: 50px; height: 30px; font-size: 13px; color : white; background: #65a30d; border-radius: 20px; border: 1px solid #65a30d; transition: all 0.3s ease;}
+.btn-unblock:hover {color : #65a30d; background: white; border: 1px solid #65a30d}
+
+.btn-unblock-lock {width: 50px; height: 30px; font-size: 13px; color : white; background: #838383; border-radius: 20px; border: 1px solid #838383; cursor: none}
+
+.scroll {max-height: 75vh; overflow-y: auto;}
