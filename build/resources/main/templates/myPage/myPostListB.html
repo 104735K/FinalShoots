@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div class="container">
+        <div th:if="${count > 0}">
+            <h1 style="margin-top: 30px; text-align: center">작성 글</h1>
+            <table class="table">
+                <thead>
+                <tr><th colspan="4">작성 글 : [[${count}]]개</th></tr>
+                    <tr>
+                        <th>제목</th>
+                        <th>게시판</th>
+                        <th>작성일</th>
+                        <th>조회수</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="p : ${list}">
+                        <td><a th:href="@{/post/detail(num=${p.post_idx})}" th:text="${p.title}"></a></td>
+                        <td th:text="${p.category}"></td>
+                        <td th:text="${p.register_date.substring(0, 10)}"></td>
+                        <td th:text="${p.readcount}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div th:if="${count == 0}">
+            <h1>작성한 글이 없습니다.</h1>
+        </div>
+    </div>
+
+</body>
+</html>

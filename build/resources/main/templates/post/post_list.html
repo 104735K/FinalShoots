@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- 공통 상단 레이아웃 포함 -->
+    <th:block th:replace="~{fragments/header :: header}"/>
+    <meta charset="UTF-8">
+    <title>게시판</title>
+    <script th:src="@{/js/postList.js}"></script>
+    <script th:src="@{/js/jquery-3.7.1.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/postList.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/pagination.css}" type="text/css">
+</head>
+
+<style>
+    .btn.btn-primary.search {
+        background-color: #65A30D;
+        border-color: #65A30D;
+    }
+    .btn.btn-primary.search:hover {
+        background-color: #55810C; /* 호버 시 더 어두운 색상 */
+        border-color: #55810C;
+    }
+</style>
+
+<body>
+
+
+<div class="container" style="margin-top: 100px;">
+
+    <input type="hidden" name="status" th:value="${status}">
+    <input type="hidden" name="report_status" th:id="report_status" th:value="${report_status}">
+
+    <!-- 카테고리 선택 탭 -->
+    <ul class="nav nav-tabs" id="categoryTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="tabA" data-toggle="tab" role="tab" onclick="switchCategory('A')">자유 게시판</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="tabB" data-toggle="tab" role="tab" onclick="switchCategory('B')">중고 게시판</a>
+        </li>
+    </ul>
+
+    <!-- 게시글 목록 -->
+    <div class="tab-content mt-3">
+
+        <div class="tab-pane fade active show" id="A" role="tabpanel">
+            <form th:action="@{list}"  method="get" onsubmit="return false;">
+                <div class="input-group">
+                    <input id="searchWordA" type="text" class="form-control" placeholder="검색어를 입력하세요">
+<!--                    <button class="btn btn-secondary" type="button" onclick="resetSearch('A')">-->
+<!--                        <img src="../img/refresh.jpg" style="width: 25px; height: 25px">-->
+<!--                    </button> &lt;!&ndash; 리셋 버튼 추가 &ndash;&gt;-->
+                    <button class="btn btn-secondary" type="button" onclick="resetSearch('A')">↺</button>
+                    <button class="btn btn-primary search" type="button" onclick="searchPosts('A')">검색</button>
+                </div>
+            </form>
+            <!-- 게시글 목록 테이블 (자유게시판) -->
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>글번호</th>
+                    <th>제목</th>
+                    <th>작성자</th>
+                    <th>작성일</th>
+                    <th>조회수</th>
+                </tr>
+                </thead>
+                <tbody id="postListA"></tbody>
+            </table>
+            <ul class="pagination justify-content-center"></ul>
+        </div>
+
+        <div class="tab-pane fade" id="B" role="tabpanel">
+            <form th:action="@{list}" method="get" onsubmit="return false;">
+                <div class="input-group">
+                    <input id="searchWordB" type="text" class="form-control" placeholder="검색어를 입력하세요">
+                    <button class="btn btn-secondary" type="button" onclick="resetSearch('B')">↺</button> <!-- 리셋 버튼 추가 -->
+                    <button class="btn btn-primary search" type="button" onclick="searchPosts('B')">검색</button>
+                </div>
+            </form>
+            <!-- 게시글 목록 테이블 (중고게시판) -->
+            <table class="table">
+                <thead>
+                <tr>
+                </tr>
+                </thead>
+                <tbody id="postListB"></tbody>
+            </table>
+            <ul class="pagination justify-content-center"></ul>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+<!-- 글 작성 버튼 -->
+<div class="bD" style="margin: 0 auto; padding-right: 40px">
+    <th:block th:if="${session.idx == null}">
+        <button type="button" class="btnw" onclick="postWriteN()">글 작성</button>
+    </th:block>
+
+<!--    <th:block th:if="${session.idx != null}">-->
+
+    <th:block th:if="${session.usertype == 'A'}">
+        <button type="button" class="btn btn-info btnw" onclick="postWrite()">글 작성</button>
+    </th:block>
+</div>
+
+
+
+
+</body>
+<th:block th:replace="~{fragments/footer :: footer}" />
+</html>

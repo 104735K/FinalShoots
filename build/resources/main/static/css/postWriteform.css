@@ -1,0 +1,48 @@
+h1 {
+    font-size: 1.5em;
+    text-align: center;
+    color: #65A30D;
+}
+
+/*취소버튼*/
+.btnc{
+	color : #65A30D;
+    background-color: #fff;
+    border-color: #65A30D;
+    border-radius : 20px; 
+    width : 110px;
+	height : 35px;
+}
+
+/*등록버튼*/
+.btnr{
+	color: #fff;
+    background-color: #65A30D;
+    border-radius : 20px;
+	border : 1px solid #65A30D;
+	width : 110px;
+	height : 35px;
+    font-size :  15px;
+}
+.btnc:hover {font-size :  15px; border-radius : 20px; border : 1px solid #65A30D; width : 110px; height : 35px; color : white ; background : #65A30D;}
+.btnr:hover {font-size :  15px; border-radius : 20px; border : 1px solid #65A30D; width : 110px; height : 35px; color : #65A30D ; background : white;}
+
+
+
+
+/* Radio 버튼과 Checkbox의 체크된 상태에서 내부 색상을 초록색으로 변경 */
+input[type="radio"]:checked,
+input[type="checkbox"]:checked {
+    accent-color: #65A30D; /* 초록색으로 변경 */
+}
+
+/*스크롤 시 에도 header 고정 → CSS에 작성*/
+nav.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}

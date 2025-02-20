@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- SQL 맵퍼 파일은 xml이기 때문에 제일 먼저 xml 선언이 옵니다. -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- Mapper 인터페이스의 패키지명과 이름을 namespace로 설정합니다. -->
+<mapper namespace="com.Shoots.mybatis.mapper.PostMapper">
+<!--
+    1. 태그에 id속성은 Mapper인터페이스에 사용된 메서드명과 동일 하게 작성됩니다.
+    2. resultType속성은 Mapper인터페이스에 사용된 메서드의 반환 타입을 작성해줍니다.
+-->
+
+
+
+    <sql id="search">
+        <if test="search_word != null">
+            where title like #{search_word}
+        </if>
+    </sql>
+
+
+
+    <select id="getAdminPostList" resultType="post">
+        SELECT p.post_idx, p.writer, p.category, p.title, p.content, p.post_file, p.price, p.register_date, p.readcount, r.user_id, (SELECT COUNT(comment_idx) FROM post_comment c WHERE c.post_idx = p.post_idx) AS commentCount
+        FROM post p
+        INNER JOIN regular_user r ON p.writer = r.idx
+        <include refid="search" />
+        ORDER BY p.post_idx DESC
+        LIMIT #{offset}, #{pageSize}
+    </select>
+
+
+    <select id="getAdminListCount">
+        select count(*) from post <include refid="search" />
+    </select>
+
+
+
+    <sql id="search_">
+        <if test="search_word != null and search_word != ''">
+            AND title LIKE CONCAT('%', #{search_word}, '%')
+        </if>
+    </sql>
+
+    <select id="getListCount" resultType="int">
+        select count(*) from post
+        WHERE category = #{category}
+        <include refid="search_" />
+    </select>
+
+
+    <select id="getPostList" resultType="post">
+        SELECT sub.post_idx, sub.writer, sub.category, sub.title, sub.content, sub.post_file, sub.price, sub.register_date, sub.readcount, sub.status, sub.user_id, sub.report_status, sub.commentCount
+        FROM (
+                 SELECT p.*, r.user_id, (SELECT COUNT(comment_idx) FROM post_comment c WHERE c.post_idx = p.post_idx) AS commentCount
+                 FROM post p
+                          INNER JOIN regular_user r ON p.writer = r.idx
+                 WHERE p.category = #{category}
+        <include refid="search_" />
+             ) sub
+        ORDER BY sub.post_idx DESC
+            LIMIT #{offset}, #{pageSize}
+    </select>
+
+
+
+    <insert id="insertPost" useGeneratedKeys="true" keyProperty="post_idx">
+        insert into post
+        (writer, category, title, content,
+         post_file, post_original, price, register_date, readcount, status)
+        values
+            (#{writer}, #{category}, #{title}, #{content},
+             #{post_file}, #{post_original}, #{price}, current_timestamp, #{readcount}, #{status})
+    </insert>
+
+
+
+
+
+
+    <update id="setReadCountUpdate">
+        update post
+        set READCOUNT = READCOUNT + 1
+        where POST_IDX = #{post_idx}
+    </update>
+
+
+
+
+    <select id="getDetail" resultType="Post">
+        select * from(
+                         select p.*, r.user_id, r.idx
+                         from post p
+                                  join regular_user r
+                                       on p.writer = r.idx
+                         order by post_idx desc
+                     ) subquery
+        where post_idx = #{post_idx}
+    </select>
+
+
+
+    <select id="isPostWriter" resultType="Post">
+        select writer
+        from post
+        where post_idx=#{post_idx}
+    </select>
+
+
+
+    <update id="postModify">
+        update post
+        set title=#{title},
+            content=#{content},
+            price=#{price},
+            post_file=#{post_file},
+            post_original=#{post_original},
+            status=#{status}
+        where post_idx = #{post_idx}
+    </update>
+
+
+    <delete id="postDelete">
+        delete from post
+        where post_idx=#{post_idx}
+    </delete>
+
+
+
+
+
+    <select id="getDeleteFileList" resultType="String">
+        select post_file from delete_file
+    </select>
+
+
+    <delete id="deleteFileList">
+        delete delete_file
+        where post_file=#{file_name}
+    </delete>
+
+    <select id="getMyPostList">
+        select *, (SELECT COUNT(comment_idx) FROM post_comment c WHERE c.post_idx = post.post_idx) AS commentCount from post
+                 where writer=#{id} order by post_idx desc
+    </select>
+
+    <select id="getMyPostListCount">
+        select count(*) from post where writer=#{id}
+    </select>
+
+
+    <update id="setAvailable">
+        update post
+        set status='available'
+        where post_idx=#{post_idx}
+    </update>
+
+    <update id="setCompleted">
+        update post
+        set status='completed'
+        where post_idx=#{post_idx}
+    </update>
+
+    <select id="getPostCount">
+        select
+            DATE(register_date) as register_date,
+            count(*) as postCount
+        from post
+        group by DATE(register_date)
+        order by register_date
+    </select>
+
+    <select id="setBlock">
+        update post set report_status = 'block'
+        where post_idx = #{id}
+    </select>
+
+    <select id="getCategoryCount">
+        SELECT
+            SUM(CASE WHEN category = 'a' THEN 1 ELSE 0 END) AS a_count,
+            SUM(CASE WHEN category = 'b' THEN 1 ELSE 0 END) AS b_count
+        FROM post;
+    </select>
+
+</mapper>
