@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{fragments/header :: header}" />
+<head>
+    <meta charset="UTF-8">
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link th:href="@{/css/inquiry.css}" rel="stylesheet">
+    <link th:href="@{/css/pagination.css}" rel="stylesheet">
+
+    <style>
+        table caption {
+            caption-side: top;
+            text-align: left;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+    </style>
+
+    <title>문의 게시판</title>
+</head>
+<body>
+<div class="container">
+<!-- 게시글이 있는 경우 -->
+<div th:if="${listcount > 0 }">
+    <div class = "inquiryD">
+        <table class="table">
+            <caption>1:1 문의 게시판 </caption>
+            <thead>
+            <tr>
+                <th><div>번호</div></th>
+                <th><div>답변상태</div></th>
+                <th><div>문의 제목</div></th>
+                <th><div>문의자 유형</div></th>
+                <th><div>문의자</div></th>
+                <th><div>날짜</div></th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:with="num=${listcount - (page -1) * limit}" >
+            <th:block th:each="i, iterStat : ${inquiryList}">
+                <tr>
+                    <td> <!-- 글 번호 -->
+                        <span th:text="${num - (iterStat.index)}"></span>
+                    </td>
+                    <td> <!-- 답변상태 -->
+                        <span th:if="${i.hasReply}" class="comS">[답변완료]</span>
+                        <span th:if="${!i.hasReply}" class="comP">[대기중]</span>
+                    </td>
+                    <td> <!-- 제목 -->
+                        <div>
+                            <a class="inquiryDetail" th:href="@{'detail?inquiry_idx=' + ${i.inquiry_idx}}">
+                                <th:block th:if="${i.title.length() >= 20 }">
+                                    <span th:text="${#strings.abbreviate(i.title, 20)} + '...'"></span>
+                                </th:block>
+
+                                <th:block th:if="${i.title.length() < 20 }">
+                                    <span th:text="${i.title}"></span>
+                                </th:block>
+                            </a>
+                        </div>
+                    </td>
+                    <td> <!-- 문의자 유형 : A 개인, B 기업 -->
+                        <span th:if="${i.inquiry_type == 'A'}">개인회원 문의</span>
+                        <span th:if="${i.inquiry_type == 'B'}">기업회원 문의</span>
+                    </td>
+
+
+                    <!-- 문의자 ID -->
+                    <td>
+                    <span th:text="${session.id}"></span>
+                    </td>
+                    <!-- 문의 등록일 -->
+                    <td><div th:text ="${i.register_date.substring(0,16)}"></div></td>
+                </tr>
+            </th:block>
+            </th:block>
+            </tbody>
+        </table>
+    </div>
+
+    <th:block th:replace="~{fragments/paging :: paging('list', '')}"/>
+</div> <!-- 게시글 있을때 div 끝-->
+
+<!--게시글이 없는 경우-->
+<div th:if="${listcount == 0}">
+    <p class = "ni">아직 문의주신 사항이 없습니다.</p>
+</div>
+
+<!--문의하기 버튼 누르면 글쓰기 페이지로 이동 -->
+<a th:href="@{write}"><button type="button" class="btn btn-success btnW">문의하기</button></a>
+
+</div> <!-- container-->
+</body>
+<th:block th:replace="~{fragments/footer :: footer}"/>
+</html>

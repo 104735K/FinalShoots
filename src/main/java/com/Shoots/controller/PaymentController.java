@@ -43,14 +43,14 @@ public class PaymentController {
             String paymentDetails = iamportService.getPaymentDetails(payment.getImp_uid());
 
             if (paymentDetails != null && paymentDetails.contains("\"status\":\"paid\"")) {
-                logger.info("이미 결제된 정보 : " + payment.getImp_uid());
+                logger.info("결제 정보 (imp_uid) : " + payment.getImp_uid());
 
                 payment.setPayment_status("paid");
                 insertPaymentHistoryWithoutTransaction(payment);
                 paymentService.insertPayment(payment);
 
                 response.put("success", true);
-                response.put("message", "이미 결제된 상태");
+                response.put("message", "결제 완료");
                 response.put("data", new JSONObject(paymentDetails));
 
                 return ResponseEntity.ok(response);
@@ -69,20 +69,10 @@ public class PaymentController {
                 return ResponseEntity.ok(response);
             }
 
+            response.put("success", false);
+            response.put("message", "알 수 없는 결제 상태");
 
-            payment.setPayment_method("card");
-            payment.setPayment_status("paid");
-
-            insertPaymentHistoryWithoutTransaction(payment);
-            paymentService.insertPayment(payment);
-
-            logger.info("결제 성공 : buyer = " + payment.getBuyer_idx() + ", Merchant_uid = " + payment.getMerchant_uid());
-
-            response.put("success", true);
-            response.put("message", "결제 성공");
-            response.put("data", payment);
-
-            return ResponseEntity.ok(response);
+            return ResponseEntity.status(500).body(response);
 
         } catch (Exception e) {
 
@@ -94,7 +84,7 @@ public class PaymentController {
 
             payment.setPayment_status("fail");
 
-            throw new RuntimeException("결제 처리 중 오류 발생", e);
+            return ResponseEntity.status(500).body(response);
         }
     }
 

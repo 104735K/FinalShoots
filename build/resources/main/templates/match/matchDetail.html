@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <th:block th:replace="~{fragments/header :: header}" />
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link th:href="@{/css/matchDetail.css}" rel="stylesheet">
+    <script th:src="@{/js/matchDetail.js}"></script>
+    <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+    <script th:src="@{/js/Payment.js}"></script>
+<!--    <meta th:name="_csrf" th:content="${_csrf.token}"/>-->
+<!--    <meta th:name="_csrf_header" th:content="${_csrf.headerName}"/>-->
+</head>
+<body>
+    <div class="container">
+        <input type="hidden" th:text="${match.match_idx}">
+        <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img th:src="@{/img/detail1.jpg}" class="d-block" alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img th:src="@{/img/detail2.jpg}" class="d-block" alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img th:src="@{/img/detail3.jpg}" class="d-block" alt="...">
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+        <div class="div0">
+            <div class="div1">
+                <div class="div-player">
+                    <div th:if="${playerCount > 0}">
+                        <span th:if="${playerCount < match.player_min}">
+                            <span th:each="i : ${#numbers.sequence(0, playerCount - 1)}">
+                                <img th:src="@{/img/player_icon2.png}" width="30px" />
+                            </span>
+                        </span>
+                        <span th:if="${playerCount >= match.player_min}">
+                            <span th:each="i : ${#numbers.sequence(0, playerCount - 1)}">
+                                <img th:src="@{/img/player_icon3.png}" width="30px" />
+                            </span>
+                        </span>
+                        <span th:if="${playerCount < match.player_max}">
+                            <span th:each="i : ${#numbers.sequence(playerCount, match.player_max - 1)}">
+                                <img th:src="@{/img/player_icon1.png}" width="30px" />
+                            </span>
+                        </span>
+                    </div>
+                    <div th:if="${playerCount == 0}">
+                        <span th:each="i : ${#numbers.sequence(0, match.player_max - 1)}">
+                            <img th:src="@{/img/player_icon1.png}" width="30px" />
+                        </span>
+                    </div>
+                </div>
+                <hr>
+                <div>
+                    <h5> 매치 포인트 </h5>
+                    <div class="div-detail">
+                        <table class="table matchTable">
+                            <tr>
+                                <td><img th:src="@{/img/detail1.png}" width="30px"></td>
+                                <td><span>최소 <b th:text="${match.player_min}"></b>명 &nbsp; 최대 <b th:text="${match.player_max}"></b>명</span></td>
+                            </tr>
+                            <tr>
+                                <td><img th:src="@{/img/detail2.png}" width="28px"></td>
+                                <td>
+                                    <div th:switch="${match.player_gender}">
+                                        <span th:case="'f'"><b>여성</b>만 참여할 수 있어요</span>
+                                        <span th:case="'m'"><b>남성</b>만 참여할 수 있어요</span>
+                                        <span th:case="a"><b>누구나</b> 참여할 수 있어요</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><img th:src="@{/img/detail3.png}" width="25px"></td>
+                                <td><span> 팀 구성은 <b th:text="${match.team_style}"></b> 방식 이에요</span></td>
+                            </tr>
+                            <tr>
+                                <td><img th:src="@{/img/detail4.png}" width="25px"></td>
+                                <td>
+                                        <span th:switch="${match.match_level}">
+                                            <span th:case="'초급'">플레이의 난이도는 <b>초급</b></span>
+                                            <span th:case="'중급'">플레이의 난이도는 <b>중급</b></span>
+                                            <span th:case="'고급'">플레이의 난이도는 <b>고급</b></span>
+                                            <span th:case="'전체'">누구나 <b>자유롭게</b> 참여 가능해요</span>
+                                        </span>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <hr>
+                <div>
+                    <h5> 구장 정보 </h5>
+                    <div class="div-detail">
+                    <th:block th:if="${businessInfo != null}">
+                        <table class="table infoTable">
+                            <tr>
+                                <th> 주차장 </th>
+                                <td><span th:switch="${businessInfo.parking}">
+                                <span th:case="'yesPaid'"><span style="color: #0147d5">O</span> <span style="font-size: 13px">유료주차</span></span>
+                                <span th:case="'yesFree'"><span style="color: #0147d5">O</span> <span style="font-size: 13px">무료주차</span></span>
+                                <span th:case="'none'"><span style="color: #da0130">X</span></span>
+                            </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th> 샤워장 </th>
+                                <td>
+                                    <span th:if="${businessInfo.shower == true}"><span style="color: #0147d5">O</span></span>
+                                    <span th:if="${businessInfo.shower == false}"><span style="color: #da0130">X</span></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th> 휴게실 / 락커룸 </th>
+                                <td>
+                                    <span th:if="${businessInfo.lounge == true}"><span style="color: #0147d5">O</span></span>
+                                    <span th:if="${businessInfo.lounge == false}"><span style="color: #da0130">X</span></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th> 잔디 </th>
+                                <td><span th:text="${businessInfo.field_type}"></span></td>
+                            </tr>
+                            <tr>
+                                <th> CCTV / 보안 </th>
+                                <td>
+                                    <span th:if="${businessInfo.cctv == true}"><span style="color: #0147d5">O</span></span>
+                                    <span th:if="${businessInfo.cctv == false}"><span style="color: #da0130">X</span></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th> 매점 / 자판기 </th>
+                                <td>
+                                    <span th:if="${businessInfo.kiosk == true}"><span style="color: #0147d5">O</span></span>
+                                    <span th:if="${businessInfo.kiosk == false}"><span style="color: #da0130">X</span></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th> 물품대여 </th>
+                                <td><span th:text="${businessInfo.rental}"></span></td>
+                            </tr>
+                            <tr>
+                                <th> 운영시간 </th>
+                                <td><span th:text="${businessInfo.open_time}"></span> ~ <span th:text="${businessInfo.close_time}"></span></td>
+                            </tr>
+                        </table>
+                    </th:block>
+                    <th:block th:if="${businessInfo == null}">
+                        <div style="text-align: center; margin: 100px 0 100px 0">
+                            <span> 기업에서 제공되는 구장 정보가 존재하지 않습니다. </span>
+                        </div>
+                    </th:block>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="div2">
+                <div><span th:text="${match.formattedDate}"></span>&nbsp;<span th:text="${match.formattedTime}"></span></div>
+                <div class="place"><span th:text="${match.business_name}"></span></div>
+                <div class="address"><span th:text="${match.address}"></span></div>
+                <hr style="width: 98%; margin: 0 auto; margin-top: 20px">
+                <div class="price"><span th:text="${match.price}"></span>원 <span class="span-time"> / 2시간</span></div>
+                <div class="btn-div">
+                    <button id="paymentButton" th:if="${(session.role == 'common' or session.idx == null) && !hasPaid &&  match.isMatchPast() == false && playerCount != match.player_max && !isBlock
+                    && ((match.player_gender == 'f' && (session.gender == 2 or session.gender == 4))
+                    or (match.player_gender == 'm' && (session.gender == 1 or session.gender == 3))
+                    or (match.player_gender == 'a') )}" class="button button--payment button--text-upper button--size-s" onclick="requestPayment()"
+                            th:data-matchIdx="${match.match_idx}" th:data-price="${match.price}" th:data-seller="${match.writer}" th:data-buyer="${session.idx}">신청하기
+                    </button>
+                    <button id="refundButton" th:if="${session.role == 'common' && hasPaid && match.isMatchPast() == false}" class="button button--refund button--text-upper button--size-s" onclick="requestRefund()"
+                            th:data-matchIdx="${match.match_idx}" th:data-buyer="${session.idx}" th:data-payment_idx="${payment.payment_idx}" th:data-imp_uid="${payment.imp_uid}" th:data-merchant_uid="${payment.merchant_uid}" th:data-amount="${payment.payment_amount}">신청취소
+                    </button>
+                    <button th:if="${(session.role == 'common' or session.idx == null) && match.isMatchPast() == false && playerCount == match.player_max && !hasPaid && !isBlock}" class="button button--refund button--text-upper button--size-s" onclick="limitedMatch()">마감
+                    </button>
+                    <button th:if="${session.role == 'business' or isBlock or session.role == 'admin'}" onclick="roleBlock()" class="button button--no button--text-upper button--size-s">신청불가
+                    </button>
+                    <button th:if="${(session.role == 'common' or session.idx == null) && match.isMatchPast() == false && playerCount < match.player_min && !isBlock &&
+                                !((match.player_gender == 'f' && (session.gender == 2 or session.gender == 4))
+                                or (match.player_gender == 'm' && (session.gender == 1 or session.gender == 3))
+                                or (match.player_gender == 'a'))}"
+                            onclick="genderBlock()" class="button button--no button--text-upper button--size-s">신청불가
+                    </button>
+                    <button th:if="${(session.role == 'common' or session.idx == null) && match.isMatchPast() == true && playerCount < match.player_min && !isBlock}" class="button button--no button--text-upper button--size-s" onclick="closedMatch()">마감
+                    </button>
+                    <button th:if="${(session.role == 'common' || session.idx == null) && match.isMatchPast() == true && playerCount >= match.player_min}" class="button button--confirm button--text-upper button--size-s" onclick="closedMatch()">매치확정
+                    </button>
+                    <p th:if="${(session.role == 'common' or session.idx == null) && !hasPaid &&  match.isMatchPast() == false && playerCount != match.player_max && !isBlock
+                        && ((match.player_gender == 'f' && (session.gender == 2 or session.gender == 4))
+                        or (match.player_gender == 'm' && (session.gender == 1 or session.gender == 3))
+                        or (match.player_gender == 'a') )}" class="btn-status">
+                        * 마감까지 <b th:text="${match.player_max - playerCount}" style="color: #115ffc "></b>자리 남았습니다 *
+                    </p>
+                    <p th:if="${session.role == 'common' && hasPaid && match.isMatchPast() == false}" class="btn-status"> * 환불은 매치 시작 시간 <b style="color:#da0130;"> 2시간 이전</b>까지 가능합니다 * </p>
+                    <p th:if="${(session.role == 'common' || session.idx == null) && match.isMatchPast() == false && playerCount == match.player_max && !isBlock && !hasPaid}" class="btn-status"> * 신청인원이 꽉 찼습니다 * </p>
+                    <p th:if="${(session.role == 'common' || session.idx == null) && match.isMatchPast() == true && !isBlock}" class="btn-status"> * 마감된 매치입니다 * </p>
+                    <p th:if="${session.role == 'business' || isBlock || session.role == 'admin'}" class="btn-status"> * 신청 가능한 대상이 아닙니다 * </p>
+                    <p th:if="${(session.role == 'common' or session.idx == null) && match.isMatchPast() == false && playerCount != match.player_max && !isBlock &&
+                                !((match.player_gender == 'f' && (session.gender == 2 or session.gender == 4))
+                                or (match.player_gender == 'm' && (session.gender == 1 or session.gender == 3))
+                                or (match.player_gender == 'a'))}" class="btn-status"> * 신청 가능한 성별이 아닙니다 * </p>
+                </div>
+            </div>
+        </div>
+        <div class="div-btn">
+            <button class="custom-btn btn-15 btn-list" onclick="matchList()">목록보기</button>
+            <a th:if="${(session.role == 'business' && session.idx == match.writer) && match.isMatchPast() == false}" th:href="@{'updateForm?match_idx=' + ${match.match_idx}}">
+                <button class="custom-btn btn-15 btn-update">수정하기</button>
+            </a>
+            <form th:if="${session.role == 'business' && session.idx == match.writer}" th:action="@{/match/delete}" method="post" id="deleteForm">
+                <input type="hidden" name="match_idx" th:value="${match.match_idx}">
+                <button type="submit" class="custom-btn btn-15 btn-delete">삭제하기</button>
+            </form>
+        </div>
+    </div>
+</body>
+<th:block th:replace="~{fragments/footer :: footer}" />
+</html>

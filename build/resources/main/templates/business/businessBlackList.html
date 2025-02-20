@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link th:href="@{/css/businessBlacklist.css}" rel="stylesheet">
+    <script th:src="@{/js/businessBlackList.js}"></script>
+</head>
+<body>
+    <div class="container">
+
+        <div class="btn-top">
+            <button class="custom-btn-top btn-15-top" id="allBlacklist">전체 기록</button>
+            <button class="custom-btn-top btn-15-top" id="blockList">차단 고객</button>
+            <button class="custom-btn-top btn-15-top" id="unblockList">해제 고객</button>
+        </div>
+
+        <div id="blacklistContainer">
+            <th:block th:if="${blackListSize > 0}">
+                <div class="scroll">
+                <table class="table">
+                    <caption style="caption-side: top; font-size: 20px; margin-left: 5px">전체 차단 기록</caption>
+                    <thead>
+                        <tr>
+                            <th>차단 회원 ID</th>
+                            <th>이름</th>
+                            <th>차단 이유</th>
+                            <th>차단 상태</th>
+                            <th>차단 시간</th>
+                            <th>차단 해제 시간</th>
+                            <th>차단 해제</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <th:block th:each="list : ${blackList}">
+                        <tr>
+                            <td><span th:text="${list['user_id']}"></span></td>
+                            <td><span th:text="${list['name']}"></span></td>
+                            <td><span th:text="${list['reason']}"></span></td>
+
+                            <td th:if="${list['status'] == 'block'}" style="color: #da0130">[<span th:text="${list['status']}"></span>]</td>
+                            <td th:if="${list['status'] == 'unblock'}" style="color: #65a30d">[<span th:text="${list['status']}"></span>]</td>
+
+                            <td><span th:text="${list['blocked_at']}"></span></td>
+                            <td>
+                                <span th:if="${list['unblocked_at'] != null}" th:text="${list['unblocked_at']}"></span>
+                            </td>
+                            <td th:if="${list['status'] == 'block'}">
+                                <form th:action="@{/bcBlacklist/unblock}" method="post" id="updateForm">
+                                    <input type="hidden" name="business_idx" th:value="${list.business_idx}">
+                                    <input type="hidden" name="target_idx" th:value="${list.target_idx}">
+                                    <button type="submit" class="btn-unblock">해제</button>
+                                </form>
+                            </td>
+                            <td th:if="${list['status'] == 'unblock'}">
+                                <button type="button" class="btn-unblock-lock">해제</button>
+                            </td>
+                        </tr>
+                    </th:block>
+                    </tbody>
+                </table>
+                </div>
+            </th:block>
+
+            <th:block th:if="${blackListSize == 0}">
+                <div style="text-align: center; margin: 100px 0 100px 0"><p> 블랙리스트 데이터가 존재하지 않습니다 </p></div>
+            </th:block>
+        </div>
+    </div>
+</body>
+</html>
