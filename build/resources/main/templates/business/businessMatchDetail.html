@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <th:block th:replace="~{fragments/header :: header}" />
+    <div style="margin-top: 100px">
+        <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
+            <symbol id="info-fill" viewBox="0 0 16 16">
+                <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+            </symbol>
+        </svg>
+        <div class="alert alert-primary d-flex align-items-center" role="alert" style="width: 68%; height: 60px; margin:0 auto">
+            <svg class="bi flex-shrink-0 me-2" role="img" aria-label="Info:" style="width: 50px"><use xlink:href="#info-fill" width="20px"/></svg>
+            <div>
+                <b>미리보기</b> - 슛츠 회원에게 보여지는 페이지 입니다.
+            </div>
+        </div>
+    </div>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link th:href="@{/css/businessMatchDetail.css}" rel="stylesheet">
+    <script th:src="@{/js/businessMatchDetail.js}"></script>
+</head>
+<body>
+    <div class="container">
+        <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img th:src="@{/img/detail1.jpg}" class="d-block" alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img th:src="@{/img/detail2.jpg}" class="d-block" alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img th:src="@{/img/detail3.jpg}" class="d-block" alt="...">
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+        <div class="div0">
+            <div class="div1">
+                <div class="div-player">
+                    <div th:if="${playerCount > 0}">
+                        <span th:if="${playerCount < match.player_min}">
+                            <span th:each="i : ${#numbers.sequence(0, playerCount - 1)}">
+                                <img th:src="@{/img/player_icon2.png}" width="30px" />
+                            </span>
+                        </span>
+                        <span th:if="${playerCount >= match.player_min}">
+                            <span th:each="i : ${#numbers.sequence(0, playerCount - 1)}">
+                                <img th:src="@{/img/player_icon3.png}" width="30px" />
+                            </span>
+                        </span>
+                        <span th:if="${playerCount < match.player_max}">
+                            <span th:each="i : ${#numbers.sequence(playerCount, match.player_max - 1)}">
+                                <img th:src="@{/img/player_icon1.png}" width="30px" />
+                            </span>
+                        </span>
+                    </div>
+                    <div th:if="${playerCount == 0}">
+                        <span th:each="i : ${#numbers.sequence(0, match.player_max - 1)}">
+                            <img th:src="@{/img/player_icon1.png}" width="30px" />
+                        </span>
+                    </div>
+                </div>
+                <hr>
+                <div>
+                    <h5> 매치 포인트 </h5>
+                    <div class="div-detail">
+                        <table class="table matchTable">
+                            <tr>
+                                <td><img th:src="@{/img/detail1.png}" width="30px"></td>
+                                <td><span>최소 <b th:text="${match.player_min}"></b>명 &nbsp; 최대 <b th:text="${match.player_max}"></b>명</span></td>
+                            </tr>
+                            <tr>
+                                <td><img th:src="@{/img/detail2.png}" width="28px"></td>
+                                <td>
+                                    <div th:switch="${match.player_gender}">
+                                        <span th:case="'f'"><b>여성</b>만 참여할 수 있어요</span>
+                                        <span th:case="'m'"><b>남성</b>만 참여할 수 있어요</span>
+                                        <span th:case="a"><b>누구나</b> 참여할 수 있어요</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><img th:src="@{/img/detail3.png}" width="25px"></td>
+                                <td><span> 팀 구성은 <b th:text="${match.team_style}"></b> 방식 이에요</span></td>
+                            </tr>
+                            <tr>
+                                <td><img th:src="@{/img/detail4.png}" width="25px"></td>
+                                <td>
+                                        <span th:switch="${match.match_level}">
+                                            <span th:case="'초급'">플레이의 난이도는 <b>초급</b></span>
+                                            <span th:case="'중급'">플레이의 난이도는 <b>중급</b></span>
+                                            <span th:case="'고급'">플레이의 난이도는 <b>고급</b></span>
+                                            <span th:case="'전체'">누구나 <b>자유롭게</b> 참여 가능해요</span>
+                                        </span>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <hr>
+                <div>
+                    <h5> 구장 정보 </h5>
+                    <div class="div-detail">
+                    <th:block th:if="${businessInfo != null}">
+                        <table class="table infoTable">
+                            <tr>
+                                <th> 주차장 </th>
+                                <td><span th:switch="${businessInfo.parking}">
+                                <span th:case="'yesPaid'"><span style="color: #0147d5">O</span> <span style="font-size: 13px">유료주차</span></span>
+                                <span th:case="'yesFree'"><span style="color: #0147d5">O</span> <span style="font-size: 13px">무료주차</span></span>
+                                <span th:case="'none'"><span style="color: #da0130">X</span></span>
+                            </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th> 샤워장 </th>
+                                <td>
+                                    <span th:if="${businessInfo.shower == true}"><span style="color: #0147d5">O</span></span>
+                                    <span th:if="${businessInfo.shower == false}"><span style="color: #da0130">X</span></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th> 휴게실 / 락커룸 </th>
+                                <td>
+                                    <span th:if="${businessInfo.lounge == true}"><span style="color: #0147d5">O</span></span>
+                                    <span th:if="${businessInfo.lounge == false}"><span style="color: #da0130">X</span></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th> 잔디 </th>
+                                <td><span th:text="${businessInfo.field_type}"></span></td>
+                            </tr>
+                            <tr>
+                                <th> CCTV / 보안 </th>
+                                <td>
+                                    <span th:if="${businessInfo.cctv == true}"><span style="color: #0147d5">O</span></span>
+                                    <span th:if="${businessInfo.cctv == false}"><span style="color: #da0130">X</span></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th> 매점 / 자판기 </th>
+                                <td>
+                                    <span th:if="${businessInfo.kiosk == true}"><span style="color: #0147d5">O</span></span>
+                                    <span th:if="${businessInfo.kiosk == false}"><span style="color: #da0130">X</span></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th> 물품대여 </th>
+                                <td><span th:text="${businessInfo.rental}"></span></td>
+                            </tr>
+                            <tr>
+                                <th> 운영시간 </th>
+                                <td><span th:text="${businessInfo.open_time}"></span> ~ <span th:text="${businessInfo.close_time}"></span></td>
+                            </tr>
+                        </table>
+                    </th:block>
+                    <th:block th:if="${businessInfo == null}">
+                        <div style="text-align: center; margin: 100px 0 100px 0">
+                            <span> 기업에서 제공되는 구장 정보가 존재하지 않습니다. </span>
+                        </div>
+                    </th:block>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="div2">
+                <div><span th:text="${match.formattedDate}"></span>&nbsp;<span th:text="${match.formattedTime}"></span></div>
+                <div class="place"><span th:text="${match.business_name}"></span></div>
+                <div class="address"><span th:text="${match.address}"></span></div>
+                <hr style="width: 98%; margin: 0 auto; margin-top: 20px">
+                <div class="price"><span th:text="${match.price}"></span>원 <span class="span-time"> / 2시간</span></div>
+                <div class="btn-div">
+                    <button id="paymentButton" class="button button--payment button--text-upper button--size-s" >신청하기
+                    </button>
+                    <p class="btn-status">
+                        * 마감까지 <b th:text="${match.player_max - playerCount}" style="color: #115ffc "></b>자리 남았습니다 *
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="div-btn">
+            <button class="custom-btn btn-15 btn-list" onclick="matchList()">목록보기</button>
+        </div>
+    </div>
+</body>
+<th:block th:replace="~{fragments/footer :: footer}" />
+</html>

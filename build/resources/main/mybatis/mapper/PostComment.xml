@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- SQL 맵퍼 파일은 xml이기 때문에 제일 먼저 xml 선언이 옵니다. -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- Mapper 인터페이스의 패키지명과 이름을 namespace로 설정합니다. -->
+<mapper namespace="com.Shoots.mybatis.mapper.PostCommentMapper">
+
+<!--
+    1. 태그에 id속성은 Mapper인터페이스에 사용된 메서드명과 동일 하게 작성됩니다.
+    2. resultType속성은 Mapper인터페이스에 사용된 메서드의 반환 타입을 작성해줍니다.
+-->
+
+    <select id="getListCount" resultType="int" >
+        select count(*)
+        from post_comment
+        where post_idx = #{post_idx}
+<!--        <if test="state == 1">-->
+<!--            and is_secret = false &#45;&#45; 비밀댓글은 제외-->
+<!--        </if>-->
+    </select>
+
+
+    <select id="getCommentList" resultType="postcomment">
+        SELECT co.*, r.user_id
+        FROM post_comment co
+        JOIN regular_user r ON co.writer = r.idx
+        WHERE co.post_idx = #{post_idx}
+        <choose>
+            <when test="state == 1">
+                ORDER BY co.comment_idx ASC, co.comment_ref_id ASC
+            </when>
+            <when test="state == 2">
+                ORDER BY co.comment_idx DESC, co.comment_ref_id ASC
+            </when>
+            <otherwise>
+                ORDER BY co.comment_idx ASC, co.comment_ref_id ASC
+            </otherwise>
+        </choose>
+
+    </select>
+
+
+    <insert id="commentsInsert">
+        insert into post_comment
+        (post_idx, comment_ref_id, writer, content, is_secret)
+        values(#{post_idx}, #{comment_ref_id}, #{writer}, #{content}, #{is_secret})
+    </insert>
+
+    <insert id="commentsReply">
+        insert into post_comment
+            (post_idx, comment_ref_id, writer, content, is_secret)
+        values(#{post_idx}, #{comment_ref_id}, #{writer}, #{content}, #{is_secret})
+    </insert>
+
+
+    <update id="commentsUpdate">
+        update post_comment
+        set content=#{content}, is_secret=#{is_secret}
+        where comment_idx = #{comment_idx}
+    </update>
+
+    <delete id="commentsDelete">
+        delete from post_comment
+        where comment_idx = #{comment_idx}
+    </delete>
+
+    <select id="getMyCommentList">
+        select pc.*, p.content post_content, p.category from
+            post_comment pc join post p on pc.post_idx = p.post_idx where pc.writer =  #{id}
+    </select>
+
+    <select id="getMyCommentListCount">
+        select count(*) from post_comment
+        where writer = #{id}
+    </select>
+
+    <update id="setBlock">
+        update post_comment set report_status = 'block'
+        where comment_idx = #{id}
+    </update>
+</mapper>

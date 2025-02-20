@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<!-- 공통 상단 레이아웃 포함 -->
+	<th:block th:replace="~{fragments/header :: header}"/>
+	<script th:src="@{/js/postWriteform.js}"></script>
+	<script th:src="@{/js/jquery-3.7.1.js}"></script>
+	<link rel="stylesheet" th:href="@{/css/postWriteform.css}" type="text/css">
+
+	<style>
+		.container { width: 60%; }
+		label { font-weight: bold; }
+		#upfile { display: none; }
+		img { width: 20px; }
+	</style>
+
+	<title>게시판 글쓰기</title>
+</head>
+<body>
+<div class="container" style="margin-top: 100px;">
+<!--	<input type="hidden" name="status" th:value="${status}">-->
+
+	<form th:action="add" method="post" enctype="multipart/form-data" name="writeform">
+		<h1>게시판 글쓰기</h1>
+
+		<div class="form-group">
+			<input type="radio" name="category" id="A" th:value="A" th:checked="${category == 'A' or category == null}" required><span>자유게시판</span>
+			<input type="radio" name="category" id="B" th:value="B" th:checked="${category == 'B'}" required><span>중고게시판</span>
+		</div>
+		<br>
+		<!-- 작성자 -->
+		<input name="writer" id="writer" th:value="${session.idx}" type="hidden" class="form-control" readOnly>
+
+		<div class="form-group">
+			<label for="title" style="margin-left: 5px">제목</label>
+			<input name="title" id="title" type="text" maxlength="100" class="form-control" placeholder="제목을 입력해주세요" required>
+		</div>
+		<br>
+		<div class="form-group">
+			<label for="content" style="margin-left: 5px">내용</label>
+			<textarea name="content" id="content" rows="20" class="form-control" placeholder="내용을 입력하세요." required></textarea>
+		</div>
+		<br>
+		<!-- 가격 입력 (중고게시판일 경우에만 보이게 설정) -->
+		<div class="form-group fade active show" id="price">
+
+			<label for="priceInput" style="margin-left: 5px">가격</label>
+			<input
+					name="price"
+					id="priceInput"
+					type="number"
+					class="form-control"
+					placeholder="가격을 입력해주세요"
+					min="0"
+					max="10000000"
+					step="1000"
+			>
+<!--			<br>-->
+<!--			<label for="priceInput">거래 표시</label>-->
+<!--			<input type="radio" name="status" id="available" th:value="available" required><span>거래가능</span>-->
+<!--			<input type="radio" name="status" id="completed" th:value="completed" ><span>판매완료</span>-->
+		</div>
+		<br>
+		<div class="form-group">
+			<label style="margin-left: 5px">파일첨부
+				<img th:src="@{/img/attach.png}" alt="파일첨부">
+<!--			<input type="file" id="upfile" name="post_file">-->
+				<input type="file" id="upfile" name="uploadfile">
+			</label>
+<!--		<span id="filevalue" th:text="${post_file}"></span>-->
+			<span id="filevalue"></span>
+			<img th:src="@{/img/remove.png}" alt="파일삭제" width="10px" class="remove">
+		</div>
+		<br>
+		<div class="form-group">
+			<button type="reset" class="btn btnc" onClick="history.go(-1)">취소</button>
+			<button type="submit" class="btn btnr">등록</button>
+		</div>
+
+	</form>
+</div>
+
+<!-- 자바스크립트로 라디오 버튼 선택 시 가격 입력란 보이기/숨기기 처리 -->
+<script>
+	document.addEventListener("DOMContentLoaded", function() {
+		document.querySelectorAll("input[name='category']").forEach(function(radio) {
+			radio.addEventListener("change", function() {
+				togglePriceField();
+			});
+		});
+
+		togglePriceField();
+
+		document.querySelector("form[name='writeform']").addEventListener("submit", function (event) {
+			if (!validateForm()) {
+				event.preventDefault(); // 유효성 검사 실패 시 폼 제출 중단
+			}
+		});
+	});
+
+	function togglePriceField() {
+		const B = document.getElementById("B").checked;
+		const priceField = document.getElementById("price");
+
+		if (B) {
+			priceField.style.display = "block";
+		} else {
+			priceField.style.display = "none";
+		}
+	}
+
+	function validateForm() {
+		const B = document.getElementById("B").checked;
+		const priceInput = document.getElementById("priceInput");
+		const upfile = document.getElementById("upfile");
+
+		if (B) {
+			if (priceInput.value.trim() === "") {
+				alert("중고게시판에서는 가격을 입력해야 합니다.");
+				priceInput.focus();
+				return false;
+			}
+
+			if (isNaN(priceInput.value.trim())) {
+				alert("가격은 숫자만 입력 가능합니다.");
+				priceInput.focus();
+				return false;
+			}
+
+			if (!upfile.value) {
+				alert("중고게시판에서는 첨부파일을 반드시 첨부해야 합니다.");
+				upfile.focus();
+				return false;
+			}
+		}
+
+		return true;
+	}
+</script>
+
+</body>
+<th:block th:replace="~{fragments/footer :: footer}" />
+</html>
