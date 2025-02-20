@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{fragments/header :: header}"/>
+<head>
+    <meta charset="UTF-8">
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <script th:src="@{/js/businessInquiryDetail.js}"></script>
+    <link th:href="@{/css/businessInquiryDetail.css}" rel="stylesheet">
+
+    <title>1:1 문의글</title>
+</head>
+<body>
+<th:block th:if="${session.role} eq 'admin' or (${session.idx} eq ${inquiryData.inquiry_ref_idx} and ${session.usertype} eq ${inquiryData.inquiry_type})">
+
+    <div class="container">
+        <input type="hidden" th:value="${session.id}" id="loginid" class="form-control">  <!-- 수정 삭제 버튼 보이게 하려고 현재 로그인 한 유저의 id값을 받아놓음 -->
+        <input type="hidden" th:value="${inquiryData.inquiry_idx}" id="inquiry_idx" class="form-control">
+
+        <div class="containerI">
+            <table class="table tableV">
+
+                <tr>
+                    <th colspan="3" class="titlep" style="font-size:20px">
+                        <span th:text="${inquiryData.title}"></span>
+                    </th>
+                </tr>
+
+                <tr>
+                    <td>
+                        <div>문의자 :
+                            <span th:text="${inquiryData.user_id}"></span></span>
+                        </div>
+                    </td>
+                    <td>문의 날짜 : <span th:text="${inquiryData.register_date.substring(0,16)}"></span></td>
+                </tr>
+
+                <tr>
+                    <td colspan="2" style="padding-right:0px">
+                        <div class="contentT">
+                            <pre th:text="${inquiryData.content}" class="contentI"></pre>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <div class="filep">첨부파일</div>
+                    </td>
+                    <td th:if="${not #strings.isEmpty(inquiryData.inquiry_file)}">
+                        <img th:src="@{/img/down.png}" width="10px" class="fileU">
+                        <form method="post" th:action="@{down}" style="height: 0px">
+                            <input type="hidden" th:value="${inquiryData.inquiry_file}" th:name="filename">
+                            <input type="hidden" th:value="${inquiryData.original_file}" th:name="original">
+                            <input type="submit" th:value="${inquiryData.original_file}">
+                        </form>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="comments-section">
+            <th:block th:if="${icListCount > 0}">
+                <th:block th:each="ic, iterStat : ${icList}">
+                    <div class="ic">
+
+                        <input type="hidden" th:value="${ic.i_comment_idx}" name="i_comment_idx" class="ic_num form-control">
+                        <input type="hidden" th:value="${ic.user_id}" class="ic_writer form-control">
+                        <div class="buttonfront">
+                            <p><strong>작성자 :</strong> [[${ic.user_id}]] <strong>등록일 :</strong>
+                                [[${ic.register_date.substring(0,16)}]]
+                        </div>
+                        <button type="button" class="btn btn-primary ic_modify btnM" style="display:none"
+                                th:value="${ic.i_comment_idx}">수정
+                        </button>
+                        <button type="button" class="btn btn-danger ic_delete btnC" style="display:none"
+                                th:value="${ic.i_comment_idx}">삭제
+                        </button>
+                        </p>
+                        <span class="ic_content">[[${ic.content}]]</span>
+                    </div>
+                    <hr>
+                </th:block>
+            </th:block>
+
+            <th:block th:if="${icListCount == 0}">
+                <div class="comD">
+                    <p class="comP">아직 관리자의 답변이 없습니다.</p>
+                </div>
+                <br>
+            </th:block>
+        </div>
+
+        <th:block th:if="${session.role == 'admin'}">
+            <div class="comment-container">
+
+                <form th:action="@{../inquiryComment/add}" method="post" name="icForm" id="icForm">
+
+                    <!-- 댓글 내용 부분 -->
+                    <div class="comment-body">
+                        <input type="hidden" name="inquiry_idx" th:value="${inquiryData.inquiry_idx}" class="form-control">
+                        <div class="nickname">
+                            <input type="hidden" class="nickname form-control" name="writer" th:value="${session.idx}">
+                            <span class="nickname">&nbsp;&nbsp;[[${session.id}]]</span>
+                        </div>
+
+                        <textarea placeholder="문의글에 대한 답변을 남겨보세요" class="ic_content form-control" name="content" maxlength="300"
+                                  required></textarea>
+
+                        <div class="register-box">
+                            <button class="btn-primary btnW mt-lg-2 mb-lg-5" type="submit" id="register-comment">등록</button>
+                            <button class="btn-danger btnC" id="cancel-comment" style="display:none">취소</button>
+                        </div>
+
+                    </div>
+                </form>
+
+            </div>
+        </th:block>
+
+        <div class="btnD">
+            <th:block th:if="${inquiryData.inquiry_ref_idx == session.idx}">
+                <th:block th:if="${!inquiryData.hasReply}"> <!-- 답변 안달렸으면 수정 가능-->
+                    <a th:href="@{'inquiryModifyView?inquiry_idx=' + ${inquiryData.inquiry_idx}}">
+                        <button class="custom-btn btn-15 btn-update btnM">수정</button>
+                    </a>
+                    <form name="deleteInquiryForm" id="deleteInquiryForm"
+                          th:action="@{'delete?inquiry_idx=' +${inquiryData.inquiry_idx}}" method="post">
+                        <input type="hidden" th:value="${inquiryData.inquiry_idx}">
+                        <button class="custom-btn btn-15 btn-delete btnC" id="inquiryDelete">삭제</button>
+                    </form>
+                </th:block>
+                <a th:href="@{'delete?inquiry_idx=' + ${inquiryData.inquiry_idx}}">
+                </a>
+            </th:block>
+
+            <button class="custom-btn btn-15 btn-list" onclick="inquiryList()">목록보기</button>
+        </div>
+    </div>
+</th:block>
+</body>
+<th:block th:replace="~{fragments/footer :: footer}"/>
+</html>

@@ -1,0 +1,10 @@
+
+.container {margin-top: 80px;}
+.scroll {max-height: 75vh; overflow-y: auto;}
+
+td{font-size: 15px}
+
+.btn-refund {width: 50px; height: 30px; font-size: 13px; color : white; background: #fdba01; border-radius: 20px; border: 1px solid #fdba01; transition: all 0.3s ease}
+.btn-refund:hover {color : #fdba01; background: white; border: 1px solid #fdba01}
+
+.btn-refund-no {width: 50px; height: 30px; font-size: 13px; color : white; background: #838383; border-radius: 20px; border: 1px solid #838383; cursor: none}

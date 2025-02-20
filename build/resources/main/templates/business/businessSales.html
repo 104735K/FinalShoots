@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th= "http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link th:href="@{/css/businessSales.css}" rel="stylesheet">
+    <script th:src="@{/js/businessSales.js}"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="btn-top">
+            <button class="custom-btn-top btn-15-top" id="allSales">전체 매출</button>
+            <select name="match_year" id="match_year">
+                <option value="" disabled selected> 연 매출 </option>
+            </select>
+            <select name="match_month" id="match_month">
+                <option value="" disabled selected> 월별 매출 </option>
+                <option value="1">1월</option>
+                <option value="2">2월</option>
+                <option value="3">3월</option>
+                <option value="4">4월</option>
+                <option value="5">5월</option>
+                <option value="6">6월</option>
+                <option value="7">7월</option>
+                <option value="8">8월</option>
+                <option value="9">9월</option>
+                <option value="10">10월</option>
+                <option value="11">11월</option>
+                <option value="12">12월</option>
+            </select>
+        </div>
+
+        <div id="salesListContainer">
+            <th:block th:if="${list > 0}">
+                <div class="table-container">
+                <table class="table table-borderless">
+                <caption style="caption-side: top; font-size: 20px; margin-left: 5px">전체 매출</caption>
+                <thead>
+                    <tr style="background: #43464b; color : #ededed">
+                        <td> 날짜 </td>
+                        <td> 매치 시간 </td>
+                        <td> 매치번호 </td>
+                        <td> 참가 인원수 </td>
+                        <td> 가격 </td>
+                        <td> 총 매출 </td>
+                    </tr>
+                </thead>
+                <tbody>
+                <th:block th:each="date : ${groupedByDate}">
+                    <th:block th:with="currentDate = ${date.key}">
+                        <tr>
+                            <td colspan="6" style="background: #ededed" th:text="${currentDate}"></td>
+                        </tr>
+                        <th:block th:each="match : ${date.value}">
+                            <tr>
+                                <td class="empty-td"></td>
+                                <td><span th:text="${match.match_time}"></span></td>
+                                <td>
+                                    <a class="table-a" th:href="@{'detail?match_idx=' + ${match.match_idx}}"><span th:text="${match.match_idx}"></span>번 매치</a>
+                                    <span th:if="${match.isMatchPast() == false}" style="font-size: 13px; color: #65a30d">-매출 집계중</span>
+                                </td>
+                                <td><span th:text="${match.playerCount}"></span>명</td>
+                                <td><span th:text="${match.price}"></span></td>
+                                <td><span th:text="${match.price * match.playerCount}"></span></td>
+                            </tr>
+                        </th:block>
+
+                        <tr>
+                            <td></td><td></td><td></td><td></td><td></td>
+                            <td style="text-align: right; padding-right: 30px">날짜 별 매출 &nbsp; ￦ <span th:text="${dailyTotalMap.get(currentDate)}"></span></td>
+                        </tr>
+                    </th:block>
+                </th:block>
+                </tbody>
+                </table>
+                </div>
+                <div class="table-footer">
+                    <table class="table table-borderless">
+                        <tfoot>
+                <tr>
+                    <td colspan="6" style="text-align: center; border-top : 1px solid lightgray"> 총 참가인원
+                        <span th:text="${playerTotal}"></span>명 &nbsp; | &nbsp; 총 매출 &nbsp; ￦ <span th:text="${total}"></span>
+                        <button type="button" style="border: none; background: none" data-bs-container="body" data-bs-toggle="popover"
+                                data-bs-placement="right" data-bs-content="매출 집계 중인 매치는 총 참가인원과 총 매출액에 포함되지 않습니다">
+                            <img th:src="@{/img/btn-info.png}" style="width: 15px; padding-bottom: 3px"/>
+                        </button>
+                    </td>
+                </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </th:block>
+
+            <th:block th:if="${list == 0}">
+                <div style="text-align: center; margin: 100px 0 100px 0"><p> 매출 데이터가 존재하지 않습니다 </p></div>
+            </th:block>
+        </div>
+    </div>
+</body>
+</html>
