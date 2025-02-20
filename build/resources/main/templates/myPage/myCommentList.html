@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div class="container">
+        <div th:if="${count > 0}">
+            <table class="table">
+                <caption style="caption-side: top; font-size: 20px; margin-left: 5px; margin-top: 65px;">작성 댓글</caption>
+                <thead>
+                <tr><th colspan="4">작성 댓글 : [[${count}]]개</th></tr>
+                    <tr>
+                        <th>댓글 내용</th>
+                        <th>원글</th>
+                        <th>게시판</th>
+                        <th>작성일</th>
+                    </tr>
+                </thead>
+                <tbody th:each="c : ${list}">
+                <tr th:if="${c.report_status.equals('unblock')}">
+                    <td th:text="${c.content}"></td>
+                    <td><a th:href="@{/post/detail(num=${c.post_idx})}" th:text="${c.post_content}"></a> </td>
+                    <td th:if="${c.category.equals('A')}">자유</td>
+                    <td th:if="${c.category.equals('B')}">중고</td>
+                    <td th:text="${c.register_date.substring(0, 10)}"></td>
+                </tr>
+                <tr th:if="${c.report_status.equals('block')}">
+                    <td colspan="4" style="text-align: center; color: #DA0130">신고된 댓글 입니다!</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div th:if="${count == 0}">
+            <h1>작성한 댓글이 없습니다.</h1>
+        </div>
+    </div>
+
+</body>
+</html>

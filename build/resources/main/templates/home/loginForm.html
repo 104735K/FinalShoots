@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <style>
+            /* 전역 스타일 */
+        body {
+            font-family: Arial, sans-serif;
+            background: rgba(0, 0, 0, 0.1);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .login-container {
+            background-color: white; /* 배경색을 하얀색으로 변경 */
+            padding: 50px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px; /* 폼의 가로 크기 확장 */
+            min-height: 500px; /* 폼의 세로 크기 확장 */
+            text-align: center;
+            border-radius: 8px;
+        }
+
+        .login-container h2 {
+            color: #B0B0B0; /* 진한 회색을 연한 회색으로 변경 */
+            margin-bottom: 20px;
+        }
+
+        .input-field {
+            margin-bottom: 20px;
+            width: 100%;
+            text-align: left; /* 왼쪽 정렬 */
+        }
+
+        .input-field input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid rgba(85, 107, 47, 0.5); /* 메인 색상에 투명도 0.5 적용 */
+            border-radius: 5px;
+            margin-top: 5px;
+        }
+
+        .input-field input:focus {
+            outline: none;
+            border: 2px solid rgba(85, 107, 47, 0.5); /* 메인 색상에 투명도 0.5 적용 */
+        }
+
+        .login-btn, .signup-btn {
+            width: 110px; /* 버튼 길이를 110px로 고정 */
+            height: 35px; /* 버튼 높이 고정 */
+            padding: 0;
+            border: none;
+            color: white;
+            font-size: 16px;
+            border-radius: 20px; /* 버튼에만 border-radius 20px 적용 */
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center; /* 버튼 글자를 중앙 정렬 */
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* 위 버튼의 배경색 */
+        .login-btn {
+            background-color: #65a30d;
+        }
+
+        .signup-btn {
+            background-color: #0147d5;
+        }
+
+        /* hover 효과 */
+        .login-btn:hover {
+            background-color: white;
+            color: #65a30d; /* 기존의 글자색을 유지 */
+            border: 1.5px solid #65a30d; /* 기존의 border 색을 유지 */
+        }
+
+        .signup-btn:hover {
+            background-color: white;
+            color: #0147d5; /* 기존의 글자색을 유지 */
+            border: 1.5px solid #0147d5; /* 기존의 border 색을 유지 */
+        }
+
+        .nav-tabs .nav-link {
+            color: #B0B0B0; /* 탭 텍스트 색 */
+        }
+
+        .nav-tabs .nav-link.active {
+            color: #65a30d; /* 활성화된 탭 텍스트 색 */
+            background-color: transparent; /* 탭 배경색은 변경되지 않음 */
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px; /* 버튼 간격 설정 */
+            margin-top: 25px;
+        }
+
+        .forgot-password {
+            margin-top: 30px;
+            font-size: 14px;
+            color: white;
+        }
+
+        .forgot-password a {
+            color: dimgray;
+            text-decoration: none;
+        }
+
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+
+        div.input-field {margin-top: 30px}
+
+            #socialLoginTab {
+                display: flex;
+                justify-content: center;  /* 버튼을 가운데 정렬 */
+                align-items: center;      /* 수직 정렬 */
+                gap: 10px;                /* 버튼 간격 */
+                flex-wrap: nowrap;        /* 버튼들이 한 줄에 다 들어가도록 설정 */
+                padding-left: 0px
+            }
+
+            #socialLoginTab li {
+                flex: 0 0 auto;           /* 각 버튼의 너비를 자동으로 조정 */
+            }
+
+            #socialLoginTab a {
+                display: inline-block;    /* 버튼을 인라인 블록으로 설정 */
+            }
+
+            .nsm7Bb-HzV7m-LgbsSe-BPrWId {display: none}
+            .nsm7Bb-HzV7m-LgbsSe {height: 40px!important;}
+            .nsm7Bb-HzV7m-LgbsSe .nsm7Bb-HzV7m-LgbsSe-Bz112c {margin-right: 0px!important;}
+            .nsm7Bb-HzV7m-LgbsSe-MJoBVe {width: 42px; height: 40px!important;}
+            .S9gUrf-YoZ4jf {width: 42px; height: 40px!important;}
+    </style>
+
+    <!-- 로그인 실패시 띄울 alert창 -->
+    <script th:if="${loginResult != null}" th:inline="javascript">
+        alert(/*[[${loginResult}]]*/);
+    </script>
+
+    <script>
+        //구글 로그인 버튼 함수
+        function handleCredentialResponse(response) {
+            console.log("Encoded JWT ID token: " + response.credential);
+        }
+        window.onload = function () {
+            google.accounts.id.initialize({
+                client_id: "116997830660-f9kb0gbm6vkj67ksmapmgestl664cg61.apps.googleusercontent.com",
+                callback: handleCredentialResponse
+            });
+            google.accounts.id.renderButton(
+                document.getElementById("buttonDiv"),
+                { theme: "outline", size: "large"}  // customization attributes
+            );
+            google.accounts.id.prompt(); // also display the One Tap dialog
+        }
+
+        function decodeJwtResponse (token) {
+            var base64Url = token.split('.')[1];
+            var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+
+            return JSON.parse(jsonPayload);
+        }
+
+        //구글 로그인 처리 함수. 버튼 함수와 이름이 같으나, JS에서 이름이 같을 경우 마지막에 선언된게 덮어씌우므로 로그인 처리를 얘가 맡아줌.
+        function handleCredentialResponse(response) {
+            console.log("Encoded JWT ID token: " + response.credential);
+            const googleProfile = decodeJwtResponse(response.credential);
+
+            //아래 주석 처리 부분들 : 구글에서 가져온 정보 (토큰)가 제대로 됐는지 확인하는 콘솔 정보. 배포시 클라이언트에게 정보 제공 안하도록 콘솔 지움.
+            // console.log("id: " + googleProfile.id);
+            // console.log("고유 인증 번호: " + googleProfile.sub);
+            // console.log('Full Name: ' + googleProfile.name);
+            // console.log('이름: ' + googleProfile.given_name);
+            // console.log('성 씨: ' + googleProfile.family_name);
+            // console.log("Image URL: " + googleProfile.picture);
+            // console.log("Email: " + googleProfile.email);
+            $('#googleId').val(googleProfile.id);
+            $('#googleAuId').val(googleProfile.sub);
+            $('#googleName').val(googleProfile.name);
+            $('#googleEmail').val(googleProfile.email);
+            $('#gSocialYn').val('y');
+
+            $('#googleSignUpForm').submit();
+        }
+    </script>
+
+</head>
+<body>
+<div class="login-container">
+    <!-- 탭 메뉴 -->
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="ruglarUserLogin" data-bs-toggle="tab" data-bs-target="#individual-tab-pane" type="button" role="tab" aria-controls="individual-tab-pane" aria-selected="true">개인 로그인</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="businessUserLogin" data-bs-toggle="tab" data-bs-target="#business-tab-pane" type="button" role="tab" aria-controls="business-tab-pane" aria-selected="false">기업 로그인</button>
+        </li>
+<!--        <li> &lt;!&ndash; 카카오 로그인 버튼 &ndash;&gt;-->
+<!--            <a class="nav-link" id="kakaoLogin" th:href="${kakaoLoginPath}">-->
+<!--                <img th:src="@{/img/kakao_login_small.png}"/>-->
+<!--            </a>-->
+<!--        </li>-->
+<!--        <li> &lt;!&ndash; 구글 로그인 버튼 &ndash;&gt;-->
+<!--            <div id="buttonDiv"></div>-->
+<!--        </li>-->
+<!--        <li> &lt;!&ndash; 네이버 로그인 버튼 &ndash;&gt;-->
+<!--            <a class="nav-link" id="naverLogin" th:href="${naverLoginPath}">-->
+<!--                <img th:src="@{/img/naver_login.png}" style="width: 100px;"/>-->
+<!--            </a>-->
+<!--        </li>-->
+    </ul>
+    <form id="googleSignUpForm" method="post" th:action="@{/googleCallback}">
+        <input type="hidden" id="googleId" name="googleId">
+        <input type="hidden" id="googleAuId" name="googleAuId">
+        <input type="hidden" id="googleName" name="googleName">
+        <input type="hidden" id="googleEmail" name="googleEmail">
+        <input type="hidden" id="gSocialYn" name="gSocialYn">
+    </form>
+
+    <!-- 탭 내용 -->
+    <div class="tab-content" id="myTabContent">
+        <!-- 개인 로그인 -->
+        <div class="tab-pane fade show active" id="individual-tab-pane" role="tabpanel" aria-labelledby="individual-tab" tabindex="0">
+            <form th:action="@{/loginProcess}" method="POST">
+                <div class="input-field">
+                    <label for="id" style="color: #B0B0B0;">아이디</label>
+                    <input type="text" id="id" name="id" placeholder="아이디를 입력하세요" required>
+                </div>
+                <div class="input-field">
+                    <label for="userPassword" style="color: #B0B0B0;">비밀번호</label>
+                    <input type="password" id ="userPassword" class="password" name="password" placeholder="비밀번호를 입력하세요" required>
+                </div>
+                <div class="button-container">
+                    <button type="submit" class="login-btn">로그인</button>
+                    <button type="button" class="signup-btn" th:onclick="|location.href='@{/join}'|">회원가입</button>
+                </div>
+                <div class="forgot-password">
+                    <a th:href="@{/main}">홈으로 되돌아가기</a> &nbsp; <span style="color: dimgray">|</span> &nbsp;
+                    <a th:href="@{/findRegularId}">아이디 / 비밀번호 찾기</a>
+                </div>
+
+                <div style="display: flex; align-items: center; margin-top: 20px;">
+                    <hr style="flex-grow: 1; border: 1px solid dimgray;">
+                    <span style="padding: 0 10px; font-size: 14px; color: dimgray;">소셜 로그인</span>
+                    <hr style="flex-grow: 1; border: 1px solid dimgray;">
+                </div>
+
+                <div style="margin-top: 20px">
+                    <ul id="socialLoginTab" role="tablist">
+                        <li style="list-style : none"> <!-- 카카오 로그인 버튼 -->
+                            <a id="kakaoLogin" th:href="${kakaoLoginPath}">
+                                <img th:src="@{/img/kakaotalk_login.png}" style="width: 38px;"/>
+                            </a>
+                        </li>
+                        <li style="list-style : none"> <!-- 네이버 로그인 버튼 -->
+                            <a id="naverLogin" th:href="${naverLoginPath}">
+                                <img th:src="@{/img/naver_login.png}" style="width: 38px;"/>
+                            </a>
+                        </li>
+                        <li style="list-style : none"> <!-- 구글 로그인 버튼 -->
+                            <div id="buttonDiv"></div>
+                        </li>
+                    </ul>
+                </div>
+            </form>
+        </div>
+
+        <!-- 기업 로그인 -->
+        <div class="tab-pane fade" id="business-tab-pane" role="tabpanel" aria-labelledby="business-tab" tabindex="0">
+            <form th:action="@{/businessLoginProcess}" method="POST">
+                <div class="input-field">
+                    <label for="business_id" style="color: #B0B0B0;">기업 아이디</label>
+                    <input type="text" id="business_id" name="business_id" placeholder="기업 아이디를 입력하세요" required>
+                </div>
+                <div class="input-field">
+                    <label for="business_password" style="color: #B0B0B0;">비밀번호</label>
+                    <input type="password" class="password" id ="business_password" name="password" placeholder="비밀번호를 입력하세요" required>
+                </div>
+                <div class="button-container">
+                    <button type="submit" class="login-btn">로그인</button>
+                    <button type="button" class="signup-btn" th:onclick="|location.href='@{/join}'|">회원가입</button>
+                </div>
+                <div class="forgot-password">
+                    <a th:href="@{/main}">홈으로 되돌아가기</a> &nbsp; <span style="color: dimgray">|</span> &nbsp;
+                    <a th:href="@{/findBusinessId}">아이디 / 비밀번호 찾기</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

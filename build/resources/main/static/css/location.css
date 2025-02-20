@@ -1,0 +1,117 @@
+nav.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header {height: 56px}
+.titleD {text-align: center; margin-top: 30px}
+.titleS {font-size: 14px}
+h4 {margin-bottom: 12px}
+
+.mapDiv {display: flex; justify-content: center; align-items: center; margin-top: 30px}
+#map {width: 800px; height : 500px}
+
+.zoomD {display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 20px}
+
+.zoomD img {width: 35px; cursor: pointer}
+
+.table {width: 60%; margin : 0 auto; margin-top: 30px}
+
+.btn-apply {width: 100px; height: 30px; font-size: 13px; color : white; background: #0147d5; border-radius: 20px; border: 1px solid #0147d5; transition: all 0.3s ease}
+.btn-apply:hover {color : #0147d5; background: white; border: 1px solid #0147d5}
+
+
+.form-control {width: 30%; margin-top: 30px}
+
+/* 검색btn */
+.custom-btn-top {
+    width: 95px;
+    height: 35px;
+    border: 2px solid #fdba01;
+    border-radius: 20px;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+    font-size: 14px;
+    margin-top: 30px;
+}
+
+.btn-15-top {
+    background: #fdba01;
+    color: white;
+    z-index: 1;
+    border-radius: 20px;
+}
+.btn-15-top:after {
+    position: absolute;
+    content: "";
+    width: 0;
+    height: 100%;
+    top: 0;
+    right: 0;
+    z-index: -1;
+    background: white;
+    transition: all 0.3s ease;
+    border-radius: 20px;
+}
+.btn-15-top:hover {
+    color: #fdba01;
+}
+.btn-15-top:hover:after {
+    left: 0;
+    width: 100%;
+}
+.btn-15-top:active {
+    top: 2px;
+}
+
+/* 전체목록btn */
+.custom-btn-all {
+    width: 95px;
+    height: 35px;
+    border: 2px solid #65a30d;
+    border-radius: 20px;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+    font-size: 14px;
+    margin-top: 30px;
+}
+
+.btn-15-all {
+    background: #65a30d;
+    color: white;
+    z-index: 1;
+    border-radius: 20px;
+}
+.btn-15-all:after {
+    position: absolute;
+    content: "";
+    width: 0;
+    height: 100%;
+    top: 0;
+    right: 0;
+    z-index: -1;
+    background: white;
+    transition: all 0.3s ease;
+    border-radius: 20px;
+}
+.btn-15-all:hover {
+    color: #65a30d;
+}
+.btn-15-all:hover:after {
+    left: 0;
+    width: 100%;
+}
+.btn-15-all:active {
+    top: 2px;
+}
