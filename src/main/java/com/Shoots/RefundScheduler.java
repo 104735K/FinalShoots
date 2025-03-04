@@ -4,11 +4,10 @@ import com.Shoots.domain.Match;
 import com.Shoots.domain.Payment;
 import com.Shoots.service.MatchService;
 import com.Shoots.service.PaymentService;
+import jakarta.annotation.PreDestroy;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import org.redisson.api.RLock;
-import org.redisson.api.RedissonClient;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -19,7 +18,12 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 @Slf4j
 @Component
@@ -29,37 +33,39 @@ public class RefundScheduler {
     private final MatchService matchService;
     private final PaymentService paymentService;
     private final RestTemplate restTemplate;
-    private final RedissonClient redissonClient;
+    private final Map<Integer, Lock> matchLocks = new ConcurrentHashMap<>();
+    private final ExecutorService executor = Executors.newFixedThreadPool(4);
 
     @Scheduled(cron = "0 0/30 9-23 * * ?")
     private void refundMatches() {
 
-        RLock lock = redissonClient.getLock("refund_scheduler_lock");
+        log.info("=== 자동 환불 체크 시작 ===");
 
-        try {
-            if (lock.tryLock(5, 600, TimeUnit.SECONDS)) {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime nowPlusHours = now.plusHours(2);
 
-                log.info("=== 자동 환불 체크 시작 ===");
+        LocalDate matchDate = nowPlusHours.toLocalDate();
+        LocalTime matchTime = nowPlusHours.toLocalTime().withSecond(0).withNano(0);
 
-                LocalDateTime now = LocalDateTime.now();
-                LocalDateTime nowPlusHours = now.plusHours(2);
+        log.info("Match Date: {}, Match Time: {}", matchDate, matchTime);
 
-                LocalDate matchDate = nowPlusHours.toLocalDate();
-                LocalTime matchTime = nowPlusHours.toLocalTime().withSecond(0).withNano(0);
+        List<Match> matchList = matchService.getMatchListByMatchTime(matchDate, matchTime);
+        log.info("조회된 Match List: " + matchList.toString());
 
-                System.out.println("Match Date: " + matchDate);
-                System.out.println("Match Time: " + matchTime);
+        for (Match match : matchList) {
+            executor.submit(() -> {
+                Lock lock = matchLocks.computeIfAbsent(match.getMatch_idx(), k -> new ReentrantLock());
 
-                List<Match> matchList = matchService.getMatchListByMatchTime(matchDate, matchTime);
+                if (!lock.tryLock()) {
+                    log.warn("매치 {}는 이미 처리 중", match.getMatch_idx());
+                    return;
+                }
 
-                System.out.println("Match List: " + matchList.toString());
-
-                for (Match match : matchList) {
+                try {
                     int playerCount = paymentService.getPlayerCount(match.getMatch_idx());
                     int playerMin = match.getPlayer_min();
 
                     log.info("매치 IDX : {}, 현재 신청 인원 : {}, 최소 필요 인원 : {}", match.getMatch_idx(), playerCount, playerMin);
-
 
                     if (playerCount < playerMin) {
                         List<Payment> paymentList = paymentService.getPaymentListByMatchIdx(match.getMatch_idx());
@@ -71,38 +77,43 @@ public class RefundScheduler {
                         for (Map<String, Object> user : userList) {
                             sendRefundNotification(user, "cancel");
                         }
-                    }
-
-                    if (playerCount >= playerMin) {
+                    } else {
                         List<Map<String, Object>> userList = paymentService.getUserPaymentListByMatchIdx(match.getMatch_idx());
 
                         for (Map<String, Object> user : userList) {
                             sendRefundNotification(user, "confirm");
                         }
                     }
+                }  finally {
+                    lock.unlock();
+                    matchLocks.remove(match.getMatch_idx(), lock);
                 }
+            });
+        }
+        log.info("=== 자동 환불 체크 종료 ===");
+    }
 
-                log.info("=== 자동 환불 체크 종료 ===");
-
-            } else {
-                log.info("다른 서버에서 이미 환불 작업을 수행 중입니다.");
+    @PreDestroy
+    public void shutdownExecutor() {
+        log.info("스레드 풀 종료 중");
+        executor.shutdown();
+        try {
+            if (!executor.awaitTermination(60, TimeUnit.SECONDS)) {
+                log.warn("스레드가 종료되지 않아 강제 종료");
+                executor.shutdownNow();
             }
         } catch (InterruptedException e) {
+            log.error("스레드 풀 종료 대기 중 인터럽트 발생", e);
+            executor.shutdownNow();
             Thread.currentThread().interrupt();
-        } finally {
-            if (lock.isHeldByCurrentThread()) {
-                lock.unlock();
-                log.info("락 해제 완료");
-            }
         }
     }
 
+
     private void processRefund(Payment payment) {
-        System.out.println("=============================================================");
         log.info("자동 환불 진행 : 결제 ID {}", payment.getPayment_idx());
 
         String refundApiUrl = "https://www.goshoots.site/Shoots/refund/refundProcess";
-        // String refundApiUrl = "http://3.36.152.102:1111/refund/refundProcess";
 
         try {
             restTemplate.postForEntity(refundApiUrl, payment, String.class);
@@ -113,7 +124,6 @@ public class RefundScheduler {
     }
 
     private void sendRefundNotification(Map<String, Object> user, String messageType) {
-        System.out.println("=============================================================");
         log.info("매치 취소 및 확정 SMS 문자 전송");
 
         String phoneNumber = (String) user.get("tel");
