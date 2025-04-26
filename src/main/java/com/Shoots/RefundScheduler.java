@@ -8,6 +8,7 @@ import jakarta.annotation.PreDestroy;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -109,7 +110,7 @@ public class RefundScheduler {
         }
     }
 
-
+    @Async
     private void processRefund(Payment payment) {
         log.info("자동 환불 진행 : 결제 ID {}", payment.getPayment_idx());
 
@@ -123,6 +124,7 @@ public class RefundScheduler {
         }
     }
 
+    @Async
     private void sendRefundNotification(Map<String, Object> user, String messageType) {
         log.info("매치 취소 및 확정 SMS 문자 전송");
 
