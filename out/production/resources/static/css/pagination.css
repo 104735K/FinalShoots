@@ -1,0 +1,19 @@
+@charset "EUC-KR";
+
+.pagination {margin-top : 20px}
+.page-item.active .page-link {background : #65A30D!important; border-radius : 20px; border : 1px solid #65A30D!important}
+
+.page-item .page-link { padding: 4px 10px; font-size: 10px; background-color: transparent; border-radius : 20px; border : 1px solid #65A30D}
+.page-item .page-link:hover {color : white; background-color: #65A30D; border-radius : 20px; border : 1px solid #65A30D; opacity: 0.3;}
+
+.pagination a {color: gray; float: left; padding: 8px 13px; text-decoration: none;}
+
+.page-item .page-link {border-radius : 20px; margin : 0 2px 0 2px;}
+
+.page-item:first-child .page-link {border : none;}
+.page-item:first-child .page-link:hover {border : none; color :  #65A30D;  background-color: transparent; }
+.page-item:last-child .page-link {border : none;}
+.page-item:last-child .page-link:hover {border : none; color :  #65A30D;  background-color: transparent; }
+
+
+/*스크롤 시 에도 header 고정 → CSS에 작성*/

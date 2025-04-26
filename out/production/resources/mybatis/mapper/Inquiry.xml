@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.Shoots.mybatis.mapper.InquiryMapper">
+
+
+    <select id="getListCount" resultType="int">
+        select count(*) from inquiry
+        where inquiry_type = #{usertype}
+        and inquiry_ref_idx = #{idx}
+    </select>
+
+    <select id="getInquiryList" resultType="inquiry">
+        SELECT *
+        FROM (SELECT i.*,
+                CASE
+                    WHEN i.inquiry_type = 'A' THEN r.user_id
+                    WHEN i.inquiry_type = 'B' THEN b.business_id
+                    END AS user_id, b.business_id
+                 FROM inquiry i
+                     LEFT JOIN regular_user r ON i.inquiry_type = 'A' AND i.inquiry_ref_idx = r.idx
+                     LEFT JOIN business_user b ON i.inquiry_type = 'B' AND i.inquiry_ref_idx = b.business_idx
+                    WHERE i.inquiry_type = #{usertype}
+                      AND i.inquiry_ref_idx = #{idx}
+                    ORDER BY i.inquiry_idx DESC
+                ) j
+        LIMIT #{limit} OFFSET #{offset}
+
+    </select>
+
+
+    <insert id="insertInquiry">
+        <selectKey resultType="int" order="BEFORE"
+                   keyProperty="inquiry_idx">
+            select IFNULL(max(inquiry_idx), 0) + 1 from inquiry
+        </selectKey>
+        insert into inquiry
+        (inquiry_type, inquiry_ref_idx, title,
+        content, inquiry_file, original_file,
+         register_date
+        )
+        values
+        (#{inquiry_type}, #{inquiry_ref_idx}, #{title},
+        #{content}, #{inquiry_file}, #{original_file},
+        current_timestamp)
+    </insert>
+
+
+    <select id="getDetail" resultType="inquiry">
+        SELECT i.*,
+               CASE
+                   WHEN i.inquiry_type = 'A' THEN r.user_id
+                   WHEN i.inquiry_type = 'B' THEN b.business_id
+                   END AS user_id, b.business_id
+        FROM inquiry i
+                 LEFT JOIN regular_user r ON i.inquiry_type = 'A' AND i.inquiry_ref_idx = r.idx
+                 LEFT JOIN business_user b ON i.inquiry_type = 'B' AND i.inquiry_ref_idx = b.business_idx
+        WHERE i.inquiry_idx = #{inquiry_idx}
+    </select>
+
+
+    <update id="inquiryModify" >
+        update inquiry
+        set title = #{title}, content=#{content},
+            inquiry_file = #{inquiry_file}, original_file = #{original_file}
+        where inquiry_idx = #{inquiry_idx}
+    </update>
+
+
+    <delete id="inquiryDelete">
+        delete from inquiry
+        where inquiry_idx = #{inquiry_idx}
+    </delete>
+
+    <sql id="search_">
+        where title like #{search_word}
+    </sql>
+
+    <select id="getInquiryAdminList">
+        select i.*, r.user_id, b.business_id
+        from inquiry i
+                 left join regular_user r
+                      on i.inquiry_ref_idx = r.idx
+                left join business_user b
+                    on i.inquiry_ref_idx = b.business_idx
+            order by inquiry_idx desc
+        LIMIT #{offset}, #{pageSize}
+    </select>
+
+    <select id="getAdminListCount">
+        select count(*) from inquiry
+    </select>
+
+    <select id="replyComplete" resultType="int">
+        SELECT CASE WHEN COUNT(ic.inquiry_idx) > 0 THEN 1 ELSE 0 END AS hasReply
+        FROM inquiry i
+                 LEFT JOIN inquiry_comment ic ON i.inquiry_idx = ic.inquiry_idx
+        WHERE i.inquiry_idx = #{inquiry_idx};
+    </select>
+
+    <select id="getMyInquiryList">
+        select * from inquiry where inquiry_ref_idx=#{id}
+    </select>
+
+    <select id="getMyInquiryListCount">
+        select count(*) from inquiry where inquiry_reF_idx=#{id}
+    </select>
+
+
+
+</mapper>

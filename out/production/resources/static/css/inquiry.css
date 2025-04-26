@@ -1,0 +1,175 @@
+/* 공통 스타일 */
+
+.container { width: 60%;     margin-top: 100px;}
+label { font-weight: bold; }
+#upfile { display: none; }
+
+body {
+    font-family: 'Arial', sans-serif;
+}
+
+nav.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+table{font-size : 15px;}
+
+/* 내용 공통 부분*/
+.titleI, .contentI {width: 80%; margin-bottom: 10px;}
+
+/* 제목 스타일 */
+.titlep {
+    margin-top: 10px;
+    margin-bottom: 0;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #333;
+}
+
+/* 입력 필드 스타일 */
+.form-control {
+    border-radius: 20px;
+    border: 2px solid #65A30D;
+    padding: 10px;
+    font-size: 0.9rem;
+    color: #333;
+}
+
+/* 파일 첨부 및 삭제 */
+.file-group {
+    margin-top: 20px;
+}
+
+.filep {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.filep span {
+    margin-right: 10px;
+}
+
+.fileU {
+    width: 20px;
+    cursor: pointer;
+}
+
+.remove {
+    width: 20px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+/* 버튼 스타일 */
+.btnW{
+    color: white;
+    font-size: 15px;
+    border-radius: 20px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    width: 80px;
+    height: 25px;
+    padding: 0;
+    border: none;
+    background-color: #65A30D;
+}
+
+.btnW:hover{
+    background-color: white;
+    color: #65A30D;
+    border: 1.5px solid #65A30D;
+}
+
+.btnC{
+    color: white;
+    font-size: 15px;
+    border-radius: 20px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    width: 80px;
+    height: 25px;
+    padding: 0;
+    border: none;
+    background-color: #DA0130;
+}
+
+.btnC:hover{
+    background-color: white;
+    color: #DA0130;
+    border: 1.5px solid #DA0130;
+}
+
+.btnM{
+    color: white;
+    font-size: 15px;
+    border-radius: 20px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    width: 80px;
+    height: 25px;
+    padding: 0;
+    border: none;
+    background-color: #FDBA01;
+}
+
+.btnM:hover{
+    background-color: white;
+    color: #FDBA01;
+    border: 1.5px solid #FDBA01;
+}
+
+/*.btnD{*/
+/*    margin: auto;*/
+/*    display: inline-flex;*/
+/*}*/
+
+.btnD {
+    justify-content: left;
+    margin-top: 50px;
+    display: flex
+;
+    gap: 10px;
+}
+
+
+.comment-container{
+    width: 40%;
+}
+
+
+.btn {
+    width: 110px;
+    height: 35px;
+}
+
+.input-field {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.input-field input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid rgba(85, 107, 47, 0.5);
+    border-radius: 5px;
+    margin-top: 5px;
+}
+
+textarea {
+    border: 1px solid rgba(85, 107, 47, 0.5);
+}
+
+textarea:focus {
+    outline: none;
+    border: 2px solid rgba(85, 107, 47, 0.5);
+}
+
+.input-field input:focus {
+    outline: none;
+    border: 2px solid rgba(85, 107, 47, 0.5);
+}
