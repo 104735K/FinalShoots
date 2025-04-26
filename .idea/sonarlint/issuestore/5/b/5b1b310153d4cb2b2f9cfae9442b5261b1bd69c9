@@ -1,10 +1,0 @@
-
-	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(©μ¶ÒJ$a5df0716-cdd8-47c3-8aff-1856bbefa3fd
-•	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(μϊΥ³J$77f0d998-cfcc-4f25-b7c7-b101882755ba
-¦
-java:S6833"eReplace the "@Controller" annotation by "@RestController" and remove all "@ResponseBody" annotations.(ν΅ρωÿÿÿÿJ$0ef076de-a839-418b-ba92-3572063872b7
-¶
-java:S6204A"zReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()' and ensure that the list is unmodified.(ª™¨ΉJ$a396ff29-1104-4112-b412-47bd7e009ab3
-
-java:S1128
-"SRemove this unused import 'org.springframework.web.bind.annotation.RequestMapping'.(φ»ΏλJ$0e9e1109-8b4a-416c-bd2d-8e494147af68

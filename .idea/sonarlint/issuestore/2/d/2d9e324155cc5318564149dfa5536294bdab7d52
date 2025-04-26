@@ -1,8 +1,0 @@
-
-“	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(©ì¶Ò8®Žäõæ2J$ac45bae1-0843-4028-8c12-593f7731f5e2
-œ	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ìúÕ³8®Žäõæ2J$dc2a1bff-bda7-41ca-ad53-d35bf83761fc
-­
-java:S6833"eReplace the "@Controller" annotation by "@RestController" and remove all "@ResponseBody" annotations.(íœ¡ñùÿÿÿÿ8¯Žäõæ2J$3605bac9-54e9-456e-bc2d-6672db7b5ec1
-½
-java:S6204D"zReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()' and ensure that the list is unmodified.(ª™¨¹8ë‡Âöæ2J$df1f05ac-b04b-4ce6-8567-22827f240165
-m	java:S106G"+Replace this use of System.out by a logger.(ç“‹Ï8í‡Âöæ2J$972ef8dd-5fed-45da-8776-770cccba318a
