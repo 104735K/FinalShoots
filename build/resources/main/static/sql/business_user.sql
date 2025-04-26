@@ -84,13 +84,13 @@ VALUES (NULL, -- AUTO_INCREMENT 컬럼은 NULL 또는 값을 생략
         'pending');
 
 -- DELETE 문
-DELETE FROM business_user WHERE business_id = 'qwerty4';
+DELETE FROM business_user WHERE business_id = 'stest3';
 
 -- SELECT 문
 SELECT * FROM business_user;
 
 -- UPDATE로 모든 tel 변경
-UPDATE business_user SET tel = '01099999999';
+UPDATE business_user SET address = '서울특별시 중구 을지로15길 6-5'where business_id = 'stest2';
 
 -- ALTER TABLE로 컬럼 추가
 ALTER TABLE business_user ADD COLUMN login_status VARCHAR(9) DEFAULT 'pending';

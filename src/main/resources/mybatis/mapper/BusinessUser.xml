@@ -139,4 +139,13 @@
         order by business_idx desc
         LIMIT #{offset}, #{pageSize}
     </select>
+
+    <select id="getAddressData" resultType="String">
+        SELECT address
+        FROM business_user
+        WHERE business_idx IN
+        <foreach item="item" collection="businessIdxList" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
 </mapper>

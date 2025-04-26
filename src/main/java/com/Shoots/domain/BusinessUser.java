@@ -177,4 +177,9 @@ public class BusinessUser implements UserDetails {
     public void setLogin_status(String login_status) {
         this.login_status = login_status;
     }
+
+    @Override
+    public String toString() {
+        return this.business_name;
+    }
 }

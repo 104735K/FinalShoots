@@ -1,0 +1,37 @@
+
+•	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(‰¬¯J$4806463c-fffa-4e30-926c-3d3f16143c1a
+l
+java:S5411”"(Use a primitive boolean expression here.(ÒØ¯ä8˜¨¡õæ2J$0a8b0f1b-5728-42dc-904b-69c8e6772539
+Ç
+java:S4449™"‰Annotate the parameter with @javax.annotation.Nullable in method 'put' declaration, or make sure that null can not be passed as argument.(ıÌ¦¹J$a8cda7af-8e23-4eee-b355-8bd64b7263ad
+Ó
+java:S4449˜"‰Annotate the parameter with @javax.annotation.Nullable in method 'put' declaration, or make sure that null can not be passed as argument.(”ÕÅºøÿÿÿÿ8™¨¡õæ2J$28b64fce-7707-474e-8e45-4be7b70be1c4
+~
+java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞJ$e586496d-836b-4e79-896e-31c0dde29b9a
+~
+java:S6813 "BRemove this field injection and use constructor injection instead.(êæÄŞJ$a0a78b20-1379-4ee0-a79e-a7228ec101f6
+~
+java:S6813#"BRemove this field injection and use constructor injection instead.(êæÄŞJ$2e6ff998-75f4-4604-b152-12983943b48a
+—
+java:S6204/"zReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()' and ensure that the list is unmodified.(ª™¨¹8¬õ°—ç2
+M
+java:S18743"+Remove this use of "get"; it is deprecated.( ğ·şÿÿÿÿ8­õ°—ç2
+O
+java:S1874M"-Remove this use of "setEx"; it is deprecated.(‘ËËàıÿÿÿÿ8®õ°—ç2
+~	java:S125U"<This block of commented-out lines of code should be removed.(³ıÙ‘8ÏÏ°—ç2J$94f32d9e-ce50-46b9-9aca-5d3cafbfbf1d
+š
+java:S3776i"RRefactor this method to reduce its Cognitive Complexity from 18 to the 15 allowed.(ŒŠÖıÿÿÿÿ8Ÿ¨¡õæ2J$8861cf6e-5216-4ff6-a164-8e3c9c93e299
+k
+java:S1905p"(Remove this unnecessary cast to "Sheet".(Æˆ¬ 8¤¨¡õæ2J$a0fcaf01-144b-44e6-b0ed-d5db854b647d
+s	java:S106¥"+Replace this use of System.out by a logger.(îÙê€úÿÿÿÿ8¦¨¡õæ2J$aeb13b32-28d7-453f-82b0-09e3ebc9e45b
+s	java:S106­"+Replace this use of System.out by a logger.(ñøæùÿÿÿÿ8¦¨¡õæ2J$e15c50d8-8678-4122-a5ed-0fac9beabcd9
+s	java:S106®"+Replace this use of System.out by a logger.(éÅ©ªùÿÿÿÿ8¦¨¡õæ2J$15278928-ea8f-4d45-a5d2-9cda2913f2e9
+s	java:S106³"+Replace this use of System.out by a logger.(š»§íÿÿÿÿÿ8¦¨¡õæ2J$236fa53e-f896-4256-af9c-536ba39a1280
+’
+java:S1128"JRemove this unused import 'org.springframework.core.io.ClassPathResource'.(İ¹º§ıÿÿÿÿ8‡÷¼õæ2J$a58f9265-451e-4d4a-8b15-4f1d42831f2a
+„
+java:S1128"ARemove this unused import 'org.springframework.core.io.Resource'.(¹ÒÁ8‡÷¼õæ2J$42089b0c-12eb-4428-a55a-173f5a318286
+l
+java:S1128")Remove this unused import 'java.io.File'.(†Ğ¥Å8‡÷¼õæ2J$c60dcb83-9248-42b0-9a80-41b0aee5cf53
+w
+java:S1128"4Remove this unused import 'java.io.FileInputStream'.(˜³ÉÓ8‡÷¼õæ2J$d6e93bb9-0358-4aaa-b37d-9a707e006d88

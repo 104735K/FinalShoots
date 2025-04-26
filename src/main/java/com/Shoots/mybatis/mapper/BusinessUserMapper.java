@@ -38,4 +38,6 @@ public interface BusinessUserMapper {
     Map<String, Integer> getLocationByCoordinates(String first, String second, String third);
 
     List<Map<String, Object>> getBusinessUsers();
+
+    List<BusinessUser> getAddressData(List<Integer> businessIdxList);
 }

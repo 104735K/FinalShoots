@@ -189,4 +189,28 @@ public class BusinessUserServiceImpl implements BusinessUserService {
     public List<Map<String, Object>> getBusinessUsers() {
         return businessUserMapper.getBusinessUsers();
     }
+
+    @Override
+    public Map<Integer, String> getAddressData(List<Integer> businessIdxList) {
+        Map<Integer, String> addressMap = new HashMap<>();
+
+        // DB에서 다수의 사업자 주소 조회
+        List<BusinessUser> addresses = businessUserMapper.getAddressData(businessIdxList);
+
+        // DB에서 다수의 사업자 이름 조회
+        List<BusinessUser> businessNames = businessUserMapper.getBusinessNames(businessIdxList);
+
+        // 주소와 이름을 map에 저장
+        for (int i = 0; i < businessIdxList.size(); i++) {
+            Integer businessIdx = businessIdxList.get(i);
+            String address = String.valueOf(addresses.get(i));
+            String businessName = String.valueOf(businessNames.get(i));
+
+            // Map에 주소와 이름을 저장
+            addressMap.put(businessIdx, "Name: " + businessName + ", Address: " + address);
+        }
+
+        return addressMap;
+    }
+
 }

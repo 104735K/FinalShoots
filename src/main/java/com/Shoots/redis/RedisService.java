@@ -81,6 +81,23 @@ public class RedisService {
         }
 
         return addressMap;
+
+//        Map<Integer, String> addressMap = new HashMap<>();
+//        List<String> keys = businessIdxList.stream()
+//                .map(idx -> "business:" + idx + ":address")
+//                .collect(Collectors.toList());
+//
+//        List<Object> values = redisTemplate.executePipelined((RedisCallback<Object>) connection -> {
+//            keys.forEach(key -> connection.get(key.getBytes()));
+//            return null;
+//        });
+//
+//        for (int i = 0; i < businessIdxList.size(); i++) {
+//            String address = (values.get(i) != null) ? (String) values.get(i) : null;
+//            addressMap.put(businessIdxList.get(i), address);
+//        }
+//
+//        return addressMap;
     }
 
 

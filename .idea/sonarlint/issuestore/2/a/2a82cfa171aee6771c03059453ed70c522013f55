@@ -1,0 +1,13 @@
+
+k	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ŠÎçĞøÿÿÿÿ
+f	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¾ƒ÷
+k	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¥¡âØıÿÿÿÿ
+t
+java:S1488."^Immediately return this expression instead of assigning it to the temporary variable "result".(›£Á
+s	java:S1359"YReduce the total number of break and continue statements in this loop to use at most one.(æòôÿÿÿÿÿ
+d	java:S116"ORename this field "FROM" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(€š¦˜
+E	java:S106W"+Replace this use of System.out by a logger.(•Ğäµüÿÿÿÿ
+E	java:S106\"+Replace this use of System.out by a logger.(˜Š¿Ûüÿÿÿÿ
+E	java:S106^"+Replace this use of System.out by a logger.(ƒãòÈøÿÿÿÿ
+@	java:S106_"+Replace this use of System.out by a logger.(ñ·¤¬
+@	java:S106a"+Replace this use of System.out by a logger.(ñ·¤¬

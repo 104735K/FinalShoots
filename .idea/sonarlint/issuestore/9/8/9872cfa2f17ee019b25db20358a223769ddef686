@@ -1,0 +1,8 @@
+
+Œ	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(áŠ’ëJ$8e2869ad-ed41-496a-9542-2a9218905ed6
+‘	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÚâåÞýÿÿÿÿJ$676d7fc1-ec2c-4b28-b67b-efebc7d59ed4
+•	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(Õ’˜µJ$799ff106-1280-4ddd-a8c0-959be28b6c02
+œ
+java:S1319"`The type of "map" should be an interface such as "Map" rather than the implementation "HashMap".(ÆÚðÐJ$b7242e81-9e0b-4c8b-9bcc-f67d9110f90e
+W
+java:S1128":Remove this unused import 'com.Shoots.domain.RegularUser'.(ÙÉÏ²8ïã“öæ2
