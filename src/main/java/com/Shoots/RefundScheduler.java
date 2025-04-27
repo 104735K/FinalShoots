@@ -20,9 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -35,7 +32,6 @@ public class RefundScheduler {
     private final PaymentService paymentService;
     private final RestTemplate restTemplate;
     private final Map<Integer, Lock> matchLocks = new ConcurrentHashMap<>();
-    private final ExecutorService executor = Executors.newFixedThreadPool(4);
 
     @Scheduled(cron = "0 0/30 9-23 * * ?")
     private void refundMatches() {
@@ -54,64 +50,46 @@ public class RefundScheduler {
         log.info("조회된 Match List: " + matchList.toString());
 
         for (Match match : matchList) {
-            executor.submit(() -> {
-                Lock lock = matchLocks.computeIfAbsent(match.getMatch_idx(), k -> new ReentrantLock());
+            Lock lock = matchLocks.computeIfAbsent(match.getMatch_idx(), k -> new ReentrantLock());
 
-                if (!lock.tryLock()) {
-                    log.warn("매치 {}는 이미 처리 중", match.getMatch_idx());
-                    return;
-                }
+            if (!lock.tryLock()) {
+                log.warn("매치 {}는 이미 처리 중", match.getMatch_idx());
+                return;
+            }
 
-                try {
-                    int playerCount = paymentService.getPlayerCount(match.getMatch_idx());
-                    int playerMin = match.getPlayer_min();
+            try {
+                int playerCount = paymentService.getPlayerCount(match.getMatch_idx());
+                int playerMin = match.getPlayer_min();
 
-                    log.info("매치 IDX : {}, 현재 신청 인원 : {}, 최소 필요 인원 : {}", match.getMatch_idx(), playerCount, playerMin);
+                log.info("매치 IDX : {}, 현재 신청 인원 : {}, 최소 필요 인원 : {}", match.getMatch_idx(), playerCount, playerMin);
 
-                    if (playerCount < playerMin) {
-                        List<Payment> paymentList = paymentService.getPaymentListByMatchIdx(match.getMatch_idx());
-                        List<Map<String, Object>> userList = paymentService.getUserPaymentListByMatchIdx(match.getMatch_idx());
+                if (playerCount < playerMin) {
+                    List<Payment> paymentList = paymentService.getPaymentListByMatchIdx(match.getMatch_idx());
+                    List<Map<String, Object>> userList = paymentService.getUserPaymentListByMatchIdx(match.getMatch_idx());
 
-                        for (Payment payment : paymentList) {
-                            processRefund(payment);
-                        }
-                        for (Map<String, Object> user : userList) {
-                            sendRefundNotification(user, "cancel");
-                        }
-                    } else {
-                        List<Map<String, Object>> userList = paymentService.getUserPaymentListByMatchIdx(match.getMatch_idx());
-
-                        for (Map<String, Object> user : userList) {
-                            sendRefundNotification(user, "confirm");
-                        }
+                    for (Payment payment : paymentList) {
+                        processRefund(payment);
                     }
-                }  finally {
-                    lock.unlock();
-                    matchLocks.remove(match.getMatch_idx(), lock);
+                    for (Map<String, Object> user : userList) {
+                        sendRefundNotification(user, "cancel");
+                    }
+                } else {
+                    List<Map<String, Object>> userList = paymentService.getUserPaymentListByMatchIdx(match.getMatch_idx());
+
+                    for (Map<String, Object> user : userList) {
+                        sendRefundNotification(user, "confirm");
+                    }
                 }
-            });
+            }  finally {
+                lock.unlock();
+                matchLocks.remove(match.getMatch_idx(), lock);
+            }
         }
         log.info("=== 자동 환불 체크 종료 ===");
     }
 
-    @PreDestroy
-    public void shutdownExecutor() {
-        log.info("스레드 풀 종료 중");
-        executor.shutdown();
-        try {
-            if (!executor.awaitTermination(60, TimeUnit.SECONDS)) {
-                log.warn("스레드가 종료되지 않아 강제 종료");
-                executor.shutdownNow();
-            }
-        } catch (InterruptedException e) {
-            log.error("스레드 풀 종료 대기 중 인터럽트 발생", e);
-            executor.shutdownNow();
-            Thread.currentThread().interrupt();
-        }
-    }
-
     @Async
-    private void processRefund(Payment payment) {
+    public void processRefund(Payment payment) {
         log.info("자동 환불 진행 : 결제 ID {}", payment.getPayment_idx());
 
         String refundApiUrl = "https://www.goshoots.site/Shoots/refund/refundProcess";
@@ -125,7 +103,7 @@ public class RefundScheduler {
     }
 
     @Async
-    private void sendRefundNotification(Map<String, Object> user, String messageType) {
+    public void sendRefundNotification(Map<String, Object> user, String messageType) {
         log.info("매치 취소 및 확정 SMS 문자 전송");
 
         String phoneNumber = (String) user.get("tel");
